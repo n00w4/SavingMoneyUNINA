@@ -5,13 +5,13 @@ CREATE SCHEMA smu;
 -- Table Family
 CREATE TABLE smu.Family (
     idFamily INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR(50) NOT NULL
+    familyName VARCHAR(50) NOT NULL
 );
 
 -- Table User
 CREATE TABLE smu.User (
-	name VARCHAR(50) NOT NULL,
-	surname VARCHAR(50) NOT NULL,
+	firstName VARCHAR(50) NOT NULL,
+	secondName VARCHAR(50) NOT NULL,
 	username VARCHAR(255) UNIQUE NOT NULL,
 	password VARCHAR(255) NOT NULL,
 	email VARCHAR(255) UNIQUE NOT NULL,
@@ -25,15 +25,11 @@ CREATE TABLE smu.User (
     CONSTRAINT checkValidPasswd CHECK (password ~ '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
 );
 
--- Tipo E_METHOD per gestire la differenza tra moneta contante e moneta proveniente da conto bancario
-CREATE TYPE E_METHOD AS ENUM ('cash', 'bankAccount');
-
--- Table PaymentMethod
-CREATE TABLE smu.PaymentMethod (
-	idPaymentMethod INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+-- Table BankAccount
+CREATE TABLE smu.BankAccount (
+    bankName VARCHAR(100) NOT NULL,
 	balance NUMERIC(12,2) NOT NULL DEFAULT 0,
-	iban CHAR(27) UNIQUE NOT NULL,
-	typeMethod E_METHOD NOT NULL,
+	ibanBankAccount CHAR(27) PRIMARY KEY,
     taxCode CHAR(16) REFERENCES smu.User(taxCode)
 
     CONSTRAINT checkValidIBAN CHECK (iban ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
@@ -51,10 +47,16 @@ CREATE TABLE smu.Card (
     balanceCard NUMERIC(12,2) NOT NULL DEFAULT 0,
     plafond NUMERIC(12,2),
     typeCard E_CARD NOT NULL,
-    idPaymentMethod INTEGER REFERENCES smu.PaymentMethod(idPaymentMethod),
+    ibanBankAccount CHAR(27) REFERENCES smu.BankAccount(ibanBankAccount)
 
     CONSTRAINT checkValidExpirationDate CHECK ((expirationDate < CURRENT_DATE))
     CONSTRAINT checkValidIBANCard CHECK (ibanCard ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
+);
+
+-- Table Category
+CREATE TABLE smu.Category (
+    name VARCHAR(255) NOT NULL,
+    keyword VARCHAR(50) PRIMARY KEY
 );
 
 -- Table Portfolio
@@ -62,8 +64,9 @@ CREATE TABLE smu.Portfolio (
     idPortfolio INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255),
-    idUser INTEGER REFERENCES smu.User(idUser)
+    taxCode CHAR(16) REFERENCES smu.User(taxCode)
     idFamily INTEGER REFERENCES smu.Family(idFamily)
+    keyword VARCHAR(50) REFERENCES smu.Category(keyword)
 );
 
 -- Tipo E_TRANSACTION per gestire la differenza tra entrata ed uscita
@@ -78,7 +81,7 @@ CREATE TABLE smu.Transaction (
     receiver VARCHAR(255),
     sender VARCHAR(255),
     typeTransaction E_TRANSACTION NOT NULL,
-    idPaymentMethod INTEGER REFERENCES smu.PaymentMethod(idPaymentMethod),
+    cardNumber CHAR(16) REFERENCES smu.Card(cardNumber),
     idPortfolio INTEGER REFERENCES smu.Portfolio(idPortfolio)
 
     CONSTRAINT checkValidDateTime CHECK ((dateTime < CURRENT_TIMESTAMP))
