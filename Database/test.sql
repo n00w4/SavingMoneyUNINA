@@ -1,4 +1,4 @@
--- Questo file riporta le varie insert per testare il database
+-- Questo file riporta le varie insert per popolare e testare il database
 
 -- Family
 INSERT INTO smu.Family(familyName) VALUES ('Famiglia Rossi');

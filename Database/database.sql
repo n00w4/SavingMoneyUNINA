@@ -1,3 +1,5 @@
+-- In questo file è riportata la creazione del database
+
 -- Creazione schema
 DROP SCHEMA IF EXISTS smu CASCADE;
 CREATE SCHEMA smu;
@@ -57,6 +59,8 @@ CREATE TABLE smu.Card (
 CREATE TABLE smu.Category (
     name VARCHAR(255) NOT NULL,
     keyword VARCHAR(50) PRIMARY KEY
+
+    CONSTRAINT check_keyword CHECK (keyword ~ '^[a-z]{1,50}$')
 );
 
 -- Table Portfolio
@@ -64,8 +68,8 @@ CREATE TABLE smu.Portfolio (
     idPortfolio INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255),
-    taxCode CHAR(16) REFERENCES smu.User(taxCode)
-    idFamily INTEGER REFERENCES smu.Family(idFamily)
+    taxCode CHAR(16) REFERENCES smu.User(taxCode),
+    idFamily INTEGER REFERENCES smu.Family(idFamily),
     keyword VARCHAR(50) REFERENCES smu.Category(keyword)
 );
 
