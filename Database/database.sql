@@ -32,7 +32,7 @@ CREATE TABLE smu.BankAccount (
     bankName VARCHAR(100) NOT NULL,
 	balance NUMERIC(12,2) NOT NULL DEFAULT 0,
 	ibanBankAccount CHAR(27) PRIMARY KEY,
-    taxCode CHAR(16) REFERENCES smu.User(taxCode)
+    taxCode CHAR(16) REFERENCES smu.User(taxCode),
 
     CONSTRAINT checkValidIBAN CHECK (iban ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
 );
@@ -49,16 +49,17 @@ CREATE TABLE smu.Card (
     balanceCard NUMERIC(12,2) NOT NULL DEFAULT 0,
     plafond NUMERIC(12,2),
     typeCard E_CARD NOT NULL,
-    ibanBankAccount CHAR(27) REFERENCES smu.BankAccount(ibanBankAccount)
+    ibanBankAccount CHAR(27) REFERENCES smu.BankAccount(ibanBankAccount),
 
-    CONSTRAINT checkValidExpirationDate CHECK ((expirationDate < CURRENT_DATE))
+    CONSTRAINT checkCVV CHECK (cvv ~ '^[0-9]{3}$'),
+    CONSTRAINT checkValidExpirationDate CHECK ((expirationDate < CURRENT_DATE)),
     CONSTRAINT checkValidIBANCard CHECK (ibanCard ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
 );
 
 -- Table Category
 CREATE TABLE smu.Category (
     name VARCHAR(255) NOT NULL,
-    keyword VARCHAR(50) PRIMARY KEY
+    keyword VARCHAR(50) PRIMARY KEY,
 
     CONSTRAINT check_keyword CHECK (keyword ~ '^[a-z]{1,50}$')
 );
@@ -86,7 +87,7 @@ CREATE TABLE smu.Transaction (
     sender VARCHAR(255),
     typeTransaction E_TRANSACTION NOT NULL,
     cardNumber CHAR(16) REFERENCES smu.Card(cardNumber),
-    idPortfolio INTEGER REFERENCES smu.Portfolio(idPortfolio)
+    idPortfolio INTEGER REFERENCES smu.Portfolio(idPortfolio),
 
     CONSTRAINT checkValidDateTime CHECK ((dateTime < CURRENT_TIMESTAMP))
 );
