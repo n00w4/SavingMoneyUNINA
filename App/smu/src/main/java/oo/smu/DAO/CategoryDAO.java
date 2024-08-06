@@ -1,0 +1,30 @@
+package oo.smu.DAO;
+
+import oo.smu.Entity.Category;
+import java.sql.SQLException;
+
+public interface CategoryDAO {
+	/*
+	 * Esegue operazione di insert per la classe Category
+	 * @param Category category
+	 * @return Ritorna true se l'insert è possibile, altrimenti false
+	 * @throws SQLException
+	 */
+	boolean insert(Category category) throws SQLException;
+	
+	/*
+	 * Esegue operazione di update per la classe Category
+	 * @param Category category
+	 * @return Ritorna true se l'update è possibile, altrimenti false
+	 * @throws SQLException
+	 */
+	boolean update(Category category) throws SQLException;
+	
+	/*
+	 * Esegue operazione di delete per la classe Category
+	 * @param Category category
+	 * @return Ritorna true se la delete è possibile, altrimenti false
+	 * @throws SQLException
+	 */
+	boolean delete(Category category) throws SQLException;
+}
