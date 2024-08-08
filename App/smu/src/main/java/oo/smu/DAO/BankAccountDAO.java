@@ -13,12 +13,9 @@ public interface BankAccountDAO {
 	boolean insert(BankAccount bankAccount) throws SQLException;
 	
 	/*
-	 * Esegue operazione di update per la classe BankAccount
-	 * @param BankAccount bankAccount
-	 * @return Ritorna true se l'update è possibile, altrimenti false
-	 * @throws SQLException
+	 * L'update di un BankAccount non è permesso, in quanto è più sicuro cancellare il vecchio conto ed aggiungerne uno nuovo,
+	 * piuttosto che aggiornarlo.
 	 */
-	boolean update(BankAccount bankAccount) throws SQLException;
 	
 	/*
 	 * Esegue operazione di delete per la classe BankAccount
