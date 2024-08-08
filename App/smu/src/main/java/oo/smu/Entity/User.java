@@ -7,9 +7,9 @@ public class User {
 	private String secondName;
 	private String username;
 	private String password;
+	private String email;
 	private String taxCode;
 	private LocalDate birthDate;
-	
 	
 	// Costruttore
 	public User(String firstName, String secondName, String username, String password, String taxCode, LocalDate birthDate) {
@@ -20,8 +20,6 @@ public class User {
 		this.setTaxCode(taxCode);
 		this.setBirthDate(birthDate);
 	}
-	
-	
 	
 	/* GETTER e SETTER */
 	public String getFirstName() { return firstName; }
@@ -46,6 +44,12 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmail() { return email; }
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getTaxCode() { return taxCode; }
