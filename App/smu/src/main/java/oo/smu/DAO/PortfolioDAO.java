@@ -25,5 +25,5 @@ public interface PortfolioDAO {
 	 * @return Ritorna true se la delete è possibile, altrimenti false
 	 * @throws SQLException
 	 */
-	boolean delete(Portfolio portfolio) throws SQLException;
+	boolean delete(Portfolio portfolio, User user) throws SQLException;
 }

@@ -27,8 +27,7 @@ public class PgUserDAO implements UserDAO {
 			statement.setString(6, user.getTaxCode());
 			statement.setObject(7, user.getBirthDate());
 			return statement.executeUpdate() > 0;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}

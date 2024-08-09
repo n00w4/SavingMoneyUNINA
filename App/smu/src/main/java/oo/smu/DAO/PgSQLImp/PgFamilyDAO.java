@@ -21,8 +21,7 @@ public class PgFamilyDAO implements FamilyDAO {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, family.getFamilyName());
 			return statement.executeUpdate() > 0;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -35,8 +34,7 @@ public class PgFamilyDAO implements FamilyDAO {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, family.getFamilyName());
 			return statement.executeUpdate() > 0;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
