@@ -14,12 +14,9 @@ public interface FamilyDAO {
 	boolean insert(Family family) throws SQLException;
 	
 	/*
-	 * Esegue operazione di update per la classe Family
-	 * @param Family family
-	 * @return Ritorna true se l'update è possibile, altrimenti false
-	 * @throws SQLException
+	 * L'update di una Family non è permesso, in quanto è più sicuro cancellare la vecchia famiglia/gruppo ed aggiungerne una nuova,
+	 * piuttosto che aggiornarla.
 	 */
-	boolean update(Family family) throws SQLException;
 	
 	/*
 	 * Esegue operazione di delete per la classe Family

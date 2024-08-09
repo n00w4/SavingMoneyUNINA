@@ -8,7 +8,6 @@ import oo.smu.DAO.UserDAO;
 import oo.smu.Entity.User;
 
 public class PgUserDAO implements UserDAO {
-	
 	private Connection connection;
 	
 	public PgUserDAO(Connection dbConnection) {
@@ -17,7 +16,7 @@ public class PgUserDAO implements UserDAO {
 	
 	@Override
 	public boolean insert(User user) throws SQLException {
-		String sql = "INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, user.getFirstName());
