@@ -16,7 +16,7 @@ public class PgUserDAO implements UserDAO {
 	
 	@Override
 	public boolean insert(User user) throws SQLException {
-		String sql = "INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT)";
+		String sql = "INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?, NULL)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, user.getFirstName());
