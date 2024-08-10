@@ -7,7 +7,7 @@ public class Card {
 	private String cvv;
 	private LocalDate expirationDate;
 	private String ibanCard;
-	private float balance;
+	private float balanceCard;
 	
 	// Costruttore
 	public Card(String cardNumber, String cvv, LocalDate expirationDate, String ibanCard, float balance) {
@@ -15,7 +15,7 @@ public class Card {
 		this.setCvv(cvv);
 		this.setExpirationDate(expirationDate);
 		this.setIbanCard(ibanCard);
-		this.setBalance(balance);
+		this.setBalanceCard(balance);
 	}
 	
 	/* GETTER e SETTER */
@@ -43,9 +43,9 @@ public class Card {
 		this.expirationDate = expirationDate;
 	}
 	
-	public float getBalance() { return balance; }
+	public float getBalanceCard() { return balanceCard; }
 	
-	public void setBalance(float balance) {
-		this.balance = balance;
+	public void setBalanceCard(float balance) {
+		this.balanceCard = balance;
 	}
 }
