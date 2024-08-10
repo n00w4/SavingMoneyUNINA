@@ -1,8 +1,10 @@
 package oo.smu.DAO;
 
+import oo.smu.Entity.Card;
 import oo.smu.Entity.DebitCard;
 import oo.smu.Entity.CreditCard;
 import oo.smu.Entity.BankAccount;
+
 import java.sql.SQLException;
 
 
@@ -40,18 +42,10 @@ public interface CardDAO {
 	boolean updateCreditCard(CreditCard creditCard) throws SQLException;
 	
 	/*
-	 * Esegue operazione di delete per la classe DebitCard
-	 * @param DebitCard debitCard
+	 * Esegue operazione di delete per la classe Card
+	 * @param Card card
 	 * @return Ritorna true se la delete è possibile, altrimenti false
 	 * @throws SQLException
 	 */
-	boolean deleteDebitCard(DebitCard debitCard, BankAccount bankAccount) throws SQLException;
-	
-	/*
-	 * Esegue operazione di delete per la classe CreditCard
-	 * @param CreditCard creditCard
-	 * @return Ritorna true se la delete è possibile, altrimenti false
-	 * @throws SQLException
-	 */
-	boolean deleteCreditCard(CreditCard creditCard, BankAccount bankAccount) throws SQLException;
+	boolean deleteCard(Card card, BankAccount bankAccount) throws SQLException;
 }
