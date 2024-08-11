@@ -70,9 +70,6 @@ public class PgCardDAO implements CardDAO {
 			return false;
 		}
 	}
-	
-	// TODO: aggiungere metodi per l'update separato dell'ibanCard di una debitCard
-	
 
 	@Override
 	public boolean updateCreditCard(CreditCard creditCard) throws SQLException {
@@ -91,7 +88,20 @@ public class PgCardDAO implements CardDAO {
 		}
 	}
 
-	// TODO: aggiungere metodi per l'update separato dell'ibanCard di una creditCard
+	@Override
+	public boolean updateIbanCard(Card card, BankAccount bankAccount) throws SQLException {
+		String sql = "UPDATE Card SET ibanCard = ? WHERE cardNumber = ?  AND ibanBankAccount = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, card.getIbanCard());
+			statement.setString(2, card.getCardNumber());
+			statement.setString(3, bankAccount.getBankName());
+			return statement.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	@Override
 	public boolean deleteCard(Card card, BankAccount bankAccount) throws SQLException {

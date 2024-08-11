@@ -18,7 +18,7 @@ public interface UserDAO {
 	 * @return Ritorna true se l'update è possibile, altrimenti false
 	 * @throws SQLException
 	 */
-	boolean update(User user) throws SQLException;
+	boolean updatePassword(User user) throws SQLException;
 	
 	/*
 	 * Esegue operazione di delete per la classe User

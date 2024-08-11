@@ -35,7 +35,7 @@ public class PgUserDAO implements UserDAO {
 	
 	// Per la classe User attualmente viene permesso l'update dell'attributo password
 	@Override
-	public boolean update(User user) throws SQLException {
+	public boolean updatePassword(User user) throws SQLException {
 		String sql = "UPDATE User SET password = ? WHERE taxCode = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

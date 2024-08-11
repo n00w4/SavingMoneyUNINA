@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public interface CardDAO {
 	/*
 	 * Esegue operazione di insert per la classe DebitCard
-	 * @param DebitCard debitCard
+	 * @param DebitCard debitCard, BankAccount bankAccount
 	 * @return Ritorna true se l'insert è possibile, altrimenti false
 	 * @throws SQLException
 	 */
@@ -19,7 +19,7 @@ public interface CardDAO {
 	
 	/*
 	 * Esegue operazione di insert per la classe CreditCard
-	 * @param CreditCard creditCard
+	 * @param CreditCard creditCard, BankAccount bankAccount
 	 * @return Ritorna true se l'insert è possibile, altrimenti false
 	 * @throws SQLException
 	 */
@@ -42,8 +42,16 @@ public interface CardDAO {
 	boolean updateCreditCard(CreditCard creditCard) throws SQLException;
 	
 	/*
+	 * Esegue operazione di update dell'attributo ibanCard per la classe Card
+	 * @param Card card, BankAccount bankAccount
+	 * @return Ritorna true se l'update è possibile, altrimenti false
+	 * @throws SQLException
+	 */
+	boolean updateIbanCard(Card card, BankAccount bankAccount) throws SQLException;
+	
+	/*
 	 * Esegue operazione di delete per la classe Card
-	 * @param Card card
+	 * @param Card card, BankAccount bankAccount
 	 * @return Ritorna true se la delete è possibile, altrimenti false
 	 * @throws SQLException
 	 */

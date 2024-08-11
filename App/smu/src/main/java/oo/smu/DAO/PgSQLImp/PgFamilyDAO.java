@@ -29,10 +29,11 @@ public class PgFamilyDAO implements FamilyDAO {
 
 	@Override
 	public boolean delete(Family family) throws SQLException {
-		String sql = "DELETE FROM Family WHERE familyName = ?";
+		String sql = "DELETE FROM Family WHERE familyName = ? AND idFamily = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, family.getFamilyName());
+			statement.setInt(2, family.getId());
 			return statement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
