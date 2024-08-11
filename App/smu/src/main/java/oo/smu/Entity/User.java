@@ -10,6 +10,7 @@ public class User {
 	private String email;
 	private String taxCode;
 	private LocalDate birthDate;
+	private int idFamily;
 	
 	// Costruttore
 	public User(String firstName, String secondName, String username, String password, String taxCode, LocalDate birthDate) {
@@ -62,6 +63,12 @@ public class User {
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public int getIdFamily() { return idFamily; }
+
+	public void setIdFamily(int idFamily) {
+		this.idFamily = idFamily;
 	}
 	
 	
