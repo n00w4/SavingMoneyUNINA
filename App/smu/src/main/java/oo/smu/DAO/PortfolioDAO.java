@@ -34,7 +34,7 @@ public interface PortfolioDAO {
 	 * @return Ritorna true se la delete è possibile, altrimenti false
 	 * @throws SQLException
 	 */
-	boolean deleteUserPortfolio(Portfolio portfolio, User user) throws SQLException;
+	boolean deleteUserPortfolio(Portfolio portfolio, User user, Category category) throws SQLException;
 	
 	/*
 	 * Esegue operazione di delete per la classe Portfolio
@@ -42,5 +42,5 @@ public interface PortfolioDAO {
 	 * @return Ritorna true se la delete è possibile, altrimenti false
 	 * @throws SQLException
 	 */
-	boolean deleteFamilyPortfolio(Portfolio portfolio, Family family) throws SQLException;
+	boolean deleteFamilyPortfolio(Portfolio portfolio, Family family, Category category) throws SQLException;
 }

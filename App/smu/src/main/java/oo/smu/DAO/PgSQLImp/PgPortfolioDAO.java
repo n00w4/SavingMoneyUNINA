@@ -50,13 +50,14 @@ public class PgPortfolioDAO implements PortfolioDAO {
 	}
 
 	@Override
-	public boolean deleteUserPortfolio(Portfolio portfolio, User user) throws SQLException {
-		String sql = "DELETE FROM Portfolio WHERE idPortfolio = ? AND name = ? AND taxCode = ?";
+	public boolean deleteUserPortfolio(Portfolio portfolio, User user, Category category) throws SQLException {
+		String sql = "DELETE FROM Portfolio WHERE idPortfolio = ? AND name = ? AND taxCode = ? AND keyword = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, portfolio.getId());
 			statement.setString(2, portfolio.getName());
 			statement.setString(3, user.getTaxCode());
+			statement.setString(4, category.getKeyword());
 			return statement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,13 +66,14 @@ public class PgPortfolioDAO implements PortfolioDAO {
 	}
 	
 	@Override
-	public boolean deleteFamilyPortfolio(Portfolio portfolio, Family family) throws SQLException {
-		String sql = "DELETE FROM Portfolio WHERE idPortfolio = ? AND name = ? AND idFamily = ?";
+	public boolean deleteFamilyPortfolio(Portfolio portfolio, Family family, Category category) throws SQLException {
+		String sql = "DELETE FROM Portfolio WHERE idPortfolio = ? AND name = ? AND idFamily = ? AND keyword = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, portfolio.getId());
 			statement.setString(2, portfolio.getName());
 			statement.setInt(3, family.getId());
+			statement.setString(4, category.getKeyword());
 			return statement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
