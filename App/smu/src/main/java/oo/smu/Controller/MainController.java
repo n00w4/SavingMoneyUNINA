@@ -1,6 +1,6 @@
-package oo.smu.GUI;
+package oo.smu.Controller;
 
-import oo.smu.GUI.GUIFrames.LoginFrame;
+import oo.smu.GUI.LoginFrame;
 
 public class MainController {
     private LoginFrame loginFrame;

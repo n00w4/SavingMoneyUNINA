@@ -1,8 +1,9 @@
-package oo.smu.GUI.GUIFrames;
-
-import oo.smu.GUI.MainController;
+package oo.smu.GUI;
 
 import javax.swing.*;
+
+import oo.smu.Controller.MainController;
+
 import java.awt.*;
 
 public class LoginFrame extends JFrame {
