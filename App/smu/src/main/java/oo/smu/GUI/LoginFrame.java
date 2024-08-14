@@ -5,6 +5,9 @@ import javax.swing.*;
 import oo.smu.Controller.MainController;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class LoginFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -61,6 +64,23 @@ public class LoginFrame extends JFrame {
         panel.add(loginButton);
 
         getContentPane().add(panel, BorderLayout.CENTER);
+        
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+
+				try {
+					// TODO: testare il login
+					if (mainController.tryLogin(username, password)) {
+	                    JOptionPane.showMessageDialog(LoginFrame.this, "Login riuscito!");
+	                } else {
+	                    JOptionPane.showMessageDialog(LoginFrame.this, "Login fallito!");
+	                }
+				} catch (SQLException e1) { e1.printStackTrace(); }
+            }
+        });
      }
 }
 

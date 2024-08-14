@@ -23,4 +23,9 @@ public class UserController {
 	public boolean deleteUser(User user) throws SQLException {
 		return userDAO.delete(user);
 	}
+	
+	public boolean login(String username, String password) throws SQLException {
+		User user = userDAO.findByUsername(username);
+		return user != null && user.getPassword().equals(password);
+	}
 }

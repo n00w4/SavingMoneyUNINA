@@ -2,7 +2,9 @@ package oo.smu.DAO.PgSQLImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import oo.smu.DAO.UserDAO;
 import oo.smu.Entity.User;
@@ -60,5 +62,30 @@ public class PgUserDAO implements UserDAO {
 			return false;
 		}
 	}
-
+	
+	@Override
+	public User findByUsername(String username) throws SQLException {
+		String sql = "SELECT * FROM User WHERE username = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				String firstName = rs.getString("firstName");
+				String secondName = rs.getString("secondName");
+				String password = rs.getString("password");
+				String email = rs.getString("email");
+				String taxCode = rs.getString("taxCode");
+				LocalDate birthDate = rs.getObject("birthDate", LocalDate.class);
+				int idFamily = rs.getInt("idFamily");
+				
+				User user = new User(firstName, secondName, username, password, email, taxCode, birthDate, idFamily);
+				return user;
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+ 	}
 }

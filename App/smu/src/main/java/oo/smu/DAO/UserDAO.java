@@ -27,4 +27,12 @@ public interface UserDAO {
 	 * @throws SQLException
 	 */
 	boolean delete(User user) throws SQLException;
+	
+	/*
+	 * Trova user attraverso username e password
+	 * @param String username, String password
+	 * @return Ritorna l'utente trovato se esiste, altrimenti null
+	 * @throws SQLException
+	 */
+	User findByUsername(String username) throws SQLException;
 }
