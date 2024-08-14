@@ -13,13 +13,15 @@ public class User {
 	private int idFamily;
 	
 	// Costruttore
-	public User(String firstName, String secondName, String username, String password, String taxCode, LocalDate birthDate) {
+	public User(String firstName, String secondName, String username, String password, String email, String taxCode, LocalDate birthDate, int idFamily) {
 		this.setFirstName(firstName);
 		this.setSecondName(secondName);
 		this.setUsername(username);
 		this.setPassword(password);
+		this.setEmail(email);
 		this.setTaxCode(taxCode);
 		this.setBirthDate(birthDate);
+		this.setIdFamily(idFamily);
 	}
 	
 	/* GETTER e SETTER */
