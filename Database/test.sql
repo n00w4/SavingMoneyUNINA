@@ -22,9 +22,9 @@ INSERT INTO smu.BankAccount(bankName, balance, ibanBankAccount, taxCode) VALUES 
 -- Carta di debito senza IBAN associata al conto di Mario Rossi
 INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBankAccount) VALUES ('1234567890123456', '123', '2029-03-01', 'IT12A1234567890123456789011', 'debitCard', 'IT12A1234567890123456789012');
 -- Carta di credito con IBAN associata al conto di Laura Bianchi
-INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBankAccount) VALUES ('1234567890123457', '123', '2028-03-02', 'IT12A1234567890123456789013','creditCard', 'IT12A1234567890123456789999');
+INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBankAccount) VALUES ('1234567890123457', '123', '2028-03-02', 'IT12A1234567890123456789013','creditCard', 'IT12A1234567890123456789013');
 -- Carta di credito con IBAN associata al conto di Luigi Verdi
-INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBankAccount) VALUES ('1234567890123458', '123', '2030-05-01', 'IT12A1234567890123456789014','creditCard', 'IT12A1234567890123456789077');
+INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBankAccount) VALUES ('1234567890123458', '123', '2030-05-01', 'IT12A1234567890123456789014','creditCard', 'IT12A1234567890123456789014');
 
 -- Category
 INSERT INTO smu.Category(name, keyword) VALUES ('Spesa', 'spesa');

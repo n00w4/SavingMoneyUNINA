@@ -52,7 +52,7 @@ CREATE TABLE smu.Card (
     ibanBankAccount CHAR(27) REFERENCES smu.BankAccount(ibanBankAccount),
 
     CONSTRAINT checkCVV CHECK (cvv ~ '^[0-9]{3}$'),
-    CONSTRAINT checkValidExpirationDate CHECK ((expirationDate < CURRENT_DATE)),
+    CONSTRAINT checkValidExpirationDate CHECK ((expirationDate > CURRENT_DATE)),
     CONSTRAINT checkValidIBANCard CHECK (ibanCard ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
 );
 
