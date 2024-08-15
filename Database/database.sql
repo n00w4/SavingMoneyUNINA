@@ -34,7 +34,7 @@ CREATE TABLE smu.BankAccount (
 	ibanBankAccount CHAR(27) PRIMARY KEY,
     taxCode CHAR(16) REFERENCES smu.User(taxCode),
 
-    CONSTRAINT checkValidIBAN CHECK (iban ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
+    CONSTRAINT checkValidIBAN CHECK (ibanBankAccount ~ '[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{5}[0-9]{5}[0-9A-Z]{5}')
 );
 
 -- Tipo E_CARD per gestire la differenza tra carte di credito e carte di debito
