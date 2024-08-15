@@ -72,7 +72,6 @@ public class LoginFrame extends JFrame {
                 String password = new String(passwordField.getPassword());
 
 				try {
-					// TODO: testare il login
 					if (mainController.tryLogin(username, password)) {
 	                    JOptionPane.showMessageDialog(LoginFrame.this, "Login riuscito!");
 	                } else {

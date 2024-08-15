@@ -16,7 +16,7 @@ public class PgFamilyDAO implements FamilyDAO {
 
 	@Override
 	public boolean insert(Family family) throws SQLException {
-		String sql = "INSERT INTO Family VALUES (?)";
+		String sql = "INSERT INTO smu.Family VALUES (?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, family.getFamilyName());
@@ -29,7 +29,7 @@ public class PgFamilyDAO implements FamilyDAO {
 
 	@Override
 	public boolean delete(Family family) throws SQLException {
-		String sql = "DELETE FROM Family WHERE familyName = ? AND idFamily = ?";
+		String sql = "DELETE FROM smu.Family WHERE familyName = ? AND idFamily = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, family.getFamilyName());

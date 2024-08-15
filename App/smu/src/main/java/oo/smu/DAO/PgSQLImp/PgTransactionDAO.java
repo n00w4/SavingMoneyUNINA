@@ -20,7 +20,7 @@ public class PgTransactionDAO implements TransactionDAO {
 
 	@Override
 	public boolean insertIncome(Income income, Card card, Portfolio portfolio) throws SQLException {
-		String sql = "INSERT INTO Transaction VALUES (?, ?, ?, NULL, ?, income, ?, ?)";
+		String sql = "INSERT INTO smu.Transaction VALUES (?, ?, ?, NULL, ?, income, ?, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setFloat(1, income.getAmount());
@@ -38,7 +38,7 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public boolean insertExpense(Expense expense, Card card, Portfolio portfolio) {
-		String sql = "INSERT INTO Transaction VALUES (?, ?, ?, ?, NULL, expense, ?, ?)";
+		String sql = "INSERT INTO smu.Transaction VALUES (?, ?, ?, ?, NULL, expense, ?, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setFloat(1, expense.getAmount());
@@ -56,7 +56,7 @@ public class PgTransactionDAO implements TransactionDAO {
 
 	@Override
 	public boolean delete(Transaction transaction, Card card, Portfolio portfolio) throws SQLException {
-		String sql = "DELETE FROM Transaction WHERE idTransaction = ? AND cardNumber = ? AND idPortfolio = ?";
+		String sql = "DELETE FROM smu.Transaction WHERE idTransaction = ? AND cardNumber = ? AND idPortfolio = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, transaction.getId());

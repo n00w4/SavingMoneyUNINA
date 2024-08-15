@@ -19,7 +19,7 @@ public class PgCardDAO implements CardDAO {
 	
 	@Override
 	public boolean insertDebitCard(DebitCard debitCard, BankAccount bankAccount) throws SQLException {
-		String sql = "INSERT INTO Card VALUES (?, ?, ?, ?, ?, NULL, debitCard, ?)";
+		String sql = "INSERT INTO smu.Card VALUES (?, ?, ?, ?, ?, NULL, debitCard, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, debitCard.getCardNumber());
@@ -37,7 +37,7 @@ public class PgCardDAO implements CardDAO {
 
 	@Override
 	public boolean insertCreditCard(CreditCard creditCard, BankAccount bankAccount) throws SQLException {
-		String sql = "INSERT INTO Card VALUES (?, ?, ?, ?, ?, ?, creditCard, ?)";
+		String sql = "INSERT INTO smu.Card VALUES (?, ?, ?, ?, ?, ?, creditCard, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, creditCard.getCardNumber());
@@ -57,7 +57,7 @@ public class PgCardDAO implements CardDAO {
 	// Per una DebitCard non è previsto l'update del numero della carta per ragioni di sicurezza
 	@Override
 	public boolean updateDebitCard(DebitCard debitCard) throws SQLException {
-		String sql = "UPDATE Card SET cvv = ?, expirationDate = ?, balanceCard = ? WHERE ibanCard = ?";
+		String sql = "UPDATE smu.Card SET cvv = ?, expirationDate = ?, balanceCard = ? WHERE ibanCard = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, debitCard.getCvv());
@@ -73,7 +73,7 @@ public class PgCardDAO implements CardDAO {
 
 	@Override
 	public boolean updateCreditCard(CreditCard creditCard) throws SQLException {
-		String sql = "UPDATE Card SET cvv = ?, expirationDate = ?, balanceCard = ?, plafond = ? WHERE ibanCard = ?";
+		String sql = "UPDATE smu.Card SET cvv = ?, expirationDate = ?, balanceCard = ?, plafond = ? WHERE ibanCard = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, creditCard.getCvv());
@@ -90,7 +90,7 @@ public class PgCardDAO implements CardDAO {
 
 	@Override
 	public boolean updateIbanCard(Card card, BankAccount bankAccount) throws SQLException {
-		String sql = "UPDATE Card SET ibanCard = ? WHERE cardNumber = ?  AND ibanBankAccount = ?";
+		String sql = "UPDATE smu.Card SET ibanCard = ? WHERE cardNumber = ?  AND ibanBankAccount = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, card.getIbanCard());
@@ -105,7 +105,7 @@ public class PgCardDAO implements CardDAO {
 	
 	@Override
 	public boolean deleteCard(Card card, BankAccount bankAccount) throws SQLException {
-		String sql = "DELETE FROM Card WHERE cardNumber = ? AND cvv = ? AND ibanCard = ? AND ibanBankAccount = ?";
+		String sql = "DELETE FROM smu.Card WHERE cardNumber = ? AND cvv = ? AND ibanCard = ? AND ibanBankAccount = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, card.getCardNumber());

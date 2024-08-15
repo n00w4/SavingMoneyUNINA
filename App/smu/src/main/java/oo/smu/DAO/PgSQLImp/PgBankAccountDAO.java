@@ -17,7 +17,7 @@ public class PgBankAccountDAO implements BankAccountDAO {
 
 	@Override
 	public boolean insert(BankAccount bankAccount, User user) throws SQLException {
-		String sql = "INSERT INTO BankAccount VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO smu.BankAccount VALUES (?, ?, ?, ?)";
 		try {
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, bankAccount.getBankName());
@@ -33,7 +33,7 @@ public class PgBankAccountDAO implements BankAccountDAO {
 
 	@Override
 	public boolean delete(BankAccount bankAccount, User user) throws SQLException {
-		String sql = "DELETE FROM BankAccount WHERE ibanBankAccount = ? AND taxCode = ?";
+		String sql = "DELETE FROM smu.BankAccount WHERE ibanBankAccount = ? AND taxCode = ?";
 		try {
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, bankAccount.getIbanBankAccount());

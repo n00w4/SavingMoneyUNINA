@@ -19,7 +19,7 @@ public class PgPortfolioDAO implements PortfolioDAO {
 	
 	@Override
 	public boolean insertUserPortfolio(Portfolio portfolio, User user, Category category) throws SQLException {
-		String sql = "INSERT INTO Portfolio VALUES (?, ?, ?, NULL, ?)";
+		String sql = "INSERT INTO smu.Portfolio VALUES (?, ?, ?, NULL, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, portfolio.getName());
@@ -35,7 +35,7 @@ public class PgPortfolioDAO implements PortfolioDAO {
 	
 	@Override
 	public boolean insertFamilyPortfolio(Portfolio portfolio, Family family, Category category) throws SQLException {
-		String sql = "INSERT INTO Portfolio VALUES (?, ?, NULL, ?, ?)";
+		String sql = "INSERT INTO smu.Portfolio VALUES (?, ?, NULL, ?, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, portfolio.getName());
@@ -51,7 +51,7 @@ public class PgPortfolioDAO implements PortfolioDAO {
 
 	@Override
 	public boolean deleteUserPortfolio(Portfolio portfolio, User user, Category category) throws SQLException {
-		String sql = "DELETE FROM Portfolio WHERE idPortfolio = ? AND name = ? AND taxCode = ? AND keyword = ?";
+		String sql = "DELETE FROM smu.Portfolio WHERE idPortfolio = ? AND name = ? AND taxCode = ? AND keyword = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, portfolio.getId());
@@ -67,7 +67,7 @@ public class PgPortfolioDAO implements PortfolioDAO {
 	
 	@Override
 	public boolean deleteFamilyPortfolio(Portfolio portfolio, Family family, Category category) throws SQLException {
-		String sql = "DELETE FROM Portfolio WHERE idPortfolio = ? AND name = ? AND idFamily = ? AND keyword = ?";
+		String sql = "DELETE FROM smu.Portfolio WHERE idPortfolio = ? AND name = ? AND idFamily = ? AND keyword = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, portfolio.getId());

@@ -18,7 +18,7 @@ public class PgUserDAO implements UserDAO {
 	
 	@Override
 	public boolean insert(User user) throws SQLException {
-		String sql = "INSERT INTO User VALUES (?, ?, ?, ?, ?, ?, ?, NULL)";
+		String sql = "INSERT INTO smu.User VALUES (?, ?, ?, ?, ?, ?, ?, NULL)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, user.getFirstName());
@@ -38,7 +38,7 @@ public class PgUserDAO implements UserDAO {
 	// Per la classe User attualmente viene permesso l'update dell'attributo password
 	@Override
 	public boolean updatePassword(User user) throws SQLException {
-		String sql = "UPDATE User SET password = ? WHERE taxCode = ?";
+		String sql = "UPDATE smu.User SET password = ? WHERE taxCode = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, user.getPassword());
@@ -52,7 +52,7 @@ public class PgUserDAO implements UserDAO {
 
 	@Override
 	public boolean delete(User user) throws SQLException {
-		String sql = "DELETE FROM User WHERE taxCode = ?";
+		String sql = "DELETE FROM smu.User WHERE taxCode = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, user.getTaxCode());
@@ -65,7 +65,7 @@ public class PgUserDAO implements UserDAO {
 	
 	@Override
 	public User findByUsername(String username) throws SQLException {
-		String sql = "SELECT * FROM User WHERE username = ?";
+		String sql = "SELECT * FROM smu.User WHERE username = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);

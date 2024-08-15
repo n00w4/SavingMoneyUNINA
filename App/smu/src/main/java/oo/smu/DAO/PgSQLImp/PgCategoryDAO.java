@@ -17,7 +17,7 @@ public class PgCategoryDAO implements CategoryDAO {
 
 	@Override
 	public boolean insert(Category category) throws SQLException {
-		String sql = "INSERT INTO Category VALUES (?, ?)";
+		String sql = "INSERT INTO smu.Category VALUES (?, ?)";
 		try {
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, category.getName());
@@ -31,7 +31,7 @@ public class PgCategoryDAO implements CategoryDAO {
 
 	@Override
 	public boolean update(Category category) throws SQLException {
-		String sql = "UPDATE Category SET name = ? WHERE keyword = ?";
+		String sql = "UPDATE smu.Category SET name = ? WHERE keyword = ?";
 		try {
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, category.getName());
@@ -45,7 +45,7 @@ public class PgCategoryDAO implements CategoryDAO {
 
 	@Override
 	public boolean delete(Category category) throws SQLException {
-		String sql = "DELETE FROM Category WHERE name = ? AND keyword = ?";
+		String sql = "DELETE FROM smu.Category WHERE name = ? AND keyword = ?";
 		try {
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, category.getName());

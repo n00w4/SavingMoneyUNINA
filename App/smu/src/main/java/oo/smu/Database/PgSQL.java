@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class PgSQL {
 	private String driver = "org.postgresql.Driver";
-	private String url = "jdbc:postgresql://localhost:5432/posgres?currentSchema=smu";
+	private String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=smu";
 	private String user = "postgres";
 	private String password = "postgres";
 	private static Connection connection;
