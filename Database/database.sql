@@ -38,6 +38,7 @@ CREATE TABLE smu.BankAccount (
 );
 
 -- Tipo E_CARD per gestire la differenza tra carte di credito e carte di debito
+DROP TYPE IF EXISTS E_CARD CASCADE;
 CREATE TYPE E_CARD AS ENUM ('creditCard', 'debitCard');
 
 -- Table Card
@@ -75,6 +76,7 @@ CREATE TABLE smu.Portfolio (
 );
 
 -- Tipo E_TRANSACTION per gestire la differenza tra entrata ed uscita
+DROP TYPE IF EXISTS E_TRANSACTION CASCADE;
 CREATE TYPE E_TRANSACTION AS ENUM ('expense', 'income');
 
 -- Table Transaction
