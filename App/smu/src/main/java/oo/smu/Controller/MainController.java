@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import oo.smu.DAO.*;
 import oo.smu.DAO.PgSQLImp.*;
 import oo.smu.Database.PgSQL;
-import oo.smu.GUI.LoginFrame;
+import oo.smu.GUI.*;
 
 public class MainController {
 	private UserController userController;
@@ -31,6 +31,11 @@ public class MainController {
     
     public boolean tryLogin(String username, String password) throws SQLException {
     	return userController.login(username, password);
+    }
+    
+    public void showDashboardFrame() {
+    	DashboardFrame dashboardFrame = new DashboardFrame(this);
+    	dashboardFrame.setVisible(true);
     }
     
     public void start() {

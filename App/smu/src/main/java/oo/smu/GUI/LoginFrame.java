@@ -22,6 +22,20 @@ public class LoginFrame extends JFrame {
         initComponents();
     }
     
+    private void performLogin() {
+    	String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+
+		try {
+			if (mainController.tryLogin(username, password)) {
+                dispose();
+                mainController.showDashboardFrame();
+            } else {
+                JOptionPane.showMessageDialog(LoginFrame.this, "Login fallito!");
+            }
+		} catch (SQLException e1) { e1.printStackTrace(); }
+    }
+    
     private void initComponents() {
         setTitle("SavingMoneyUNINA");
         setSize(370, 160);
@@ -68,16 +82,14 @@ public class LoginFrame extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
+                performLogin();
+            }
+        });
 
-				try {
-					if (mainController.tryLogin(username, password)) {
-	                    JOptionPane.showMessageDialog(LoginFrame.this, "Login riuscito!");
-	                } else {
-	                    JOptionPane.showMessageDialog(LoginFrame.this, "Login fallito!");
-	                }
-				} catch (SQLException e1) { e1.printStackTrace(); }
+        passwordField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performLogin();
             }
         });
      }
