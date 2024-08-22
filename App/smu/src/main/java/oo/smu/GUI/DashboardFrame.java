@@ -32,23 +32,23 @@ public class DashboardFrame extends JFrame {
 		contentPane.setLayout(sl_contentPane);
 		
 		JLabel lblBenvenuto = new JLabel("Bentornato!");
+		sl_contentPane.putConstraint(SpringLayout.HORIZONTAL_CENTER, lblBenvenuto, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblBenvenuto, 10, SpringLayout.NORTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.EAST, lblBenvenuto, -182, SpringLayout.EAST, contentPane);
 		contentPane.add(lblBenvenuto);
 		
 		JButton btnVisualizzaReportMensile = new JButton("Visualizza report mensile");
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnVisualizzaReportMensile, 10, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btnVisualizzaReportMensile, 20, SpringLayout.SOUTH, lblBenvenuto);
 		contentPane.add(btnVisualizzaReportMensile);
 		
 		JButton btnAggiungiNuovaTransazione = new JButton("Aggiungi nuova transazione");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnAggiungiNuovaTransazione, 63, SpringLayout.SOUTH, lblBenvenuto);
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnVisualizzaReportMensile, 0, SpringLayout.NORTH, btnAggiungiNuovaTransazione);
-		sl_contentPane.putConstraint(SpringLayout.EAST, btnAggiungiNuovaTransazione, 0, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btnAggiungiNuovaTransazione, -10, SpringLayout.EAST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btnAggiungiNuovaTransazione, 0, SpringLayout.NORTH, btnVisualizzaReportMensile);
 		contentPane.add(btnAggiungiNuovaTransazione);
 		
 		JButton btnLogout = new JButton("Logout");
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnLogout, 0, SpringLayout.WEST, lblBenvenuto);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnLogout, -38, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.HORIZONTAL_CENTER, btnLogout, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnLogout, -10, SpringLayout.SOUTH, contentPane);
 		contentPane.add(btnLogout);
 	}
 }
