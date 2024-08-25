@@ -43,7 +43,7 @@ INSERT INTO smu.Portfolio(name, description, taxCode, idFamily, keyword) VALUES 
 -- Transaction
 
 -- Transazione in uscita Famiglia Rossi
-INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) VALUES (1000, 'Gas', '2022-01-01', 'Società Energia', NULL, 'expense', '1234567890123456', 2);
+INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) VALUES (1000, 'Gas', '2022-01-01 12:00:00', 'Società Energia', NULL, 'expense', '1234567890123456', 2);
 -- Transazione in entrata per Luigi Verdi
-INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) VALUES (2000, 'Stipendio mensile', '2023-01-01', NULL, 'Società Energia', 'income', '1234567890123458', 1);
+INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) VALUES (2000, 'Stipendio mensile', '2023-01-01 14:23:45', NULL, 'Società Energia', 'income', '1234567890123458', 1);
 
