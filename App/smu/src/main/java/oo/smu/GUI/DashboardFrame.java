@@ -51,8 +51,27 @@ public class DashboardFrame extends JFrame {
 
         outerPanel.add(cardPanel, BorderLayout.CENTER);
         setContentPane(outerPanel);
+        
+        cardPanel.add(createDashboardPanel(), "dashboard");
+        cardPanel.add(createAddTransactionPanel(), "addTransaction");
 
-        JPanel dashboardPanel = new JPanel();
+        JLabel lblSavingmoneyunina = new JLabel("SavingMoneyUNINA");
+        lblSavingmoneyunina.setForeground(new Color(245, 245, 245));
+        lblSavingmoneyunina.setFont(new Font("Noto Sans", Font.BOLD, 20));
+        lblSavingmoneyunina.setHorizontalAlignment(SwingConstants.CENTER);
+        outerPanel.add(lblSavingmoneyunina, BorderLayout.NORTH);
+
+        ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("smuIcon.png"));
+        Image originalImage = originalIcon.getImage();
+        Image scaledImage = originalImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        JLabel imageLabel = new JLabel(scaledIcon);
+        outerPanel.add(imageLabel, BorderLayout.SOUTH);
+    }
+    
+    private JPanel createDashboardPanel() {
+    	JPanel dashboardPanel = new JPanel();
         dashboardPanel.setBackground(new Color(23, 171, 96));
         cardPanel.add(dashboardPanel, "dashboard");
 
@@ -112,10 +131,13 @@ public class DashboardFrame extends JFrame {
         gbc_btnLogout.gridx = 1;
         gbc_btnLogout.gridy = 7;
         dashboardPanel.add(btnLogout, gbc_btnLogout);
-
-        JPanel addTransactionPanel = new JPanel();
+        
+        return dashboardPanel;
+    }
+    
+    private JPanel createAddTransactionPanel() {
+    	JPanel addTransactionPanel = new JPanel();
         addTransactionPanel.setBackground(new Color(23, 171, 96));
-        cardPanel.add(addTransactionPanel, "name_4295965428862");
 
         GridBagLayout gbl_addTransactionPanel = new GridBagLayout();
         gbl_addTransactionPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -323,21 +345,8 @@ public class DashboardFrame extends JFrame {
         gbc_btnTornaAllaDashboard.gridx = 11;
         gbc_btnTornaAllaDashboard.gridy = 15;
         addTransactionPanel.add(btnTornaAllaDashboard, gbc_btnTornaAllaDashboard);
-
-        JLabel lblSavingmoneyunina = new JLabel("SavingMoneyUNINA");
-        lblSavingmoneyunina.setForeground(new Color(245, 245, 245));
-        lblSavingmoneyunina.setFont(new Font("Noto Sans", Font.BOLD, 20));
-        lblSavingmoneyunina.setHorizontalAlignment(SwingConstants.CENTER);
-        outerPanel.add(lblSavingmoneyunina, BorderLayout.NORTH);
-
-        ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("smuIcon.png"));
-        Image originalImage = originalIcon.getImage();
-        Image scaledImage = originalImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-        JLabel imageLabel = new JLabel(scaledIcon);
-        outerPanel.add(imageLabel, BorderLayout.SOUTH);
-
+        
+        return addTransactionPanel;
     }
 }
 
