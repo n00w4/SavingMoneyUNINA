@@ -14,9 +14,13 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 
@@ -95,16 +99,23 @@ public class DashboardFrame extends JFrame {
         gbc_lblBentornato.anchor = GridBagConstraints.NORTH;
         dashboardPanel.add(lblBentornato, gbc_lblBentornato);
 
-        JButton btnGestisciTransazioni = new JButton("Aggiungi transazione");
-        btnGestisciTransazioni.setFont(new Font("Noto Sans", Font.PLAIN, 15));
-        btnGestisciTransazioni.setBackground(new Color(245, 245, 245));
+        JButton btnAggiungiTransazione = new JButton("Aggiungi transazione");
+        btnAggiungiTransazione.setFont(new Font("Noto Sans", Font.PLAIN, 15));
+        btnAggiungiTransazione.setBackground(new Color(245, 245, 245));
 
-        GridBagConstraints gbc_btnGestisciTransazioni = new GridBagConstraints();
-        gbc_btnGestisciTransazioni.gridx = 1;
-        gbc_btnGestisciTransazioni.gridy = 3;
-        gbc_btnGestisciTransazioni.insets = new Insets(5, 5, 5, 5);
-        gbc_btnGestisciTransazioni.anchor = GridBagConstraints.CENTER;
-        dashboardPanel.add(btnGestisciTransazioni, gbc_btnGestisciTransazioni);
+        GridBagConstraints gbc_btnAggiungiTransazione = new GridBagConstraints();
+        gbc_btnAggiungiTransazione.gridx = 1;
+        gbc_btnAggiungiTransazione.gridy = 3;
+        gbc_btnAggiungiTransazione.insets = new Insets(5, 5, 5, 5);
+        gbc_btnAggiungiTransazione.anchor = GridBagConstraints.CENTER;
+        dashboardPanel.add(btnAggiungiTransazione, gbc_btnAggiungiTransazione);
+        btnAggiungiTransazione.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                cardLayout.show(cardPanel, "addTransaction");
+            }
+        });
 
         JButton btnVisualizzaTransazioni = new JButton("Visualizza transazioni");
         btnVisualizzaTransazioni.setBackground(new Color(245, 245, 245));
@@ -132,6 +143,17 @@ public class DashboardFrame extends JFrame {
         gbc_btnLogout.gridx = 1;
         gbc_btnLogout.gridy = 7;
         dashboardPanel.add(btnLogout, gbc_btnLogout);
+        btnLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginFrame loginFrame = new LoginFrame(mainController);
+                loginFrame.setVisible(true);
+                
+                JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(dashboardPanel);
+                topFrame.dispose();
+            }
+        });
+
         
         return dashboardPanel;
     }
@@ -266,36 +288,36 @@ public class DashboardFrame extends JFrame {
         gbc_lblSpecificaIlTipo.gridy = 7;
         addTransactionPanel.add(lblSpecificaIlTipo, gbc_lblSpecificaIlTipo);
         
-        JPanel panel = new JPanel();
-        panel.setBackground(new Color(23, 171, 96));
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.insets = new Insets(0, 0, 5, 5);
-        gbc_panel.fill = GridBagConstraints.BOTH;
-        gbc_panel.gridx = 2;
-        gbc_panel.gridy = 8;
-        addTransactionPanel.add(panel, gbc_panel);
+        JPanel checkboxPanel = new JPanel();
+        checkboxPanel.setBackground(new Color(23, 171, 96));
+        GridBagConstraints gbc_checkboxPanel = new GridBagConstraints();
+        gbc_checkboxPanel.insets = new Insets(0, 0, 5, 5);
+        gbc_checkboxPanel.fill = GridBagConstraints.BOTH;
+        gbc_checkboxPanel.gridx = 2;
+        gbc_checkboxPanel.gridy = 8;
+        addTransactionPanel.add(checkboxPanel, gbc_checkboxPanel);
         
         // CheckBox Entrata
         JCheckBox chckbxEntrata = new JCheckBox("Entrata");
-        panel.add(chckbxEntrata);
+        checkboxPanel.add(chckbxEntrata);
         chckbxEntrata.setFont(new Font("Noto Sans", Font.PLAIN, 14));
         chckbxEntrata.setBackground(new Color(23, 171, 96));
         chckbxEntrata.setForeground(new Color(245, 245, 245));
 
         // CheckBox Uscita
         JCheckBox chckbxUscita = new JCheckBox("Uscita");
-        panel.add(chckbxUscita);
+        checkboxPanel.add(chckbxUscita);
         chckbxUscita.setFont(new Font("Noto Sans", Font.PLAIN, 14));
         chckbxUscita.setBackground(new Color(23, 171, 96));
         chckbxUscita.setForeground(new Color(245, 245, 245));
         
-        JPanel panel_1 = new JPanel();
-        panel_1.setBackground(new Color(23, 171, 96));
-        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-        gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-        gbc_panel_1.gridx = 4;
-        gbc_panel_1.gridy = 8;
-        addTransactionPanel.add(panel_1, gbc_panel_1);
+        JPanel distancePanel = new JPanel();
+        distancePanel.setBackground(new Color(23, 171, 96));
+        GridBagConstraints gbc_distancePanel = new GridBagConstraints();
+        gbc_distancePanel.insets = new Insets(0, 0, 5, 0);
+        gbc_distancePanel.gridx = 4;
+        gbc_distancePanel.gridy = 8;
+        addTransactionPanel.add(distancePanel, gbc_distancePanel);
 
         // Inserisci il nome del Portfolio
         JLabel lblInserisciNomeDel = new JLabel("Inserisci il nome del Portfolio di destinazione");
@@ -337,6 +359,13 @@ public class DashboardFrame extends JFrame {
         gbc_btnDashboard.gridx = 2;
         gbc_btnDashboard.gridy = 12;
         addTransactionPanel.add(btnDashboard, gbc_btnDashboard);
+        btnDashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                cardLayout.show(cardPanel, "dashboard");
+            }
+        });
 
         return addTransactionPanel;
     }
