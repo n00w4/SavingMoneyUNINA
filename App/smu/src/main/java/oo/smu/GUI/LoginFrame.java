@@ -3,6 +3,7 @@ package oo.smu.GUI;
 import javax.swing.*;
 
 import oo.smu.Controller.MainController;
+import oo.smu.Entity.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,9 +27,10 @@ public class LoginFrame extends JFrame {
         String password = new String(passwordField.getPassword());
 
         try {
-            if (mainController.tryLogin(username, password)) {
+        	User user = mainController.tryLogin(username, password);
+            if (user != null) {
                 dispose();
-                mainController.showDashboardFrame();
+                mainController.showDashboardFrame(user);
             } else {
                 JOptionPane.showMessageDialog(LoginFrame.this, "Login fallito!");
             }

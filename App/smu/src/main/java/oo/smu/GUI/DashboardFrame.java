@@ -1,10 +1,12 @@
 package oo.smu.GUI;
 
+import oo.smu.Controller.MainController;
+import oo.smu.Entity.User;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import oo.smu.Controller.MainController;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
@@ -27,6 +29,7 @@ import javax.swing.JCheckBox;
 public class DashboardFrame extends JFrame {
     private static final long serialVersionUID = 1L;
     private MainController mainController;
+    private User user;
     private JPanel cardPanel;
     private JTextField amountTextField;
     private JTextField descriptionTextField;
@@ -34,8 +37,9 @@ public class DashboardFrame extends JFrame {
     private JTextField timeTextField;
     private JTextField portfolioTextField;
 
-    public DashboardFrame(MainController mainController) {
+    public DashboardFrame(MainController mainController, User user) {
         this.mainController = mainController;
+        this.user = user;
         initComponents();
     }
 
@@ -87,7 +91,7 @@ public class DashboardFrame extends JFrame {
         gbl_dashboardPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
         dashboardPanel.setLayout(gbl_dashboardPanel);
 
-        JLabel lblBentornato = new JLabel("Bentornato!");
+        JLabel lblBentornato = new JLabel(String.format("Bentornato %s %s!", user.getFirstName(), user.getSecondName()));
         lblBentornato.setHorizontalAlignment(SwingConstants.CENTER);
         lblBentornato.setFont(new Font("Noto Sans", Font.BOLD, 14));
         lblBentornato.setForeground(new Color(245, 245, 245));
@@ -153,7 +157,6 @@ public class DashboardFrame extends JFrame {
                 topFrame.dispose();
             }
         });
-
         
         return dashboardPanel;
     }
