@@ -8,14 +8,16 @@ public class Card {
 	private LocalDate expirationDate;
 	private String ibanCard;
 	private float balanceCard;
+	private String ibanBankAccount;
 	
 	// Costruttore
-	public Card(String cardNumber, String cvv, LocalDate expirationDate, String ibanCard, float balance) {
+	public Card(String cardNumber, String cvv, LocalDate expirationDate, String ibanCard, float balance, String ibanBankAccount) {
 		this.setCardNumber(cardNumber);
 		this.setCvv(cvv);
 		this.setExpirationDate(expirationDate);
 		this.setIbanCard(ibanCard);
 		this.setBalanceCard(balance);
+		this.setIbanBankAccount(ibanBankAccount);
 	}
 	
 	/* GETTER e SETTER */
@@ -47,5 +49,11 @@ public class Card {
 	
 	public void setBalanceCard(float balance) {
 		this.balanceCard = balance;
+	}
+
+	public String getIbanBankAccount() { return ibanBankAccount; }
+
+	public void setIbanBankAccount(String ibanBankAccount) {
+		this.ibanBankAccount = ibanBankAccount;
 	}
 }

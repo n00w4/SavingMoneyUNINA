@@ -34,4 +34,8 @@ public class CardController {
 	public boolean deleteCard(Card card, BankAccount bankAccount) throws SQLException {
 		return cardDAO.deleteCard(card, bankAccount);
 	}
+	
+	public Card findCardByCardNumber(String cardNumber) throws SQLException {
+		return cardDAO.findByCardNumber(cardNumber);
+	}
 }

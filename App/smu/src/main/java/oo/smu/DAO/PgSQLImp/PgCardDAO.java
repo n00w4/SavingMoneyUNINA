@@ -2,7 +2,9 @@ package oo.smu.DAO.PgSQLImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import oo.smu.DAO.CardDAO;
 import oo.smu.Entity.Card;
@@ -118,5 +120,28 @@ public class PgCardDAO implements CardDAO {
 			return false;
 		}
 	}
-
+	
+	@Override
+	public Card findByCardNumber(String cardNumber) throws SQLException {
+		String sql = "SELECT * FROM smu.Card WHERE cardNumber = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				String cvv = rs.getString("cvv");
+				LocalDate expirationDate = rs.getObject("expirationDate", LocalDate.class);
+				String ibanCard = rs.getString("ibanCard");
+				float balanceCard = rs.getFloat("balanceCard");
+				String ibanBankAccount = rs.getString("ibanBankAccount");
+				
+				Card card = new Card(cardNumber, cvv, expirationDate, ibanCard, balanceCard, ibanBankAccount);
+				return card;
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

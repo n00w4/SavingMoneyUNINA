@@ -56,4 +56,12 @@ public interface CardDAO {
 	 * @throws SQLException
 	 */
 	boolean deleteCard(Card card, BankAccount bankAccount) throws SQLException;
+	
+	/*
+	 * Trova una carta attraverso il suo numero di carta
+	 * @param String cardNumber
+	 * @return Ritorna la carta di credito o di debito corrispondente
+	 * @throws SQLException
+	 */
+	Card findByCardNumber(String cardNumber) throws SQLException;
 }

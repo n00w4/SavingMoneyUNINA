@@ -2,6 +2,7 @@ package oo.smu.DAO.PgSQLImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import oo.smu.DAO.PortfolioDAO;
@@ -80,5 +81,27 @@ public class PgPortfolioDAO implements PortfolioDAO {
 			return false;
 		}
 	}
-
+	
+	@Override
+	public Portfolio findByName(String name, User user) throws SQLException {
+		String sql = "SELECT * FROM smu.Portfolio WHERE name = ? AND taxCode = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, name);
+			statement.setString(2, user.getTaxCode());
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				int idPortfolio = rs.getInt("idPortfolio");
+				String description = rs.getString("description");
+				String keyword = rs.getString("keyword");
+				
+				Portfolio portfolio = new Portfolio(idPortfolio, name, description, user.getTaxCode(), null, keyword);
+				return portfolio;
+			}
+			return null;
+		} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+		}
+	}
 }

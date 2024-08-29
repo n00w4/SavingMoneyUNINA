@@ -6,8 +6,8 @@ public class CreditCard extends Card {
 	private float plafond;
 	
 	// Costruttore
-	public CreditCard(String cardNumber, String cvv, LocalDate expirationDate, String ibanCard, float balance, float plafond) {
-		super(cardNumber, cvv, expirationDate, ibanCard, balance);
+	public CreditCard(String cardNumber, String cvv, LocalDate expirationDate, String ibanCard, float balance, float plafond, String ibanBankAccount) {
+		super(cardNumber, cvv, expirationDate, ibanCard, balance, ibanBankAccount);
 		this.setPlafond(plafond);
 	}
 	

@@ -30,4 +30,8 @@ public class PortfolioController {
 	public boolean deleteFamilyPortfolio(Portfolio portfolio, Family family, Category category) throws SQLException {
 		return portfolioDAO.deleteFamilyPortfolio(portfolio, family, category);
 	}
+	
+	public Portfolio findUserPortfolioByName(String name, User user) throws SQLException {
+		return portfolioDAO.findByName(name, user);
+	}
 }

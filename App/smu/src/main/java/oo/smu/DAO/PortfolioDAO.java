@@ -43,4 +43,12 @@ public interface PortfolioDAO {
 	 * @throws SQLException
 	 */
 	boolean deleteFamilyPortfolio(Portfolio portfolio, Family family, Category category) throws SQLException;
+
+	/*
+	 * Trova un portfolio attraverso il nome e l'user
+	 * @param String name, User user
+	 * @return Ritorna il portfolio corrispondente
+	 * @throws SQLException
+	 */
+	Portfolio findByName(String name, User user) throws SQLException;
 }
