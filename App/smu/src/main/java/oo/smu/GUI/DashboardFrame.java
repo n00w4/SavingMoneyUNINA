@@ -1,13 +1,11 @@
 package oo.smu.GUI;
 
 import oo.smu.Entity.User;
-import oo.smu.Entity.Transaction;
 import oo.smu.Entity.Income;
 import oo.smu.Entity.Portfolio;
 import oo.smu.Entity.Card;
 import oo.smu.Entity.Expense;
 import oo.smu.Controller.MainController;
-import oo.smu.Controller.TransactionController;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -102,9 +100,10 @@ public class DashboardFrame extends JFrame {
 
 		GridBagLayout gbl_dashboardPanel = new GridBagLayout();
 		gbl_dashboardPanel.columnWidths = new int[] { 1, 1, 1 };
-		gbl_dashboardPanel.rowHeights = new int[] { 1, 0, 0, 2, 0, 0, 0, 0, 0, 1 };
+		gbl_dashboardPanel.rowHeights = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1 };
 		gbl_dashboardPanel.columnWeights = new double[] { 1.0, 1.0, 1.0 };
-		gbl_dashboardPanel.rowWeights = new double[] { 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+		gbl_dashboardPanel.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 1.0 };
 		dashboardPanel.setLayout(gbl_dashboardPanel);
 
 		JPanel distancePanel = new JPanel();
@@ -137,7 +136,7 @@ public class DashboardFrame extends JFrame {
 		gbc_distancePanel2.insets = new Insets(0, 0, 5, 5);
 		gbc_distancePanel2.fill = GridBagConstraints.BOTH;
 		gbc_distancePanel2.gridx = 1;
-		gbc_distancePanel2.gridy = 2;
+		gbc_distancePanel2.gridy = 9;
 		dashboardPanel.add(distancePanel2, gbc_distancePanel2);
 
 		JButton btnAggiungiTransazione = new JButton("Aggiungi transazione");
@@ -146,7 +145,7 @@ public class DashboardFrame extends JFrame {
 
 		GridBagConstraints gbc_btnAggiungiTransazione = new GridBagConstraints();
 		gbc_btnAggiungiTransazione.gridx = 1;
-		gbc_btnAggiungiTransazione.gridy = 3;
+		gbc_btnAggiungiTransazione.gridy = 10;
 		gbc_btnAggiungiTransazione.insets = new Insets(5, 5, 5, 5);
 		gbc_btnAggiungiTransazione.anchor = GridBagConstraints.CENTER;
 		dashboardPanel.add(btnAggiungiTransazione, gbc_btnAggiungiTransazione);
@@ -164,7 +163,7 @@ public class DashboardFrame extends JFrame {
 		GridBagConstraints gbc_btnVisualizzaTransazioni = new GridBagConstraints();
 		gbc_btnVisualizzaTransazioni.insets = new Insets(0, 0, 5, 5);
 		gbc_btnVisualizzaTransazioni.gridx = 1;
-		gbc_btnVisualizzaTransazioni.gridy = 4;
+		gbc_btnVisualizzaTransazioni.gridy = 11;
 		dashboardPanel.add(btnVisualizzaTransazioni, gbc_btnVisualizzaTransazioni);
 
 		JButton btnVisualizzaReportMensile = new JButton("Visualizza report mensile");
@@ -173,7 +172,7 @@ public class DashboardFrame extends JFrame {
 		GridBagConstraints gbc_btnVisualizzaReportMensile = new GridBagConstraints();
 		gbc_btnVisualizzaReportMensile.insets = new Insets(0, 0, 5, 5);
 		gbc_btnVisualizzaReportMensile.gridx = 1;
-		gbc_btnVisualizzaReportMensile.gridy = 5;
+		gbc_btnVisualizzaReportMensile.gridy = 12;
 		dashboardPanel.add(btnVisualizzaReportMensile, gbc_btnVisualizzaReportMensile);
 
 		JButton btnLogout = new JButton("Logout");
@@ -182,7 +181,7 @@ public class DashboardFrame extends JFrame {
 		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
 		gbc_btnLogout.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLogout.gridx = 1;
-		gbc_btnLogout.gridy = 7;
+		gbc_btnLogout.gridy = 14;
 		dashboardPanel.add(btnLogout, gbc_btnLogout);
 		btnLogout.addActionListener(new ActionListener() {
 			@Override
@@ -453,11 +452,11 @@ public class DashboardFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String amountString = amountTextField.getText().trim();
+					String amountString = amountTextField.getText().trim().replace(',', '.');
 					String description = descriptionTextField.getText();
-					String dateText = dateTextField.getText().trim();
+					String dateText = dateTextField.getText().trim().replace('/', '-');
 					String timeText = timeTextField.getText().trim();
-					String portfolioName = portfolioTextField.getText().trim();
+					String portfolioName = portfolioTextField.getText();
 					String chckbxText = chckbxTextField.getText();
 					String cardNumber = cardNumberTextField.getText().trim();
 
@@ -465,10 +464,9 @@ public class DashboardFrame extends JFrame {
 							|| portfolioName.isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Compila tutti i campi prima di salvare.", "Errore",
 								JOptionPane.ERROR_MESSAGE);
-						return;
 					}
 
-					DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+					DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 					DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 					// Parsing della data
 					LocalDate date = LocalDate.parse(dateText, dateFormatter);
@@ -488,22 +486,25 @@ public class DashboardFrame extends JFrame {
 								description, chckbxText);
 						mainController.saveExpense(expense, card, portfolio);
 					}
+					JOptionPane.showMessageDialog(null, "Transazione salvata con successo!", "Successo",
+							JOptionPane.INFORMATION_MESSAGE);
+
+					// Reset dei campi dopo il salvataggio
+					amountTextField.setText("");
+					descriptionTextField.setText("");
+					dateTextField.setText("");
+					timeTextField.setText("");
+					chckbxTextField.setText("");
+					cardNumberTextField.setText("");
+					portfolioTextField.setText("");
+					chckbxEntrata.setSelected(false);
+					chckbxUscita.setSelected(false);
+
 				} catch (Exception exception) {
 					exception.printStackTrace();
-					// TODO: definire una piccola finestra di errore e testare il salvataggio della transazione
+					JOptionPane.showMessageDialog(null, "Transazione non salvata, riprova più tardi", "Errore",
+							JOptionPane.ERROR_MESSAGE);
 				}
-
-				JOptionPane.showMessageDialog(null, "Transazione salvata con successo!", "Successo",
-						JOptionPane.INFORMATION_MESSAGE);
-
-				// Reset dei campi dopo il salvataggio
-				amountTextField.setText("");
-				descriptionTextField.setText("");
-				dateTextField.setText("");
-				timeTextField.setText("");
-				portfolioTextField.setText("");
-				chckbxEntrata.setSelected(false);
-				chckbxUscita.setSelected(false);
 			}
 		});
 

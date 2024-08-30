@@ -27,9 +27,13 @@ public class MainController {
     		// Inizializzazione DAO
     		UserDAO userDAO = new PgUserDAO(dbConnection);
     		TransactionDAO transactionDAO = new PgTransactionDAO(dbConnection);
+    		CardDAO cardDAO = new PgCardDAO(dbConnection);
+    		PortfolioDAO portfolioDAO = new PgPortfolioDAO(dbConnection);
     		// Inizializzazione Controller
     		this.userController = new UserController(userDAO);
     		this.transactionController = new TransactionController(transactionDAO);
+    		this.cardController = new CardController(cardDAO);
+    		this.portfolioController = new PortfolioController(portfolioDAO);
     	} catch (SQLException e) { e.printStackTrace(); }
     }
 

@@ -10,6 +10,7 @@ public class Portfolio {
 	
 	// Costruttore
 	public Portfolio(int id, String name, String description, String taxCode, Integer idFamily, String keyword) {
+		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
 		this.setTaxCode(taxCode);

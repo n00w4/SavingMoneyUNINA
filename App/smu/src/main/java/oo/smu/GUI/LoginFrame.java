@@ -55,12 +55,15 @@ public class LoginFrame extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(23, 171, 96));
-        panel.setLayout(new GridBagLayout());
+        GridBagLayout gbl_panel = new GridBagLayout();
+        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        gbl_panel.columnWeights = new double[]{1.0};
+        panel.setLayout(gbl_panel);
         getContentPane().add(panel, gbcPanel);
 
         GridBagConstraints gbcTitle = new GridBagConstraints();
         gbcTitle.anchor = GridBagConstraints.NORTH;
-        gbcTitle.insets = new Insets(0, 5, 30, 5);
+        gbcTitle.insets = new Insets(0, 5, 30, 0);
         gbcTitle.gridx = 0;
         gbcTitle.gridy = 0;
         gbcTitle.fill = GridBagConstraints.HORIZONTAL;
@@ -121,9 +124,18 @@ public class LoginFrame extends JFrame {
                 performLogin();
             }
         });
+        
+        JPanel distancePanel = new JPanel();
+        distancePanel.setBackground(new Color(23, 171, 96));
+        GridBagConstraints gbc_distancePanel = new GridBagConstraints();
+        gbc_distancePanel.insets = new Insets(0, 0, 5, 0);
+        gbc_distancePanel.fill = GridBagConstraints.BOTH;
+        gbc_distancePanel.gridx = 0;
+        gbc_distancePanel.gridy = 7;
+        panel.add(distancePanel, gbc_distancePanel);
 
         GridBagConstraints gbcLoginButton = new GridBagConstraints();
-        gbcLoginButton.insets = new Insets(0, 5, 5, 0);
+        gbcLoginButton.insets = new Insets(0, 5, 0, 0);
         gbcLoginButton.gridx = 0;
         gbcLoginButton.gridy = 8;
         gbcLoginButton.fill = GridBagConstraints.BOTH;
