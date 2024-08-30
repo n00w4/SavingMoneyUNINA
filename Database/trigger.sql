@@ -47,3 +47,24 @@ FOR EACH ROW EXECUTE FUNCTION smu.typeTransactionTrigger();
 -- INSERT INTO smu.Transaction(amount, description, dateTime, receiver, source, typeTransaction) VALUES (100, 'test', '2022-01-01', 'test', NULL, 'income');
 -- INSERT INTO smu.Transaction(amount, description, dateTime, receiver, source, typeTransaction) VALUES (100, 'test', '2022-01-01', NULL, 'test', 'expense');
 
+-- 3) checkPortfolioName: prima di inserire un nuovo portfolio, controllo se il nome del portfolio è univoco per l'utente
+CREATE OR REPLACE FUNCTION checkPortfolioName()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM smu.Portfolio
+        WHERE name = NEW.name
+        AND taxCode = NEW.taxCode
+    ) THEN
+        RAISE EXCEPTION 'Il nome del portfolio "%" esiste già per questo utente', NEW.name;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER checkPortfolioNameTrigger
+BEFORE INSERT OR UPDATE
+ON smu.Portfolio
+FOR EACH ROW
+EXECUTE FUNCTION checkPortfolioName();
