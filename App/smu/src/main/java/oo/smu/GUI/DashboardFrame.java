@@ -9,6 +9,8 @@ import oo.smu.Controller.MainController;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.CardLayout;
@@ -37,6 +39,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 
 public class DashboardFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -60,7 +63,7 @@ public class DashboardFrame extends JFrame {
 	public void initComponents() {
 		setTitle("SavingMoneyUNINA");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 800);
+		setBounds(100, 100, 800, 900);
 		setLocationRelativeTo(null);
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource("smuIcon.png")).getImage());
 
@@ -77,6 +80,7 @@ public class DashboardFrame extends JFrame {
 
 		cardPanel.add(createDashboardPanel(), "dashboard");
 		cardPanel.add(createAddTransactionPanel(), "addTransaction");
+		cardPanel.add(createViewTransactionPanel(), "viewTransaction");
 
 		JLabel lblSavingmoneyunina = new JLabel("SavingMoneyUNINA");
 		lblSavingmoneyunina.setForeground(new Color(245, 245, 245));
@@ -158,6 +162,13 @@ public class DashboardFrame extends JFrame {
 		});
 
 		JButton btnVisualizzaTransazioni = new JButton("Visualizza transazioni");
+		btnVisualizzaTransazioni.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+				cardLayout.show(cardPanel, "viewTransaction");
+			}
+		});
 		btnVisualizzaTransazioni.setBackground(new Color(245, 245, 245));
 		btnVisualizzaTransazioni.setFont(new Font("Noto Sans", Font.PLAIN, 15));
 		GridBagConstraints gbc_btnVisualizzaTransazioni = new GridBagConstraints();
@@ -527,5 +538,106 @@ public class DashboardFrame extends JFrame {
 
 		return addTransactionPanel;
 	}
-
+	
+	private JPanel createViewTransactionPanel() {
+	    JPanel viewTransactionPanel = new JPanel();
+	    viewTransactionPanel.setBackground(new Color(23, 171, 96));
+	    GridBagLayout gbl_viewTransactionPanel = new GridBagLayout();
+	    gbl_viewTransactionPanel.columnWidths = new int[]{0, 0, 0};
+	    gbl_viewTransactionPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+	    gbl_viewTransactionPanel.columnWeights = new double[]{0.1, 0.8, 0.1};
+	    gbl_viewTransactionPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+	    viewTransactionPanel.setLayout(gbl_viewTransactionPanel);
+	    
+	    // Label Carta
+	    JLabel lblCarta = new JLabel("Seleziona Carta:");
+	    lblCarta.setForeground(new Color(245, 245, 245));
+	    lblCarta.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+	    GridBagConstraints gbc_lblCarta = new GridBagConstraints();
+	    gbc_lblCarta.insets = new Insets(10, 0, 5, 5);
+	    gbc_lblCarta.gridx = 1;
+	    gbc_lblCarta.gridy = 0;
+	    viewTransactionPanel.add(lblCarta, gbc_lblCarta);
+	    
+	    // ComboBox per selezionare la carta
+	    JComboBox<String> cardComboBox = new JComboBox<>();
+	    // Esempio di aggiunta di carte al ComboBox (in pratica verrà popolato dinamicamente)
+	    cardComboBox.addItem("Carta 1");
+	    cardComboBox.addItem("Carta 2");
+	    GridBagConstraints gbc_cardComboBox = new GridBagConstraints();
+	    gbc_cardComboBox.insets = new Insets(0, 0, 5, 5);
+	    gbc_cardComboBox.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_cardComboBox.gridx = 1;
+	    gbc_cardComboBox.gridy = 1;
+	    viewTransactionPanel.add(cardComboBox, gbc_cardComboBox);
+	    
+	    // Label Categoria del Portfolio
+	    JLabel lblCategoria = new JLabel("Categoria del Portfolio:");
+	    lblCategoria.setForeground(new Color(245, 245, 245));
+	    lblCategoria.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+	    GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
+	    gbc_lblCategoria.insets = new Insets(10, 0, 5, 5);
+	    gbc_lblCategoria.gridx = 1;
+	    gbc_lblCategoria.gridy = 2;
+	    viewTransactionPanel.add(lblCategoria, gbc_lblCategoria);
+	    
+	    // ComboBox per selezionare la categoria del portfolio
+	    JComboBox<String> categoryComboBox = new JComboBox<>();
+	    categoryComboBox.addItem("Categoria 1");
+	    categoryComboBox.addItem("Categoria 2");
+	    GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
+	    gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
+	    gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_categoryComboBox.gridx = 1;
+	    gbc_categoryComboBox.gridy = 3;
+	    viewTransactionPanel.add(categoryComboBox, gbc_categoryComboBox);
+	    
+	    // Label Periodo Temporale
+	    JLabel lblPeriodo = new JLabel("Periodo Temporale:");
+	    lblPeriodo.setForeground(new Color(245, 245, 245));
+	    lblPeriodo.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+	    GridBagConstraints gbc_lblPeriodo = new GridBagConstraints();
+	    gbc_lblPeriodo.insets = new Insets(10, 0, 5, 5);
+	    gbc_lblPeriodo.gridx = 1;
+	    gbc_lblPeriodo.gridy = 4;
+	    viewTransactionPanel.add(lblPeriodo, gbc_lblPeriodo);
+	    
+	    // TextField per inserire il periodo temporale (es. "Mese 08/2023")
+	    JTextField periodTextField = new JTextField();
+	    GridBagConstraints gbc_periodTextField = new GridBagConstraints();
+	    gbc_periodTextField.insets = new Insets(0, 0, 5, 5);
+	    gbc_periodTextField.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_periodTextField.gridx = 1;
+	    gbc_periodTextField.gridy = 5;
+	    viewTransactionPanel.add(periodTextField, gbc_periodTextField);
+	    periodTextField.setColumns(10);
+	    
+	    // Bottone per visualizzare le transazioni
+	    JButton btnVisualizza = new JButton("Visualizza Transazioni");
+	    GridBagConstraints gbc_btnVisualizza = new GridBagConstraints();
+	    gbc_btnVisualizza.insets = new Insets(20, 0, 5, 5);
+	    gbc_btnVisualizza.gridx = 1;
+	    gbc_btnVisualizza.gridy = 6;
+	    viewTransactionPanel.add(btnVisualizza, gbc_btnVisualizza);
+	    
+	    // Tabella per visualizzare le transazioni
+	    String[] columnNames = {"Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente", "Numero di carta"};
+	    Object[][] data = {
+	        {"100.00", "2023-08-01", "Pagamento", "Uscita", "Azienda", "", "123456789"},
+	        {"2000.00", "2023-08-03", "Stipendio", "Entrata", "", "Azienda", "123456789"}
+	    }; // TODO: Popolare con i dati delle transazioni
+	    JTable transactionTable = new JTable(data, columnNames);
+	    
+	    // ScrollPane per la tabella
+	    JScrollPane scrollPane = new JScrollPane(transactionTable);
+	    GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+	    gbc_scrollPane.insets = new Insets(10, 0, 5, 5);
+	    gbc_scrollPane.fill = GridBagConstraints.BOTH;
+	    gbc_scrollPane.gridx = 1;
+	    gbc_scrollPane.gridy = 7;
+	    gbc_scrollPane.gridheight = 2;
+	    viewTransactionPanel.add(scrollPane, gbc_scrollPane);
+	    
+	    return viewTransactionPanel;
+	}
 }

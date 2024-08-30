@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import oo.smu.DAO.CardDAO;
 import oo.smu.Entity.Card;
@@ -143,5 +145,25 @@ public class PgCardDAO implements CardDAO {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@Override
+	public List<String> findAllCardNumbersFromTaxCode(String taxCode) throws SQLException {
+		String sql = "SELECT c.cardNumber FROM smu.User u JOIN smu.BankAccount b ON u.taxCode = b.taxCode\n"
+				+ "JOIN smu.Card c ON b.ibanBankAccount = c.ibanBankAccount WHERE u.taxCode = ?";
+		List<String> cardNumbers = new ArrayList<>();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, taxCode);
+			ResultSet rs = statement.executeQuery();
+			 while (rs.next()) {
+		            String cardNumber = rs.getString("cardNumber");
+		            cardNumbers.add(cardNumber);
+		        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return cardNumbers;
 	}
 }

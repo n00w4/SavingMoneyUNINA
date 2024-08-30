@@ -6,6 +6,7 @@ import oo.smu.Entity.CreditCard;
 import oo.smu.Entity.BankAccount;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public interface CardDAO {
@@ -64,4 +65,12 @@ public interface CardDAO {
 	 * @throws SQLException
 	 */
 	Card findByCardNumber(String cardNumber) throws SQLException;
+	
+	/*
+	 * Trova tutte le carte di un utente attraverso il suo codice fiscale
+	 * @param String taxCode
+	 * @return Ritorna la lista dei numeri delle carte di credito corrispondenti
+	 * @throws SQLExcepetion
+	 */
+	List<String> findAllCardNumbersFromTaxCode(String taxCode) throws SQLException;
 }
