@@ -3,6 +3,7 @@ package oo.smu.Controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import oo.smu.DAO.*;
 import oo.smu.DAO.PgSQLImp.*;
@@ -19,6 +20,7 @@ public class MainController {
 	private CardController cardController;
 	private PortfolioController portfolioController;
 	private TransactionController transactionController;
+	private CategoryController categoryController;
 
     public MainController() {
     	try {
@@ -29,11 +31,13 @@ public class MainController {
     		TransactionDAO transactionDAO = new PgTransactionDAO(dbConnection);
     		CardDAO cardDAO = new PgCardDAO(dbConnection);
     		PortfolioDAO portfolioDAO = new PgPortfolioDAO(dbConnection);
+    		CategoryDAO categoryDAO = new PgCategoryDAO(dbConnection);
     		// Inizializzazione Controller
     		this.userController = new UserController(userDAO);
     		this.transactionController = new TransactionController(transactionDAO);
     		this.cardController = new CardController(cardDAO);
     		this.portfolioController = new PortfolioController(portfolioDAO);
+    		this.categoryController = new CategoryController(categoryDAO);
     	} catch (SQLException e) { e.printStackTrace(); }
     }
 
@@ -66,6 +70,14 @@ public class MainController {
     
     public Portfolio findUserPortfolioByName(String name, User user) throws SQLException {
     	return portfolioController.findUserPortfolioByName(name, user);
+    }
+    
+    public List<String> findAllCardNumbersFromTaxCode(String taxCode) throws SQLException {
+    	return cardController.findAllCardNumbersFromTaxCode(taxCode);
+    }
+    
+    public List<String> findAllCategoryNames() throws SQLException {
+    	return categoryController.findAllCategoryNames();
     }
     
     public void start() {

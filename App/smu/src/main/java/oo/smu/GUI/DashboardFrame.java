@@ -32,10 +32,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
@@ -53,6 +56,7 @@ public class DashboardFrame extends JFrame {
 	private JTextField portfolioTextField;
 	private JTextField cardNumberTextField;
 	private JTextField chckbxTextField;
+	private JTextField finePeriodoTextField;
 
 	public DashboardFrame(MainController mainController, User user) {
 		this.mainController = mainController;
@@ -544,13 +548,13 @@ public class DashboardFrame extends JFrame {
 	    viewTransactionPanel.setBackground(new Color(23, 171, 96));
 	    GridBagLayout gbl_viewTransactionPanel = new GridBagLayout();
 	    gbl_viewTransactionPanel.columnWidths = new int[]{0, 0, 0};
-	    gbl_viewTransactionPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-	    gbl_viewTransactionPanel.columnWeights = new double[]{0.1, 0.8, 0.1};
-	    gbl_viewTransactionPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+	    gbl_viewTransactionPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+	    gbl_viewTransactionPanel.columnWeights = new double[]{0.1, 1.0, 0.1};
+	    gbl_viewTransactionPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 	    viewTransactionPanel.setLayout(gbl_viewTransactionPanel);
 	    
 	    // Label Carta
-	    JLabel lblCarta = new JLabel("Seleziona Carta:");
+	    JLabel lblCarta = new JLabel("Seleziona Carta");
 	    lblCarta.setForeground(new Color(245, 245, 245));
 	    lblCarta.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 	    GridBagConstraints gbc_lblCarta = new GridBagConstraints();
@@ -559,11 +563,14 @@ public class DashboardFrame extends JFrame {
 	    gbc_lblCarta.gridy = 0;
 	    viewTransactionPanel.add(lblCarta, gbc_lblCarta);
 	    
+	    
+	    List<String> cardNumbers = new ArrayList<String>();
+	    try {
+			cardNumbers = mainController.findAllCardNumbersFromTaxCode(user.getTaxCode());
+		} catch (SQLException e) { e.printStackTrace(); }
 	    // ComboBox per selezionare la carta
-	    JComboBox<String> cardComboBox = new JComboBox<>();
-	    // Esempio di aggiunta di carte al ComboBox (in pratica verrà popolato dinamicamente)
-	    cardComboBox.addItem("Carta 1");
-	    cardComboBox.addItem("Carta 2");
+	    JComboBox<String> cardComboBox = new JComboBox<>(cardNumbers.toArray(new String[0]));
+	    cardComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
 	    GridBagConstraints gbc_cardComboBox = new GridBagConstraints();
 	    gbc_cardComboBox.insets = new Insets(0, 0, 5, 5);
 	    gbc_cardComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -572,7 +579,7 @@ public class DashboardFrame extends JFrame {
 	    viewTransactionPanel.add(cardComboBox, gbc_cardComboBox);
 	    
 	    // Label Categoria del Portfolio
-	    JLabel lblCategoria = new JLabel("Categoria del Portfolio:");
+	    JLabel lblCategoria = new JLabel("Categoria del Portfolio");
 	    lblCategoria.setForeground(new Color(245, 245, 245));
 	    lblCategoria.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 	    GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
@@ -581,10 +588,13 @@ public class DashboardFrame extends JFrame {
 	    gbc_lblCategoria.gridy = 2;
 	    viewTransactionPanel.add(lblCategoria, gbc_lblCategoria);
 	    
+	    List<String> categoryNames = new ArrayList<String>();
+	    try {
+			categoryNames = mainController.findAllCategoryNames();
+		} catch (SQLException e) { e.printStackTrace(); }
 	    // ComboBox per selezionare la categoria del portfolio
-	    JComboBox<String> categoryComboBox = new JComboBox<>();
-	    categoryComboBox.addItem("Categoria 1");
-	    categoryComboBox.addItem("Categoria 2");
+	    JComboBox<String> categoryComboBox = new JComboBox<>(categoryNames.toArray(new String[0]));
+	    categoryComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
 	    GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 	    gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
 	    gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -593,31 +603,51 @@ public class DashboardFrame extends JFrame {
 	    viewTransactionPanel.add(categoryComboBox, gbc_categoryComboBox);
 	    
 	    // Label Periodo Temporale
-	    JLabel lblPeriodo = new JLabel("Periodo Temporale:");
-	    lblPeriodo.setForeground(new Color(245, 245, 245));
-	    lblPeriodo.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-	    GridBagConstraints gbc_lblPeriodo = new GridBagConstraints();
-	    gbc_lblPeriodo.insets = new Insets(10, 0, 5, 5);
-	    gbc_lblPeriodo.gridx = 1;
-	    gbc_lblPeriodo.gridy = 4;
-	    viewTransactionPanel.add(lblPeriodo, gbc_lblPeriodo);
+	    JLabel lblPeriodoInizio = new JLabel("Inizio periodo temporale");
+	    lblPeriodoInizio.setForeground(new Color(245, 245, 245));
+	    lblPeriodoInizio.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+	    GridBagConstraints gbc_lblPeriodoInizio = new GridBagConstraints();
+	    gbc_lblPeriodoInizio.insets = new Insets(10, 0, 5, 5);
+	    gbc_lblPeriodoInizio.gridx = 1;
+	    gbc_lblPeriodoInizio.gridy = 4;
+	    viewTransactionPanel.add(lblPeriodoInizio, gbc_lblPeriodoInizio);
 	    
 	    // TextField per inserire il periodo temporale (es. "Mese 08/2023")
-	    JTextField periodTextField = new JTextField();
-	    GridBagConstraints gbc_periodTextField = new GridBagConstraints();
-	    gbc_periodTextField.insets = new Insets(0, 0, 5, 5);
-	    gbc_periodTextField.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_periodTextField.gridx = 1;
-	    gbc_periodTextField.gridy = 5;
-	    viewTransactionPanel.add(periodTextField, gbc_periodTextField);
-	    periodTextField.setColumns(10);
+	    JTextField inizioPeriodoTextField = new JTextField();
+	    inizioPeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+	    GridBagConstraints gbc_inizioPeriodoTextField = new GridBagConstraints();
+	    gbc_inizioPeriodoTextField.insets = new Insets(0, 0, 5, 5);
+	    gbc_inizioPeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_inizioPeriodoTextField.gridx = 1;
+	    gbc_inizioPeriodoTextField.gridy = 5;
+	    viewTransactionPanel.add(inizioPeriodoTextField, gbc_inizioPeriodoTextField);
+	    inizioPeriodoTextField.setColumns(10);
+	    
+	    JLabel lblFinePeriodoTemporale = new JLabel("Fine periodo temporale");
+	    lblFinePeriodoTemporale.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+	    lblFinePeriodoTemporale.setForeground(new Color(245, 245, 245));
+	    GridBagConstraints gbc_lblFinePeriodoTemporale = new GridBagConstraints();
+	    gbc_lblFinePeriodoTemporale.insets = new Insets(0, 0, 5, 5);
+	    gbc_lblFinePeriodoTemporale.gridx = 1;
+	    gbc_lblFinePeriodoTemporale.gridy = 6;
+	    viewTransactionPanel.add(lblFinePeriodoTemporale, gbc_lblFinePeriodoTemporale);
+	    
+	    finePeriodoTextField = new JTextField();
+	    finePeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+	    GridBagConstraints gbc_finePeriodoTextField = new GridBagConstraints();
+	    gbc_finePeriodoTextField.insets = new Insets(0, 0, 5, 5);
+	    gbc_finePeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_finePeriodoTextField.gridx = 1;
+	    gbc_finePeriodoTextField.gridy = 7;
+	    viewTransactionPanel.add(finePeriodoTextField, gbc_finePeriodoTextField);
+	    finePeriodoTextField.setColumns(10);
 	    
 	    // Bottone per visualizzare le transazioni
 	    JButton btnVisualizza = new JButton("Visualizza Transazioni");
 	    GridBagConstraints gbc_btnVisualizza = new GridBagConstraints();
 	    gbc_btnVisualizza.insets = new Insets(20, 0, 5, 5);
 	    gbc_btnVisualizza.gridx = 1;
-	    gbc_btnVisualizza.gridy = 6;
+	    gbc_btnVisualizza.gridy = 8;
 	    viewTransactionPanel.add(btnVisualizza, gbc_btnVisualizza);
 	    
 	    // Tabella per visualizzare le transazioni
@@ -631,10 +661,10 @@ public class DashboardFrame extends JFrame {
 	    // ScrollPane per la tabella
 	    JScrollPane scrollPane = new JScrollPane(transactionTable);
 	    GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-	    gbc_scrollPane.insets = new Insets(10, 0, 5, 5);
+	    gbc_scrollPane.insets = new Insets(10, 0, 0, 5);
 	    gbc_scrollPane.fill = GridBagConstraints.BOTH;
 	    gbc_scrollPane.gridx = 1;
-	    gbc_scrollPane.gridy = 7;
+	    gbc_scrollPane.gridy = 9;
 	    gbc_scrollPane.gridheight = 2;
 	    viewTransactionPanel.add(scrollPane, gbc_scrollPane);
 	    

@@ -159,7 +159,7 @@ public class PgCardDAO implements CardDAO {
 			 while (rs.next()) {
 		            String cardNumber = rs.getString("cardNumber");
 		            cardNumbers.add(cardNumber);
-		        }
+		     }
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

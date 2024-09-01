@@ -1,6 +1,7 @@
 package oo.smu.Controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import oo.smu.Entity.Card;
 import oo.smu.Entity.DebitCard;
@@ -37,5 +38,9 @@ public class CardController {
 	
 	public Card findCardByCardNumber(String cardNumber) throws SQLException {
 		return cardDAO.findByCardNumber(cardNumber);
+	}
+	
+	public List<String> findAllCardNumbersFromTaxCode(String taxCode) throws SQLException {
+		return cardDAO.findAllCardNumbersFromTaxCode(taxCode);
 	}
 }

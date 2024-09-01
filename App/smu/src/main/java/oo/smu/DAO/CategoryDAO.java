@@ -2,6 +2,7 @@ package oo.smu.DAO;
 
 import oo.smu.Entity.Category;
 import java.sql.SQLException;
+import java.util.List;
 
 public interface CategoryDAO {
 	/*
@@ -27,4 +28,11 @@ public interface CategoryDAO {
 	 * @throws SQLException
 	 */
 	boolean delete(Category category) throws SQLException;
+	
+	/*
+	 * Trova i nomi di tutte le categorie disponibili
+	 * @return Ritorna la lista dei nomi di tutte le categorie
+	 * @throws SQLException
+	 */
+	List<String> findAllCategoryNames() throws SQLException;
 }

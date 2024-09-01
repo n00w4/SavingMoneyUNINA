@@ -3,7 +3,10 @@ package oo.smu.DAO.PgSQLImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import oo.smu.DAO.CategoryDAO;
 import oo.smu.Entity.Category;
@@ -55,6 +58,24 @@ public class PgCategoryDAO implements CategoryDAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	@Override
+	public List<String> findAllCategoryNames() throws SQLException {
+		String sql = "SELECT name FROM smu.Category";
+		List<String> categoryNames = new ArrayList<>();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			 while (rs.next()) {
+		            String name = rs.getString("name");
+		            categoryNames.add(name);
+		     }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return categoryNames;
 	}
 
 }

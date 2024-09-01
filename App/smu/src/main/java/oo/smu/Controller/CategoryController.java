@@ -1,6 +1,7 @@
 package oo.smu.Controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import oo.smu.Entity.Category;
 import oo.smu.DAO.CategoryDAO;
@@ -22,5 +23,9 @@ public class CategoryController {
 	
 	public boolean deleteCategory(Category category) throws SQLException {
 		return categoryDAO.delete(category);
+	}
+	
+	public List<String> findAllCategoryNames() throws SQLException {
+		return categoryDAO.findAllCategoryNames();
 	}
 }
