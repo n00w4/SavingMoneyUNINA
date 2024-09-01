@@ -27,11 +27,13 @@ INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBa
 INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, typeCard, ibanBankAccount) VALUES ('1234567890123458', '123', '2030-05-01', 'IT12A1234567890123456789014','creditCard', 'IT12A1234567890123456789014');
 
 -- Category
-INSERT INTO smu.Category(name, keyword) VALUES ('Spesa', 'spesa');
 INSERT INTO smu.Category(name, keyword) VALUES ('Stipendio', 'stipendio');
 INSERT INTO smu.Category(name, keyword) VALUES ('Utenza energia', 'utenze');
 INSERT INTO smu.Category(name, keyword) VALUES ('Portfolio generale', 'generale');
 INSERT INTO smu.Category(name, keyword) VALUES ('Portfolio familiare generale', 'famiglia');
+INSERT INTO smu.Category(name, keyword) VALUES ('Abbigliamento', 'abbigliamento');
+INSERT INTO smu.Category(name, keyword) VALUES ('Cibo', 'cibo');
+INSERT INTO smu.Category(name, keyword) VALUES ('Altro', 'altro');
 
 -- Portfolio
 
