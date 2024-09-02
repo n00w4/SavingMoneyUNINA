@@ -3,7 +3,6 @@ package oo.smu.Entity;
 import java.time.LocalDateTime;
 
 public class Transaction {
-	private int id;
 	private float amount;
 	private LocalDateTime dateTime;
 	private String description;
@@ -16,12 +15,6 @@ public class Transaction {
 	}
 	
 	/* GETTER e SETTER */
-	public int getId() { return id; }
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public float getAmount() { return amount; }
 
 	public void setAmount(float amount) {

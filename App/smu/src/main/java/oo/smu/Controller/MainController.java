@@ -3,6 +3,7 @@ package oo.smu.Controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import oo.smu.DAO.*;
@@ -79,6 +80,14 @@ public class MainController {
     public List<String> findAllCategoryNames() throws SQLException {
     	return categoryController.findAllCategoryNames();
     }
+    
+    public List<Income> findIncomeByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
+		return transactionController.findIncomeByDateCardCategory(dateA, dateB, cardNumber, keyword, taxCode);
+	}
+    
+    public List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
+		return transactionController.findExpenseByDateCardCategory(dateA, dateB, cardNumber, keyword, taxCode);
+	}
     
     public void start() {
     	showLoginFrame();

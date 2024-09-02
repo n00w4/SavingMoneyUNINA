@@ -2,10 +2,13 @@ package oo.smu.DAO.PgSQLImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import oo.smu.DAO.TransactionDAO;
-import oo.smu.Entity.Transaction;
 import oo.smu.Entity.Income;
 import oo.smu.Entity.Expense;
 import oo.smu.Entity.Card;
@@ -55,11 +58,10 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 
 	@Override
-	public boolean delete(Transaction transaction, Card card, Portfolio portfolio) throws SQLException {
-		String sql = "DELETE FROM smu.Transaction WHERE idTransaction = ? AND cardNumber = ? AND idPortfolio = ?";
+	public boolean delete(Card card, Portfolio portfolio) throws SQLException {
+		String sql = "DELETE FROM smu.Transaction WHERE cardNumber = ? AND idPortfolio = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setInt(1, transaction.getId());
 			statement.setString(2, card.getCardNumber());
 			statement.setInt(3, portfolio.getId());
 			return statement.executeUpdate() > 0;
@@ -68,5 +70,60 @@ public class PgTransactionDAO implements TransactionDAO {
 			return false;
 		}
 	}
-
+	
+	@Override
+	public List<Income> findIncomeByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
+		String sql = "SELECT t.* FROM smu.Transaction t JOIN smu.Card c ON t.cardNumber = c.cardNumber JOIN smu.Portfolio p ON t.idPortfolio = p.idPortfolio\n"
+				+ "JOIN smu.User u ON p.taxCode = u.taxCode JOIN smu.Category cat ON p.idCategory = cat.idCategory\n"
+				+ "WHERE t.dateTime BETWEEN ? AND ? AND t.cardNumber = ?  AND t.typeTransaction = 'income' AND cat.keyword = ? AND u.taxCode = ?";
+		List<Income> transactions = new ArrayList<Income>();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setObject(1, dateA);
+			statement.setObject(2, dateB);
+			statement.setString(3, cardNumber);
+			statement.setString(4, keyword);
+			statement.setString(5, taxCode);
+			ResultSet rs = statement.executeQuery();
+			
+			while (rs.next()) {
+	            float amount = rs.getFloat("amount");
+	            LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+	            String description = rs.getString("description");
+	            String receiver = rs.getString("receiver");
+	            
+	            Income income = new Income(amount, date, description, receiver);
+	            transactions.add(income);
+			}
+		} catch (SQLException e) { e.printStackTrace();}
+		return transactions;
+	}
+	
+	@Override
+	public List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
+		String sql = "SELECT t.* FROM smu.Transaction t JOIN smu.Card c ON t.cardNumber = c.cardNumber JOIN smu.Portfolio p ON t.idPortfolio = p.idPortfolio\n"
+				+ "JOIN smu.User u ON p.taxCode = u.taxCode JOIN smu.Category cat ON p.idCategory = cat.idCategory\n"
+				+ "WHERE t.dateTime BETWEEN ? AND ? AND t.cardNumber = ?  AND t.typeTransaction = 'expense' AND cat.keyword = ? AND u.taxCode = ?";
+		List<Expense> transactions = new ArrayList<Expense>();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setObject(1, dateA);
+			statement.setObject(2, dateB);
+			statement.setString(3, cardNumber);
+			statement.setString(4, keyword);
+			statement.setString(5, taxCode);
+			ResultSet rs = statement.executeQuery();
+			
+			while (rs.next()) {
+	            float amount = rs.getFloat("amount");
+	            LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+	            String description = rs.getString("description");
+	            String source = rs.getString("source");
+	            
+	            Expense expense = new Expense(amount, date, description, source);
+	            transactions.add(expense);
+			}
+		} catch (SQLException e) { e.printStackTrace();}
+		return transactions;
+	}
 }

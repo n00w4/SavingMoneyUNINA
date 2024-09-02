@@ -1,16 +1,17 @@
 package oo.smu.DAO;
 
-import oo.smu.Entity.Transaction;
 import oo.smu.Entity.Income;
 import oo.smu.Entity.Expense;
 import oo.smu.Entity.Card;
 import oo.smu.Entity.Portfolio;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface TransactionDAO {
 	/*
 	 * Esegue operazione di insert per la classe Income
-	 * @param Income income
+	 * @param Income income, Card card, Portfolio portfolio
 	 * @return Ritorna true se l'insert è possibile, altrimenti false
 	 * @throws SQLException
 	 */
@@ -18,7 +19,7 @@ public interface TransactionDAO {
 	
 	/*
 	 * Esegue operazione di insert per la classe Expense
-	 * @param Expense expense
+	 * @param Expense expense, Card card, Portfolio portfolio
 	 * @return Ritorna true se l'insert è possibile, altrimenti false
 	 * @throws SQLException
 	 */
@@ -31,9 +32,25 @@ public interface TransactionDAO {
 	
 	/*
 	 * Esegue operazione di delete per la classe Transaction
-	 * @param Transaction transaction
+	 * @param Transaction transaction, Card card, Portfolio portfolio
 	 * @return Ritorna true se la delete è possibile, altrimenti false
 	 * @throws SQLException
 	 */
-	boolean delete(Transaction transaction, Card card, Portfolio portfolio) throws SQLException;
+	boolean delete(Card card, Portfolio portfolio) throws SQLException;
+	
+	/*
+	 * Trova tutte le entrate di un utente per periodo di tempo (dateA e dateB) in base al numero di carta e alla categoria scelta
+	 * @param LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode
+	 * @return Ritorna le entrate corrispondenti
+	 * @throws SQLExceptiom
+	 */
+	List<Income> findIncomeByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException;
+	
+	/*
+	 * Trova tutte le uscite di un utente per periodo di tempo (dateA e dateB) in base al numero di carta e alla categoria scelta
+	 * @param LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode
+	 * @return Ritorna le uscite corrispondenti
+	 * @throws SQLExceptiom
+	 */
+	List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException;
 }
