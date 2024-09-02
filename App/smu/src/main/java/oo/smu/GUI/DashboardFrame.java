@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
@@ -37,6 +38,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -570,6 +572,7 @@ public class DashboardFrame extends JFrame {
 		} catch (SQLException e) { e.printStackTrace(); }
 	    // ComboBox per selezionare la carta
 	    JComboBox<String> cardComboBox = new JComboBox<>(cardNumbers.toArray(new String[0]));
+	    cardComboBox.setBackground(new Color(245, 245, 245));
 	    cardComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
 	    GridBagConstraints gbc_cardComboBox = new GridBagConstraints();
 	    gbc_cardComboBox.insets = new Insets(0, 0, 5, 5);
@@ -594,6 +597,7 @@ public class DashboardFrame extends JFrame {
 		} catch (SQLException e) { e.printStackTrace(); }
 	    // ComboBox per selezionare la categoria del portfolio
 	    JComboBox<String> categoryComboBox = new JComboBox<>(categoryNames.toArray(new String[0]));
+	    categoryComboBox.setBackground(new Color(245, 245, 245));
 	    categoryComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
 	    GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 	    gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
@@ -642,21 +646,52 @@ public class DashboardFrame extends JFrame {
 	    viewTransactionPanel.add(finePeriodoTextField, gbc_finePeriodoTextField);
 	    finePeriodoTextField.setColumns(10);
 	    
+	 // Tabella per visualizzare le transazioni
+	    String[] columnNames = {"Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente"};
+	    Object[][] data = {};
+	    JTable transactionTable = new JTable(data, columnNames);
+	    
 	    // Bottone per visualizzare le transazioni
 	    JButton btnVisualizza = new JButton("Visualizza Transazioni");
+	    btnVisualizza.setBackground(new Color(245, 245, 245));
+	    btnVisualizza.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+	    btnVisualizza.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	            try {
+	            	String selectedCard = (String) cardComboBox.getSelectedItem();
+	            	String dateAText = inizioPeriodoTextField.getText().trim().replace('/', '-');
+	            	String dateBText = finePeriodoTextField.getText().trim().replace('/', '-');
+	            	
+	            	// Viene automaticamente aggiunta la mezzanotte se l'orario non è stato inserito
+	                if (!dateAText.contains(" ")) {
+	                    dateAText += " 00:00:00";
+	                }
+	                if (!dateBText.contains(" ")) {
+	                    dateBText += " 00:00:00";
+	                }
+	            	
+	            	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	            	LocalDateTime dateA = LocalDateTime.parse(dateAText, dateFormatter);
+	            	LocalDateTime dateB = LocalDateTime.parse(dateBText, dateFormatter);
+	            	
+	            	String categoryKeyword = mainController.findCategoryKeywordByName((String) categoryComboBox.getSelectedItem());
+	            	
+	                List<Expense> expenses = mainController.findExpenseByDateCardCategory(dateA, dateB, selectedCard, categoryKeyword, user.getTaxCode());
+	                List<Income> incomes = mainController.findIncomeByDateCardCategory(dateA, dateB, selectedCard, categoryKeyword, user.getTaxCode());
+	                
+	                updateTransactionTable(transactionTable, expenses, incomes);
+	            } catch (SQLException ex) {
+	                ex.printStackTrace();
+	            } catch (DateTimeParseException ex) {
+	                JOptionPane.showMessageDialog(null, "Formato data non valido. Inserire la data nel formato dd-MM-yyyy o dd-MM-yyyy HH:mm:ss.");
+	            }
+	        }
+	    });
 	    GridBagConstraints gbc_btnVisualizza = new GridBagConstraints();
 	    gbc_btnVisualizza.insets = new Insets(20, 0, 5, 5);
 	    gbc_btnVisualizza.gridx = 1;
 	    gbc_btnVisualizza.gridy = 8;
 	    viewTransactionPanel.add(btnVisualizza, gbc_btnVisualizza);
-	    
-	    // Tabella per visualizzare le transazioni
-	    String[] columnNames = {"Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente", "Numero di carta"};
-	    Object[][] data = {
-	        {"100.00", "2023-08-01", "Pagamento", "Uscita", "Azienda", "", "123456789"},
-	        {"2000.00", "2023-08-03", "Stipendio", "Entrata", "", "Azienda", "123456789"}
-	    }; // TODO: Popolare con i dati delle transazioni
-	    JTable transactionTable = new JTable(data, columnNames);
 	    
 	    // ScrollPane per la tabella
 	    JScrollPane scrollPane = new JScrollPane(transactionTable);
@@ -669,5 +704,23 @@ public class DashboardFrame extends JFrame {
 	    viewTransactionPanel.add(scrollPane, gbc_scrollPane);
 	    
 	    return viewTransactionPanel;
+	}
+	
+	// Metodo per aggiornare la tabella delle transazioni
+	private void updateTransactionTable(JTable transactionTable, List<Expense> expenses, List<Income> incomes) {
+	    String[] columnNames = {"Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente"};
+	    List<Object[]> rows = new ArrayList<>();
+	    
+	    for (Expense expense : expenses) {
+	        rows.add(new Object[]{expense.getAmount(), expense.getDateTime(), expense.getDescription(), "Uscita", expense.getReceiver(), ""});
+	    }
+	    
+	    for (Income income : incomes) {
+	        rows.add(new Object[]{income.getAmount(), income.getDateTime(), income.getDescription(), "Entrata", "", income.getSender()});
+	    }
+	    
+	    Object[][] data = rows.toArray(new Object[0][]);
+	    DefaultTableModel model = new DefaultTableModel(data, columnNames);
+	    transactionTable.setModel(model);
 	}
 }

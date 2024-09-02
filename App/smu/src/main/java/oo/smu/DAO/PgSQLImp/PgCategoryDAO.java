@@ -77,5 +77,23 @@ public class PgCategoryDAO implements CategoryDAO {
 		}
 		return categoryNames;
 	}
+	
+	@Override
+	public String findCategoryKeywordByName(String name) throws SQLException {
+		String sql = "SELECT keyword FROM smu.Category WHERE name = ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, name);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				String keyword = rs.getString("keyword");
+				return keyword;
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

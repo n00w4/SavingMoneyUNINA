@@ -28,4 +28,8 @@ public class CategoryController {
 	public List<String> findAllCategoryNames() throws SQLException {
 		return categoryDAO.findAllCategoryNames();
 	}
+	
+	public String findCategoryKeywordByName(String keyword) throws SQLException {
+		return categoryDAO.findCategoryKeywordByName(keyword);
+	}
 }

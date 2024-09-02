@@ -29,7 +29,7 @@ public class PgTransactionDAO implements TransactionDAO {
 			statement.setFloat(1, income.getAmount());
 			statement.setObject(2, income.getDateTime());
 			statement.setString(3, income.getDescription());
-			statement.setString(4, income.getSource());
+			statement.setString(4, income.getSender());
 			statement.setString(5, card.getCardNumber());
 			statement.setInt(6, portfolio.getId());
 			return statement.executeUpdate() > 0;
@@ -74,7 +74,7 @@ public class PgTransactionDAO implements TransactionDAO {
 	@Override
 	public List<Income> findIncomeByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t JOIN smu.Card c ON t.cardNumber = c.cardNumber JOIN smu.Portfolio p ON t.idPortfolio = p.idPortfolio\n"
-				+ "JOIN smu.User u ON p.taxCode = u.taxCode JOIN smu.Category cat ON p.idCategory = cat.idCategory\n"
+				+ "JOIN smu.User u ON p.taxCode = u.taxCode JOIN smu.Category cat ON p.keyword = cat.keyword\n"
 				+ "WHERE t.dateTime BETWEEN ? AND ? AND t.cardNumber = ?  AND t.typeTransaction = 'income' AND cat.keyword = ? AND u.taxCode = ?";
 		List<Income> transactions = new ArrayList<Income>();
 		try {
@@ -88,21 +88,21 @@ public class PgTransactionDAO implements TransactionDAO {
 			
 			while (rs.next()) {
 	            float amount = rs.getFloat("amount");
-	            LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+	            LocalDateTime date = rs.getTimestamp("dateTime").toLocalDateTime();
 	            String description = rs.getString("description");
-	            String receiver = rs.getString("receiver");
+	            String sender = rs.getString("sender");
 	            
-	            Income income = new Income(amount, date, description, receiver);
+	            Income income = new Income(amount, date, description, sender);
 	            transactions.add(income);
 			}
-		} catch (SQLException e) { e.printStackTrace();}
+		} catch (SQLException e) { e.printStackTrace(); }
 		return transactions;
 	}
 	
 	@Override
 	public List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t JOIN smu.Card c ON t.cardNumber = c.cardNumber JOIN smu.Portfolio p ON t.idPortfolio = p.idPortfolio\n"
-				+ "JOIN smu.User u ON p.taxCode = u.taxCode JOIN smu.Category cat ON p.idCategory = cat.idCategory\n"
+				+ "JOIN smu.User u ON p.taxCode = u.taxCode JOIN smu.Category cat ON p.keyword = cat.keyword\n"
 				+ "WHERE t.dateTime BETWEEN ? AND ? AND t.cardNumber = ?  AND t.typeTransaction = 'expense' AND cat.keyword = ? AND u.taxCode = ?";
 		List<Expense> transactions = new ArrayList<Expense>();
 		try {
@@ -116,11 +116,11 @@ public class PgTransactionDAO implements TransactionDAO {
 			
 			while (rs.next()) {
 	            float amount = rs.getFloat("amount");
-	            LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+	            LocalDateTime date = rs.getTimestamp("dateTime").toLocalDateTime();
 	            String description = rs.getString("description");
-	            String source = rs.getString("source");
+	            String receiver = rs.getString("receiver");
 	            
-	            Expense expense = new Expense(amount, date, description, source);
+	            Expense expense = new Expense(amount, date, description, receiver);
 	            transactions.add(expense);
 			}
 		} catch (SQLException e) { e.printStackTrace();}

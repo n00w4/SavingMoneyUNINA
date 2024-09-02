@@ -89,6 +89,10 @@ public class MainController {
 		return transactionController.findExpenseByDateCardCategory(dateA, dateB, cardNumber, keyword, taxCode);
 	}
     
+    public String findCategoryKeywordByName(String keyword) throws SQLException {
+    	return categoryController.findCategoryKeywordByName(keyword);
+    }
+    
     public void start() {
     	showLoginFrame();
     }

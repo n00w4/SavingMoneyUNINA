@@ -35,4 +35,12 @@ public interface CategoryDAO {
 	 * @throws SQLException
 	 */
 	List<String> findAllCategoryNames() throws SQLException;
+	
+	/*
+	 * Trova il nome della categoria attraverso la keyword
+	 * @param String keyword
+	 * @return Ritorna il nome della categoria associata
+	 * @throws SQLException
+	 */
+	String findCategoryKeywordByName(String name) throws SQLException;
 }
