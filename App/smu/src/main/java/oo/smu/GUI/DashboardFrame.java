@@ -87,6 +87,7 @@ public class DashboardFrame extends JFrame {
 		cardPanel.add(createDashboardPanel(), "dashboard");
 		cardPanel.add(createAddTransactionPanel(), "addTransaction");
 		cardPanel.add(createViewTransactionPanel(), "viewTransaction");
+		cardPanel.add(createViewMonthlyReportPanel(), "viewMonthlyReport");
 
 		JLabel lblSavingmoneyunina = new JLabel("SavingMoneyUNINA");
 		lblSavingmoneyunina.setForeground(new Color(245, 245, 245));
@@ -191,6 +192,13 @@ public class DashboardFrame extends JFrame {
 		gbc_btnVisualizzaReportMensile.gridx = 1;
 		gbc_btnVisualizzaReportMensile.gridy = 12;
 		dashboardPanel.add(btnVisualizzaReportMensile, gbc_btnVisualizzaReportMensile);
+		btnVisualizzaReportMensile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+				cardLayout.show(cardPanel, "viewMonthlyReport");
+			}
+		});
 
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setBackground(new Color(245, 245, 245));
@@ -544,183 +552,252 @@ public class DashboardFrame extends JFrame {
 
 		return addTransactionPanel;
 	}
-	
+
 	private JPanel createViewTransactionPanel() {
-	    JPanel viewTransactionPanel = new JPanel();
-	    viewTransactionPanel.setBackground(new Color(23, 171, 96));
-	    GridBagLayout gbl_viewTransactionPanel = new GridBagLayout();
-	    gbl_viewTransactionPanel.columnWidths = new int[]{0, 0, 0};
-	    gbl_viewTransactionPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-	    gbl_viewTransactionPanel.columnWeights = new double[]{0.1, 1.0, 0.1};
-	    gbl_viewTransactionPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	    viewTransactionPanel.setLayout(gbl_viewTransactionPanel);
-	    
-	    // Label Carta
-	    JLabel lblCarta = new JLabel("Seleziona Carta");
-	    lblCarta.setForeground(new Color(245, 245, 245));
-	    lblCarta.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-	    GridBagConstraints gbc_lblCarta = new GridBagConstraints();
-	    gbc_lblCarta.insets = new Insets(10, 0, 5, 5);
-	    gbc_lblCarta.gridx = 1;
-	    gbc_lblCarta.gridy = 0;
-	    viewTransactionPanel.add(lblCarta, gbc_lblCarta);
-	    
-	    
-	    List<String> cardNumbers = new ArrayList<String>();
-	    try {
+		JPanel viewTransactionPanel = new JPanel();
+		viewTransactionPanel.setBackground(new Color(23, 171, 96));
+		GridBagLayout gbl_viewTransactionPanel = new GridBagLayout();
+		gbl_viewTransactionPanel.columnWidths = new int[] { 0, 0, 0 };
+		gbl_viewTransactionPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_viewTransactionPanel.columnWeights = new double[] { 0.1, 1.0, 0.1 };
+		gbl_viewTransactionPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		viewTransactionPanel.setLayout(gbl_viewTransactionPanel);
+
+		// Label Carta
+		JLabel lblCarta = new JLabel("Seleziona Carta");
+		lblCarta.setForeground(new Color(245, 245, 245));
+		lblCarta.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblCarta = new GridBagConstraints();
+		gbc_lblCarta.insets = new Insets(10, 0, 5, 5);
+		gbc_lblCarta.gridx = 1;
+		gbc_lblCarta.gridy = 0;
+		viewTransactionPanel.add(lblCarta, gbc_lblCarta);
+
+		List<String> cardNumbers = new ArrayList<String>();
+		try {
 			cardNumbers = mainController.findAllCardNumbersFromTaxCode(user.getTaxCode());
-		} catch (SQLException e) { e.printStackTrace(); }
-	    // ComboBox per selezionare la carta
-	    JComboBox<String> cardComboBox = new JComboBox<>(cardNumbers.toArray(new String[0]));
-	    cardComboBox.setBackground(new Color(245, 245, 245));
-	    cardComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
-	    GridBagConstraints gbc_cardComboBox = new GridBagConstraints();
-	    gbc_cardComboBox.insets = new Insets(0, 0, 5, 5);
-	    gbc_cardComboBox.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_cardComboBox.gridx = 1;
-	    gbc_cardComboBox.gridy = 1;
-	    viewTransactionPanel.add(cardComboBox, gbc_cardComboBox);
-	    
-	    // Label Categoria del Portfolio
-	    JLabel lblCategoria = new JLabel("Categoria del Portfolio");
-	    lblCategoria.setForeground(new Color(245, 245, 245));
-	    lblCategoria.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-	    GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
-	    gbc_lblCategoria.insets = new Insets(10, 0, 5, 5);
-	    gbc_lblCategoria.gridx = 1;
-	    gbc_lblCategoria.gridy = 2;
-	    viewTransactionPanel.add(lblCategoria, gbc_lblCategoria);
-	    
-	    List<String> categoryNames = new ArrayList<String>();
-	    try {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// ComboBox per selezionare la carta
+		JComboBox<String> cardComboBox = new JComboBox<>(cardNumbers.toArray(new String[0]));
+		cardComboBox.setBackground(new Color(245, 245, 245));
+		cardComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
+		GridBagConstraints gbc_cardComboBox = new GridBagConstraints();
+		gbc_cardComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_cardComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cardComboBox.gridx = 1;
+		gbc_cardComboBox.gridy = 1;
+		viewTransactionPanel.add(cardComboBox, gbc_cardComboBox);
+
+		// Label Categoria del Portfolio
+		JLabel lblCategoria = new JLabel("Categoria del Portfolio");
+		lblCategoria.setForeground(new Color(245, 245, 245));
+		lblCategoria.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
+		gbc_lblCategoria.insets = new Insets(10, 0, 5, 5);
+		gbc_lblCategoria.gridx = 1;
+		gbc_lblCategoria.gridy = 2;
+		viewTransactionPanel.add(lblCategoria, gbc_lblCategoria);
+
+		List<String> categoryNames = new ArrayList<String>();
+		try {
 			categoryNames = mainController.findAllCategoryNames();
-		} catch (SQLException e) { e.printStackTrace(); }
-	    // ComboBox per selezionare la categoria del portfolio
-	    JComboBox<String> categoryComboBox = new JComboBox<>(categoryNames.toArray(new String[0]));
-	    categoryComboBox.setBackground(new Color(245, 245, 245));
-	    categoryComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
-	    GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
-	    gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
-	    gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_categoryComboBox.gridx = 1;
-	    gbc_categoryComboBox.gridy = 3;
-	    viewTransactionPanel.add(categoryComboBox, gbc_categoryComboBox);
-	    
-	    // Label Periodo Temporale
-	    JLabel lblPeriodoInizio = new JLabel("Inizio periodo temporale");
-	    lblPeriodoInizio.setForeground(new Color(245, 245, 245));
-	    lblPeriodoInizio.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-	    GridBagConstraints gbc_lblPeriodoInizio = new GridBagConstraints();
-	    gbc_lblPeriodoInizio.insets = new Insets(10, 0, 5, 5);
-	    gbc_lblPeriodoInizio.gridx = 1;
-	    gbc_lblPeriodoInizio.gridy = 4;
-	    viewTransactionPanel.add(lblPeriodoInizio, gbc_lblPeriodoInizio);
-	    
-	    // TextField per inserire il periodo temporale (es. "Mese 08/2023")
-	    JTextField inizioPeriodoTextField = new JTextField();
-	    inizioPeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
-	    GridBagConstraints gbc_inizioPeriodoTextField = new GridBagConstraints();
-	    gbc_inizioPeriodoTextField.insets = new Insets(0, 0, 5, 5);
-	    gbc_inizioPeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_inizioPeriodoTextField.gridx = 1;
-	    gbc_inizioPeriodoTextField.gridy = 5;
-	    viewTransactionPanel.add(inizioPeriodoTextField, gbc_inizioPeriodoTextField);
-	    inizioPeriodoTextField.setColumns(10);
-	    
-	    JLabel lblFinePeriodoTemporale = new JLabel("Fine periodo temporale");
-	    lblFinePeriodoTemporale.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-	    lblFinePeriodoTemporale.setForeground(new Color(245, 245, 245));
-	    GridBagConstraints gbc_lblFinePeriodoTemporale = new GridBagConstraints();
-	    gbc_lblFinePeriodoTemporale.insets = new Insets(0, 0, 5, 5);
-	    gbc_lblFinePeriodoTemporale.gridx = 1;
-	    gbc_lblFinePeriodoTemporale.gridy = 6;
-	    viewTransactionPanel.add(lblFinePeriodoTemporale, gbc_lblFinePeriodoTemporale);
-	    
-	    finePeriodoTextField = new JTextField();
-	    finePeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
-	    GridBagConstraints gbc_finePeriodoTextField = new GridBagConstraints();
-	    gbc_finePeriodoTextField.insets = new Insets(0, 0, 5, 5);
-	    gbc_finePeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_finePeriodoTextField.gridx = 1;
-	    gbc_finePeriodoTextField.gridy = 7;
-	    viewTransactionPanel.add(finePeriodoTextField, gbc_finePeriodoTextField);
-	    finePeriodoTextField.setColumns(10);
-	    
-	 // Tabella per visualizzare le transazioni
-	    String[] columnNames = {"Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente"};
-	    Object[][] data = {};
-	    JTable transactionTable = new JTable(data, columnNames);
-	    
-	    // Bottone per visualizzare le transazioni
-	    JButton btnVisualizza = new JButton("Visualizza Transazioni");
-	    btnVisualizza.setBackground(new Color(245, 245, 245));
-	    btnVisualizza.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-	    btnVisualizza.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	            try {
-	            	String selectedCard = (String) cardComboBox.getSelectedItem();
-	            	String dateAText = inizioPeriodoTextField.getText().trim().replace('/', '-');
-	            	String dateBText = finePeriodoTextField.getText().trim().replace('/', '-');
-	            	
-	            	// Viene automaticamente aggiunta la mezzanotte se l'orario non è stato inserito
-	                if (!dateAText.contains(" ")) {
-	                    dateAText += " 00:00:00";
-	                }
-	                if (!dateBText.contains(" ")) {
-	                    dateBText += " 00:00:00";
-	                }
-	            	
-	            	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-	            	LocalDateTime dateA = LocalDateTime.parse(dateAText, dateFormatter);
-	            	LocalDateTime dateB = LocalDateTime.parse(dateBText, dateFormatter);
-	            	
-	            	String categoryKeyword = mainController.findCategoryKeywordByName((String) categoryComboBox.getSelectedItem());
-	            	
-	                List<Expense> expenses = mainController.findExpenseByDateCardCategory(dateA, dateB, selectedCard, categoryKeyword, user.getTaxCode());
-	                List<Income> incomes = mainController.findIncomeByDateCardCategory(dateA, dateB, selectedCard, categoryKeyword, user.getTaxCode());
-	                
-	                updateTransactionTable(transactionTable, expenses, incomes);
-	            } catch (SQLException ex) {
-	                ex.printStackTrace();
-	            } catch (DateTimeParseException ex) {
-	                JOptionPane.showMessageDialog(null, "Formato data non valido. Inserire la data nel formato dd-MM-yyyy o dd-MM-yyyy HH:mm:ss.");
-	            }
-	        }
-	    });
-	    GridBagConstraints gbc_btnVisualizza = new GridBagConstraints();
-	    gbc_btnVisualizza.insets = new Insets(20, 0, 5, 5);
-	    gbc_btnVisualizza.gridx = 1;
-	    gbc_btnVisualizza.gridy = 8;
-	    viewTransactionPanel.add(btnVisualizza, gbc_btnVisualizza);
-	    
-	    // ScrollPane per la tabella
-	    JScrollPane scrollPane = new JScrollPane(transactionTable);
-	    GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-	    gbc_scrollPane.insets = new Insets(10, 0, 0, 5);
-	    gbc_scrollPane.fill = GridBagConstraints.BOTH;
-	    gbc_scrollPane.gridx = 1;
-	    gbc_scrollPane.gridy = 9;
-	    gbc_scrollPane.gridheight = 2;
-	    viewTransactionPanel.add(scrollPane, gbc_scrollPane);
-	    
-	    return viewTransactionPanel;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// ComboBox per selezionare la categoria del portfolio
+		JComboBox<String> categoryComboBox = new JComboBox<>(categoryNames.toArray(new String[0]));
+		categoryComboBox.setBackground(new Color(245, 245, 245));
+		categoryComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
+		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
+		gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_categoryComboBox.gridx = 1;
+		gbc_categoryComboBox.gridy = 3;
+		viewTransactionPanel.add(categoryComboBox, gbc_categoryComboBox);
+
+		// Label Periodo Temporale
+		JLabel lblPeriodoInizio = new JLabel("Inizio periodo temporale");
+		lblPeriodoInizio.setForeground(new Color(245, 245, 245));
+		lblPeriodoInizio.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblPeriodoInizio = new GridBagConstraints();
+		gbc_lblPeriodoInizio.insets = new Insets(10, 0, 5, 5);
+		gbc_lblPeriodoInizio.gridx = 1;
+		gbc_lblPeriodoInizio.gridy = 4;
+		viewTransactionPanel.add(lblPeriodoInizio, gbc_lblPeriodoInizio);
+
+		// TextField per inserire il periodo temporale (es. "Mese 08/2023")
+		JTextField inizioPeriodoTextField = new JTextField();
+		inizioPeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+		GridBagConstraints gbc_inizioPeriodoTextField = new GridBagConstraints();
+		gbc_inizioPeriodoTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_inizioPeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_inizioPeriodoTextField.gridx = 1;
+		gbc_inizioPeriodoTextField.gridy = 5;
+		viewTransactionPanel.add(inizioPeriodoTextField, gbc_inizioPeriodoTextField);
+		inizioPeriodoTextField.setColumns(10);
+
+		JLabel lblFinePeriodoTemporale = new JLabel("Fine periodo temporale");
+		lblFinePeriodoTemporale.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		lblFinePeriodoTemporale.setForeground(new Color(245, 245, 245));
+		GridBagConstraints gbc_lblFinePeriodoTemporale = new GridBagConstraints();
+		gbc_lblFinePeriodoTemporale.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFinePeriodoTemporale.gridx = 1;
+		gbc_lblFinePeriodoTemporale.gridy = 6;
+		viewTransactionPanel.add(lblFinePeriodoTemporale, gbc_lblFinePeriodoTemporale);
+
+		finePeriodoTextField = new JTextField();
+		finePeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+		GridBagConstraints gbc_finePeriodoTextField = new GridBagConstraints();
+		gbc_finePeriodoTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_finePeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_finePeriodoTextField.gridx = 1;
+		gbc_finePeriodoTextField.gridy = 7;
+		viewTransactionPanel.add(finePeriodoTextField, gbc_finePeriodoTextField);
+		finePeriodoTextField.setColumns(10);
+
+		// Tabella per visualizzare le transazioni
+		String[] columnNames = { "Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente" };
+		Object[][] data = {};
+		JTable transactionTable = new JTable(data, columnNames);
+
+		// Bottone per visualizzare le transazioni
+		JButton btnVisualizza = new JButton("Visualizza Transazioni");
+		btnVisualizza.setBackground(new Color(245, 245, 245));
+		btnVisualizza.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		btnVisualizza.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String selectedCard = (String) cardComboBox.getSelectedItem();
+					String dateAText = inizioPeriodoTextField.getText().trim().replace('/', '-');
+					String dateBText = finePeriodoTextField.getText().trim().replace('/', '-');
+
+					// Viene automaticamente aggiunta la mezzanotte se l'orario non è stato inserito
+					if (!dateAText.contains(" ")) {
+						dateAText += " 00:00:00";
+					}
+					if (!dateBText.contains(" ")) {
+						dateBText += " 00:00:00";
+					}
+
+					DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+					LocalDateTime dateA = LocalDateTime.parse(dateAText, dateFormatter);
+					LocalDateTime dateB = LocalDateTime.parse(dateBText, dateFormatter);
+
+					String categoryKeyword = mainController
+							.findCategoryKeywordByName((String) categoryComboBox.getSelectedItem());
+
+					List<Expense> expenses = mainController.findExpenseByDateCardCategory(dateA, dateB, selectedCard,
+							categoryKeyword, user.getTaxCode());
+					List<Income> incomes = mainController.findIncomeByDateCardCategory(dateA, dateB, selectedCard,
+							categoryKeyword, user.getTaxCode());
+
+					updateTransactionTable(transactionTable, expenses, incomes);
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				} catch (DateTimeParseException ex) {
+					JOptionPane.showMessageDialog(null,
+							"Formato data non valido. Inserire la data nel formato dd-MM-yyyy o dd-MM-yyyy HH:mm:ss.");
+				}
+			}
+		});
+		GridBagConstraints gbc_btnVisualizza = new GridBagConstraints();
+		gbc_btnVisualizza.insets = new Insets(20, 0, 5, 5);
+		gbc_btnVisualizza.gridx = 1;
+		gbc_btnVisualizza.gridy = 8;
+		viewTransactionPanel.add(btnVisualizza, gbc_btnVisualizza);
+
+		// ScrollPane per la tabella
+		JScrollPane scrollPane = new JScrollPane(transactionTable);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(10, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 9;
+		gbc_scrollPane.gridheight = 2;
+		viewTransactionPanel.add(scrollPane, gbc_scrollPane);
+
+		return viewTransactionPanel;
 	}
-	
+
 	// Metodo per aggiornare la tabella delle transazioni
 	private void updateTransactionTable(JTable transactionTable, List<Expense> expenses, List<Income> incomes) {
-	    String[] columnNames = {"Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente"};
-	    List<Object[]> rows = new ArrayList<>();
-	    
-	    for (Expense expense : expenses) {
-	        rows.add(new Object[]{expense.getAmount(), expense.getDateTime(), expense.getDescription(), "Uscita", expense.getReceiver(), ""});
-	    }
-	    
-	    for (Income income : incomes) {
-	        rows.add(new Object[]{income.getAmount(), income.getDateTime(), income.getDescription(), "Entrata", "", income.getSender()});
-	    }
-	    
-	    Object[][] data = rows.toArray(new Object[0][]);
-	    DefaultTableModel model = new DefaultTableModel(data, columnNames);
-	    transactionTable.setModel(model);
+		String[] columnNames = { "Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente" };
+		List<Object[]> rows = new ArrayList<>();
+
+		for (Expense expense : expenses) {
+			rows.add(new Object[] { expense.getAmount(), expense.getDateTime(), expense.getDescription(), "Uscita",
+					expense.getReceiver(), "" });
+		}
+
+		for (Income income : incomes) {
+			rows.add(new Object[] { income.getAmount(), income.getDateTime(), income.getDescription(), "Entrata", "",
+					income.getSender() });
+		}
+
+		Object[][] data = rows.toArray(new Object[0][]);
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		transactionTable.setModel(model);
+	}
+
+	private JPanel createViewMonthlyReportPanel() {
+		JPanel viewMonthlyReportPanel = new JPanel();
+		viewMonthlyReportPanel.setBackground(new Color(23, 171, 96));
+		GridBagLayout gbl_viewMonthlyReportPanel = new GridBagLayout();
+		gbl_viewMonthlyReportPanel.columnWidths = new int[] { 0, 0, 0 };
+		gbl_viewMonthlyReportPanel.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_viewMonthlyReportPanel.columnWeights = new double[] { 0.1, 1.0, 0.1 };
+		gbl_viewMonthlyReportPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0 };
+		viewMonthlyReportPanel.setLayout(gbl_viewMonthlyReportPanel);
+
+		JLabel lblSelezionaMese = new JLabel("Seleziona Mese");
+		lblSelezionaMese.setForeground(Color.WHITE);
+		lblSelezionaMese.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblSelezionaMese = new GridBagConstraints();
+		gbc_lblSelezionaMese.insets = new Insets(10, 0, 5, 5);
+		gbc_lblSelezionaMese.gridx = 1;
+		gbc_lblSelezionaMese.gridy = 0;
+		viewMonthlyReportPanel.add(lblSelezionaMese, gbc_lblSelezionaMese);
+
+		// ComboBox per la selezione del mese
+		String[] months = { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto",
+				"Settembre", "Ottobre", "Novembre", "Dicembre" };
+		JComboBox<String> monthComboBox = new JComboBox<>(months);
+		monthComboBox.setBackground(new Color(245, 245, 245));
+		monthComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+		GridBagConstraints gbc_monthComboBox = new GridBagConstraints();
+		gbc_monthComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_monthComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_monthComboBox.gridx = 1;
+		gbc_monthComboBox.gridy = 1;
+		viewMonthlyReportPanel.add(monthComboBox, gbc_monthComboBox);
+
+		JButton btnGeneraReport = new JButton("Genera Report");
+		btnGeneraReport.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		btnGeneraReport.setBackground(new Color(245, 245, 245));
+		GridBagConstraints gbc_btnGeneraReport = new GridBagConstraints();
+		gbc_btnGeneraReport.insets = new Insets(10, 0, 5, 5);
+		gbc_btnGeneraReport.gridx = 1;
+		gbc_btnGeneraReport.gridy = 2;
+		viewMonthlyReportPanel.add(btnGeneraReport, gbc_btnGeneraReport);
+
+		// Tabella per visualizzare il report
+		String[] columnNames = { "Numero di Carta", "Entrata Massima", "Entrata Minima", "Entrata Media",
+				"Uscita Massima", "Uscita Minima", "Uscita Media", "Saldo Iniziale", "Saldo Finale" };
+		Object[][] data = {}; // TODO: popolare la tabella
+		JTable reportTable = new JTable(data, columnNames);
+
+		// ScrollPane per la tabella
+		JScrollPane scrollPane = new JScrollPane(reportTable);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(10, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 3;
+		gbc_scrollPane.gridheight = 4;
+		viewMonthlyReportPanel.add(scrollPane, gbc_scrollPane);
+		
+		return viewMonthlyReportPanel;
 	}
 }
