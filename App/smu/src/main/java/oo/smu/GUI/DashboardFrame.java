@@ -558,9 +558,10 @@ public class DashboardFrame extends JFrame {
 		viewTransactionPanel.setBackground(new Color(23, 171, 96));
 		GridBagLayout gbl_viewTransactionPanel = new GridBagLayout();
 		gbl_viewTransactionPanel.columnWidths = new int[] { 0, 0, 0 };
-		gbl_viewTransactionPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_viewTransactionPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_viewTransactionPanel.columnWeights = new double[] { 0.1, 1.0, 0.1 };
-		gbl_viewTransactionPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_viewTransactionPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0 };
 		viewTransactionPanel.setLayout(gbl_viewTransactionPanel);
 
 		// Label Carta
@@ -582,7 +583,7 @@ public class DashboardFrame extends JFrame {
 		// ComboBox per selezionare la carta
 		JComboBox<String> cardComboBox = new JComboBox<>(cardNumbers.toArray(new String[0]));
 		cardComboBox.setBackground(new Color(245, 245, 245));
-		cardComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
+		cardComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 12));
 		GridBagConstraints gbc_cardComboBox = new GridBagConstraints();
 		gbc_cardComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_cardComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -609,7 +610,7 @@ public class DashboardFrame extends JFrame {
 		// ComboBox per selezionare la categoria del portfolio
 		JComboBox<String> categoryComboBox = new JComboBox<>(categoryNames.toArray(new String[0]));
 		categoryComboBox.setBackground(new Color(245, 245, 245));
-		categoryComboBox.setFont(new Font("Noto Sans", Font.BOLD, 12));
+		categoryComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 12));
 		GridBagConstraints gbc_categoryComboBox = new GridBagConstraints();
 		gbc_categoryComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_categoryComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -711,12 +712,28 @@ public class DashboardFrame extends JFrame {
 		// ScrollPane per la tabella
 		JScrollPane scrollPane = new JScrollPane(transactionTable);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(10, 0, 0, 5);
+		gbc_scrollPane.insets = new Insets(10, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 9;
 		gbc_scrollPane.gridheight = 2;
 		viewTransactionPanel.add(scrollPane, gbc_scrollPane);
+
+		JButton btnDashboard = new JButton("Torna alla Dashboard");
+		btnDashboard.setBackground(new Color(245, 245, 245));
+		btnDashboard.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		GridBagConstraints gbc_btnDashboard = new GridBagConstraints();
+		gbc_btnDashboard.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDashboard.gridx = 1;
+		gbc_btnDashboard.gridy = 11;
+		viewTransactionPanel.add(btnDashboard, gbc_btnDashboard);
+		btnDashboard.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+				cardLayout.show(cardPanel, "dashboard");
+			}
+		});
 
 		return viewTransactionPanel;
 	}
@@ -746,9 +763,9 @@ public class DashboardFrame extends JFrame {
 		viewMonthlyReportPanel.setBackground(new Color(23, 171, 96));
 		GridBagLayout gbl_viewMonthlyReportPanel = new GridBagLayout();
 		gbl_viewMonthlyReportPanel.columnWidths = new int[] { 0, 0, 0 };
-		gbl_viewMonthlyReportPanel.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_viewMonthlyReportPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_viewMonthlyReportPanel.columnWeights = new double[] { 0.1, 1.0, 0.1 };
-		gbl_viewMonthlyReportPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0 };
+		gbl_viewMonthlyReportPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		viewMonthlyReportPanel.setLayout(gbl_viewMonthlyReportPanel);
 
 		JLabel lblSelezionaMese = new JLabel("Seleziona Mese");
@@ -791,13 +808,30 @@ public class DashboardFrame extends JFrame {
 		// ScrollPane per la tabella
 		JScrollPane scrollPane = new JScrollPane(reportTable);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(10, 0, 0, 5);
+		gbc_scrollPane.insets = new Insets(10, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 3;
-		gbc_scrollPane.gridheight = 4;
+		gbc_scrollPane.gridheight = 5;
 		viewMonthlyReportPanel.add(scrollPane, gbc_scrollPane);
-		
+
+		JButton btnDashboard = new JButton("Torna alla Dashboard");
+		btnDashboard.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		btnDashboard.setBackground(new Color(245, 245, 245));
+		GridBagConstraints gbc_btnDashboard = new GridBagConstraints();
+		gbc_btnDashboard.gridheight = 2;
+		gbc_btnDashboard.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDashboard.gridx = 1;
+		gbc_btnDashboard.gridy = 8;
+		viewMonthlyReportPanel.add(btnDashboard, gbc_btnDashboard);
+		btnDashboard.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+				cardLayout.show(cardPanel, "dashboard");
+			}
+		});
+
 		return viewMonthlyReportPanel;
 	}
 }
