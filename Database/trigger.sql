@@ -239,29 +239,29 @@ CREATE OR REPLACE TRIGGER transactionFamily
 BEFORE INSERT ON smu.Transaction 
 FOR EACH ROW EXECUTE FUNCTION smu.checkTransactionFamily();
 
---Testing
--- Dati nella tabella Family
+/*Testing
+Dati nella tabella Family
 INSERT INTO smu.Family(familyName) VALUES ('Rossi'), ('Bianchi');
 
---Dati nella tabella Category
+Dati nella tabella Category
 INSERT INTO smu.Category(name, keyword) VALUES('spese casa', 'casa')
 
-
--- Dati nella tabella Portfolio
+Dati nella tabella Portfolio
 INSERT INTO smu.Portfolio(name, description, taxCode, idFamily, keyword) VALUES ('Portfolio Rossi', 'spese per la casa', 'RSSMRA90D15H501U', 1, 'casa'), ('Portfolio Bianchi', 'spese per la macchina', 'BNCHGL85B68F205X', 2, 'macchina');
 
--- Dati nella tabella User
-//INSERT INTO smu.User(firstName, secondName, username, password, email, taxCode, //birthdate, idFamily) VALUES ('user1', 'Mario Rossi', 1), ('user2', 'Luigi Bianchi', 2);
+Dati nella tabella User
+INSERT INTO smu.User(firstName, secondName, username, password, email, taxCode, //birthdate, idFamily) VALUES ('user1', 'Mario Rossi', 1), ('user2', 'Luigi Bianchi', 2);
 
--- Dati nella tabella Card
+Dati nella tabella Card
 INSERT INTO smu.Card(cardNumber, cvv, expirationDate, ibanCard, balanceCard, plafond, typeCard, ibanBankAccount) VALUES 
 ('1234567890123456', '123', '2025-12-31', 'IT60X0542811101000000123456', 1000, 500, 'creditCard', 'IT60X0542811101000000123478'),
 ('1234567890123457', '124', '2025-12-31', 'IT60X0542811101000000123457', 1000, 500, 'creditCard', 'IT60X0542811101000000123307');
 
--- Inserimento di una transazione valida, dove la carta appartiene alla stessa famiglia del portfolio
+Inserimento di una transazione valida, dove la carta appartiene alla stessa famiglia del portfolio
 INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) 
 VALUES (300, 'affitto', '2024-08-01', 'user4', NULL, 'expense', '1234567890123457', 2);
 
--- Inserimento di una transazione non valida, dove la carta NON appartiene alla stessa famiglia del portfolio
+Inserimento di una transazione non valida, dove la carta NON appartiene alla stessa famiglia del portfolio
 INSERT INTO smu.Transaction(idTransaction, amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) 
 VALUES (2, 300, 'affitto', '2024-08-01', 'user4', NULL, 'expense', '1234567890123456', 2);
+*/
