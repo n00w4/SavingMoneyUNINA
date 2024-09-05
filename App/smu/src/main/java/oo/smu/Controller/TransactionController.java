@@ -36,4 +36,28 @@ public class TransactionController {
 	public List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException {
 		return transactionDAO.findExpenseByDateCardCategory(dateA, dateB, cardNumber, keyword, taxCode);
 	}
+	
+	public Income findMaxIncome(String cardNumber) throws SQLException {
+		return transactionDAO.findMaxIncome(cardNumber);
+	}
+	
+	public Income findMinIncome(String cardNumber) throws SQLException {
+		return transactionDAO.findMinIncome(cardNumber);
+	}
+	
+	public Float findAvgIncome(String cardNumber) throws SQLException {
+		return transactionDAO.findAvgIncome(cardNumber);
+	}
+	
+	public Expense findMaxExpense(String cardNumber) throws SQLException {
+		return transactionDAO.findMaxExpense(cardNumber);
+	}
+	
+	public Expense findMinExpense(String cardNumber) throws SQLException {
+		return transactionDAO.findMinExpense(cardNumber);
+	}
+	
+	public Float findAvgExpense(String cardNumber) throws SQLException {
+		return transactionDAO.findAvgExpense(cardNumber);
+	}
 }

@@ -93,6 +93,30 @@ public class MainController {
     	return categoryController.findCategoryKeywordByName(keyword);
     }
     
+    public Income findMaxIncome(String cardNumber) throws SQLException {
+    	return transactionController.findMaxIncome(cardNumber);
+    }
+    
+    public Income findMinIncome(String cardNumber) throws SQLException {
+    	return transactionController.findMinIncome(cardNumber);
+    }
+    
+    public Float findAvgIncome(String cardNumber) throws SQLException {
+    	return transactionController.findAvgIncome(cardNumber);
+    }
+    
+    public Expense findMaxExpense(String cardNumber) throws SQLException {
+    	return transactionController.findMaxExpense(cardNumber);
+    }
+    
+    public Expense findMinExpense(String cardNumber) throws SQLException {
+    	return transactionController.findMinExpense(cardNumber);
+    }
+    
+    public Float findAvgExpense(String cardNumber) throws SQLException {
+    	return transactionController.findAvgExpense(cardNumber);
+    }
+    
     public void start() {
     	showLoginFrame();
     }

@@ -101,8 +101,4 @@ public interface TransactionDAO {
 	 * @throws SQLException
 	 */
 	Float findAvgExpense(String cardNumber) throws SQLException;
-
-
-
-
 }
