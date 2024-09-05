@@ -58,7 +58,7 @@ public class DashboardFrame extends JFrame {
 	private JTextField portfolioTextField;
 	private JTextField cardNumberTextField;
 	private JTextField chckbxTextField;
-	private JTextField finePeriodoTextField;
+	private JTextField endPeriodTextField;
 
 	public DashboardFrame(MainController mainController, User user) {
 		this.mainController = mainController;
@@ -629,15 +629,15 @@ public class DashboardFrame extends JFrame {
 		viewTransactionPanel.add(lblPeriodoInizio, gbc_lblPeriodoInizio);
 
 		// TextField per inserire il periodo temporale (es. "Mese 08/2023")
-		JTextField inizioPeriodoTextField = new JTextField();
-		inizioPeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+		JTextField startPeriodTextField = new JTextField();
+		startPeriodTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
 		GridBagConstraints gbc_inizioPeriodoTextField = new GridBagConstraints();
 		gbc_inizioPeriodoTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_inizioPeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_inizioPeriodoTextField.gridx = 1;
 		gbc_inizioPeriodoTextField.gridy = 5;
-		viewTransactionPanel.add(inizioPeriodoTextField, gbc_inizioPeriodoTextField);
-		inizioPeriodoTextField.setColumns(10);
+		viewTransactionPanel.add(startPeriodTextField, gbc_inizioPeriodoTextField);
+		startPeriodTextField.setColumns(10);
 
 		JLabel lblFinePeriodoTemporale = new JLabel("Fine periodo temporale");
 		lblFinePeriodoTemporale.setFont(new Font("Noto Sans", Font.PLAIN, 14));
@@ -648,15 +648,15 @@ public class DashboardFrame extends JFrame {
 		gbc_lblFinePeriodoTemporale.gridy = 6;
 		viewTransactionPanel.add(lblFinePeriodoTemporale, gbc_lblFinePeriodoTemporale);
 
-		finePeriodoTextField = new JTextField();
-		finePeriodoTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
+		endPeriodTextField = new JTextField();
+		endPeriodTextField.setFont(new Font("Noto Sans", Font.PLAIN, 12));
 		GridBagConstraints gbc_finePeriodoTextField = new GridBagConstraints();
 		gbc_finePeriodoTextField.insets = new Insets(0, 0, 5, 5);
 		gbc_finePeriodoTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_finePeriodoTextField.gridx = 1;
 		gbc_finePeriodoTextField.gridy = 7;
-		viewTransactionPanel.add(finePeriodoTextField, gbc_finePeriodoTextField);
-		finePeriodoTextField.setColumns(10);
+		viewTransactionPanel.add(endPeriodTextField, gbc_finePeriodoTextField);
+		endPeriodTextField.setColumns(10);
 
 		// Tabella per visualizzare le transazioni
 		String[] columnNames = { "Importo", "Data", "Descrizione", "Tipo", "Destinatario", "Mittente" };
@@ -671,8 +671,8 @@ public class DashboardFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String selectedCard = (String) cardComboBox.getSelectedItem();
-					String dateAText = inizioPeriodoTextField.getText().trim().replace('/', '-');
-					String dateBText = finePeriodoTextField.getText().trim().replace('/', '-');
+					String dateAText = startPeriodTextField.getText().trim().replace('/', '-');
+					String dateBText = endPeriodTextField.getText().trim().replace('/', '-');
 
 					// Viene automaticamente aggiunta la mezzanotte se l'orario non è stato inserito
 					if (!dateAText.contains(" ")) {
