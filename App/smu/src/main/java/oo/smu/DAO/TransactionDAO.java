@@ -53,4 +53,56 @@ public interface TransactionDAO {
 	 * @throws SQLExceptiom
 	 */
 	List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException;
+	
+	/*
+	 * Trova l'entrata massima di una carta (e quindi di un utente)
+	 * @param String cardNumber
+	 * @return Ritorna l'entrata corrispondente
+	 * @throws SQLException
+	 */
+	Income findMaxIncome(String cardNumber) throws SQLException;
+	
+	/*
+	 * Trova l'entrata minima di una carta (e quindi di un utente)
+	 * @param String cardNumber
+	 * @return Ritorna l'entrata corrispondente
+	 * @throws SQLException
+	 */
+	Income findMinIncome(String cardNumber) throws SQLException;
+	
+	/*
+	 * Trova l'entrata media di una carta (e quindi di un utente)
+	 * @param String cardNumber
+	 * @return Ritorna l'entrata corrispondente
+	 * @throws SQLException
+	 */
+	Float findAvgIncome(String cardNumber) throws SQLException;
+	
+	/*
+	 * Trova la spesa massima di una carta (e quindi di un utente)
+	 * @param String cardNumber
+	 * @return Ritorna l'entrata corrispondente
+	 * @throws SQLException
+	 */
+	Expense findMaxExpense(String cardNumber) throws SQLException;
+	
+	/*
+	 * Trova la spesa minima di una carta (e quindi di un utente)
+	 * @param String cardNumber
+	 * @return Ritorna l'entrata corrispondente
+	 * @throws SQLException
+	 */
+	Expense findMinExpense(String cardNumber) throws SQLException;
+	
+	/*
+	 * Trova la spesa media di una carta (e quindi di un utente)
+	 * @param String cardNumber
+	 * @return Ritorna l'entrata corrispondente
+	 * @throws SQLException
+	 */
+	Float findAvgExpense(String cardNumber) throws SQLException;
+
+
+
+
 }

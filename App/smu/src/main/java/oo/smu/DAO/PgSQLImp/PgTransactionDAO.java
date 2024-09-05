@@ -126,4 +126,40 @@ public class PgTransactionDAO implements TransactionDAO {
 		} catch (SQLException e) { e.printStackTrace();}
 		return transactions;
 	}
+	
+	@Override
+	public Income findMaxIncome(String cardNumber) throws SQLException {
+		// TODO: trovare l'entrata massima di una carta
+		return null;
+	}
+	
+	@Override
+	public Income findMinIncome(String cardNumber) throws SQLException {
+		// TODO: trovare l'entrata minima di una carta
+		return null;
+	}
+	
+	@Override
+	public Float findAvgIncome(String cardNumber) throws SQLException {
+		// TODO: trovare la media delle entrate di una carta
+		return null;
+	}
+	
+	@Override
+	public Expense findMaxExpense(String cardNumber) throws SQLException {
+		// TODO: trovare l'uscita massima di una carta
+		return null;
+	}
+	
+	@Override
+	public Expense findMinExpense(String cardNumber) throws SQLException {
+		// TODO: trovare l'uscita minima di una carta
+		return null;
+	}
+	
+	@Override
+	public Float findAvgExpense(String cardNumber) throws SQLException {
+		// TODO: trovare la media delle uscite di una carta
+		return null;
+	}
 }
