@@ -83,7 +83,7 @@ public class PgPortfolioDAO implements PortfolioDAO {
 	}
 	
 	@Override
-	public Portfolio findByName(String name, User user) throws SQLException {
+	public Portfolio findUserPortfolioByName(String name, User user) throws SQLException {
 		String sql = "SELECT * FROM smu.Portfolio WHERE name = ? AND taxCode = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

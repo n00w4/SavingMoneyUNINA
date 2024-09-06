@@ -64,7 +64,7 @@ public class PgUserDAO implements UserDAO {
 	}
 	
 	@Override
-	public User findByUsername(String username) throws SQLException {
+	public User findUserByUsername(String username) throws SQLException {
 		String sql = "SELECT * FROM smu.User WHERE username = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

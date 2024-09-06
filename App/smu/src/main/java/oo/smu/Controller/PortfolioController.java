@@ -32,6 +32,6 @@ public class PortfolioController {
 	}
 	
 	public Portfolio findUserPortfolioByName(String name, User user) throws SQLException {
-		return portfolioDAO.findByName(name, user);
+		return portfolioDAO.findUserPortfolioByName(name, user);
 	}
 }

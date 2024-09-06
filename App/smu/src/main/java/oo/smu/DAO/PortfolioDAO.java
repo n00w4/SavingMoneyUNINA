@@ -50,5 +50,5 @@ public interface PortfolioDAO {
 	 * @return Ritorna il portfolio corrispondente
 	 * @throws SQLException
 	 */
-	Portfolio findByName(String name, User user) throws SQLException;
+	Portfolio findUserPortfolioByName(String name, User user) throws SQLException;
 }

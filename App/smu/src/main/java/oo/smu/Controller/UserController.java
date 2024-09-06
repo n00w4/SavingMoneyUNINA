@@ -25,7 +25,7 @@ public class UserController {
 	}
 	
 	public User login(String username, String password) throws SQLException {
-		User user = userDAO.findByUsername(username);
+		User user = userDAO.findUserByUsername(username);
 		if (user != null && user.getPassword().equals(password)) {
 			return user;
 		}

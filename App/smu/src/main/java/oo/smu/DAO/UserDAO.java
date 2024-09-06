@@ -34,5 +34,5 @@ public interface UserDAO {
 	 * @return Ritorna l'utente trovato se esiste, altrimenti null
 	 * @throws SQLException
 	 */
-	User findByUsername(String username) throws SQLException;
+	User findUserByUsername(String username) throws SQLException;
 }
