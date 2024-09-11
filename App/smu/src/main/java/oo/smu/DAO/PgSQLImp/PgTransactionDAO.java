@@ -128,38 +128,165 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Income findMaxIncome(String cardNumber) throws SQLException {
-		// TODO: trovare l'entrata massima di una carta
-		return null;
+	public List<Income> findMaxIncome(String cardNumber) throws SQLException {
+	
+		
+		String sql = "SELECT t.* FROM smu.Transaction t"
+				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
+				
+		List<Income> transactions = new ArrayList<Income>();
+
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				float amount = rs.getFloat("amount");
+	            LocalDateTime date = rs.getTimestamp("dateTime").toLocalDateTime();
+	            String description = rs.getString("description");
+	            String sender = rs.getString("sender");
+	            
+	            Income income = new Income(amount, date, description, sender);
+	            transactions.add(income);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTree();
+		}
+		
+		return transactions;
 	}
 	
 	@Override
-	public Income findMinIncome(String cardNumber) throws SQLException {
-		// TODO: trovare l'entrata minima di una carta
-		return null;
+	public List<Income> findMinIncome(String cardNumber) throws SQLException {
+		String sql = "SELECT t.* FROM smu.Transaction t"
+				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
+				
+		List<Income> transactions = new ArrayList<Income>();
+
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				float amount = rs.getFloat("amount");
+	            LocalDateTime date = rs.getTimestamp("dateTime").toLocalDateTime();
+	            String description = rs.getString("description");
+	            String sender = rs.getString("sender");
+	            
+	            Income income = new Income(amount, date, description, sender);
+	            transactions.add(income);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTree();
+		}
+		
+		return transactions;
 	}
 	
 	@Override
 	public Float findAvgIncome(String cardNumber) throws SQLException {
-		// TODO: trovare la media delle entrate di una carta
-		return null;
+		String sql = "SELECT AVG(t.amount) AS averageIncome FROM smu.Transaction t"
+				+"JOIN smu.Card C ON t.cardNumber = c.cardNumber"
+				+"JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount"
+				+ "JOIN smu.User u ON b.taxCode = u.taxCode"
+				+ "WHERE t.typeTransaction = 'income' AND cardNumber = ?"
+				+ "GROUP BY u.taxCode;";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				Float averageIncome = rs.getFloat("averageIncome");
+				return averageIncome;
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 	@Override
-	public Expense findMaxExpense(String cardNumber) throws SQLException {
-		// TODO: trovare l'uscita massima di una carta
-		return null;
+	public List<Expense> findMaxExpense(String cardNumber) throws SQLException {
+		String sql = "SELECT t.* FROM smu.Transaction t"
+				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
+				
+		List<Expense> transactions = new ArrayList<Expense>();
+
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				float amount = rs.getFloat("amount");
+	            LocalDateTime date = rs.getTimestamp("dateTime").toLocalDateTime();
+	            String description = rs.getString("description");
+	            String receiver = rs.getString("receiver");
+	            
+	            Expense expense = new Expense(amount, date, description, receiver);
+	            transactions.add(expense);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTree();
+		}
+		
+		return transactions;
 	}
 	
 	@Override
-	public Expense findMinExpense(String cardNumber) throws SQLException {
-		// TODO: trovare l'uscita minima di una carta
-		return null;
+	public List<Expense> findMinExpense(String cardNumber) throws SQLException {
+		String sql = "SELECT t.* FROM smu.Transaction t"
+				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
+				
+		List<Expense> transactions = new ArrayList<Expense>();
+
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				float amount = rs.getFloat("amount");
+	            LocalDateTime date = rs.getTimestamp("dateTime").toLocalDateTime();
+	            String description = rs.getString("description");
+	            String receiver = rs.getString("receiver");
+	            
+	            Expense expense = new Expense(amount, date, description, receiver);
+	            transactions.add(expense);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTree();
+		}
+		
+		return transactions;
 	}
 	
 	@Override
 	public Float findAvgExpense(String cardNumber) throws SQLException {
-		// TODO: trovare la media delle uscite di una carta
-		return null;
+		String sql = "SELECT AVG(t.amount) AS averageExpense FROM smu.Transaction t"
+				+"JOIN smu.Card C ON t.cardNumber = c.cardNumber"
+				+"JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount"
+				+ "JOIN smu.User u ON b.taxCode = u.taxCode"
+				+ "WHERE t.typeTransaction = 'expense' AND cardNumber = ?"
+				+ "GROUP BY u.taxCode;";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				Float averageExpense = rs.getFloat("averageExpense");
+				return averageExpense;
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
