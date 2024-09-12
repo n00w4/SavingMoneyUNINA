@@ -289,4 +289,18 @@ public class PgTransactionDAO implements TransactionDAO {
 			return null;
 		}
 	}
+	
+	@Override
+	public Float calculateInitialBalanceFromCardNumber(String cardNumber) {
+		// TODO: calcolare il saldo iniziale della carta attraverso le transazioni
+		// 		 fatte tra l'inizio del mese e fine del mese
+		return null;
+	}
+	
+	@Override
+	public Float calculateFinalBalanceFromCardNumber(String cardNumber) {
+		// TODO: calcolare il saldo finale della carta attraverso le transazioni
+		// 		 fatte tra l'inizio del mese e fine del mese
+		return null;
+	}
 }

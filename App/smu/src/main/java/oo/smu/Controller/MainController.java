@@ -117,6 +117,14 @@ public class MainController {
     	return transactionController.findAvgExpense(cardNumber);
     }
     
+    public Float calculateInitialBalanceFromCardNumber(String cardNumber) throws SQLException {
+    	return transactionController.calculateInitialBalanceFromCardNumber(cardNumber);
+    }
+    
+    public Float calculateFinalBalanceFromCardNumber(String cardNumber) throws SQLException {
+    	return transactionController.calculateFinalBalanceFromCardNumber(cardNumber);
+    }
+    
     public void start() {
     	showLoginFrame();
     }

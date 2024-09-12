@@ -55,7 +55,7 @@ public interface TransactionDAO {
 	List<Expense> findExpenseByDateCardCategory(LocalDateTime dateA, LocalDateTime dateB, String cardNumber, String keyword, String taxCode) throws SQLException;
 	
 	/*
-	 * Trova l'entrata massima di una carta (e quindi di un utente)
+	 * Trova l'entrata massima di una carta (e quindi di un utente) attraverso le transazioni
 	 * @param String cardNumber
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
@@ -63,7 +63,7 @@ public interface TransactionDAO {
 	Income findMaxIncome(String cardNumber) throws SQLException;
 	
 	/*
-	 * Trova l'entrata minima di una carta (e quindi di un utente)
+	 * Trova l'entrata minima di una carta (e quindi di un utente) attraverso le transazioni
 	 * @param String cardNumber
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
@@ -71,7 +71,7 @@ public interface TransactionDAO {
 	Income findMinIncome(String cardNumber) throws SQLException;
 	
 	/*
-	 * Trova l'entrata media di una carta (e quindi di un utente)
+	 * Trova l'entrata media di una carta (e quindi di un utente) attraverso le transazioni
 	 * @param String cardNumber
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
@@ -79,7 +79,7 @@ public interface TransactionDAO {
 	Float findAvgIncome(String cardNumber) throws SQLException;
 	
 	/*
-	 * Trova la spesa massima di una carta (e quindi di un utente)
+	 * Trova la spesa massima di una carta (e quindi di un utente) attraverso le transazioni
 	 * @param String cardNumber
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
@@ -87,7 +87,7 @@ public interface TransactionDAO {
 	Expense findMaxExpense(String cardNumber) throws SQLException;
 	
 	/*
-	 * Trova la spesa minima di una carta (e quindi di un utente)
+	 * Trova la spesa minima di una carta (e quindi di un utente) attraverso le transazioni
 	 * @param String cardNumber
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
@@ -95,10 +95,20 @@ public interface TransactionDAO {
 	Expense findMinExpense(String cardNumber) throws SQLException;
 	
 	/*
-	 * Trova la spesa media di una carta (e quindi di un utente)
+	 * Trova la spesa media di una carta (e quindi di un utente) attraverso le transazioni
 	 * @param String cardNumber
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
 	Float findAvgExpense(String cardNumber) throws SQLException;
+	
+	/*
+	 * Calcola il saldo finale di una carta attraverso le transazioni
+	 */
+	Float calculateInitialBalanceFromCardNumber(String cardNumber);
+	
+	/*
+	 * Calcola il saldo finale di una carta attraverso le transazioni
+	 */
+	Float calculateFinalBalanceFromCardNumber(String cardNumber);
 }

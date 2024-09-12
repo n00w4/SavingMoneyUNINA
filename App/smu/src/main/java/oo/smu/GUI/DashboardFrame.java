@@ -790,19 +790,10 @@ public class DashboardFrame extends JFrame {
 		gbc_monthComboBox.gridy = 1;
 		viewMonthlyReportPanel.add(monthComboBox, gbc_monthComboBox);
 
-		JButton btnGeneraReport = new JButton("Genera Report");
-		btnGeneraReport.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		btnGeneraReport.setBackground(new Color(245, 245, 245));
-		GridBagConstraints gbc_btnGeneraReport = new GridBagConstraints();
-		gbc_btnGeneraReport.insets = new Insets(10, 0, 5, 5);
-		gbc_btnGeneraReport.gridx = 1;
-		gbc_btnGeneraReport.gridy = 2;
-		viewMonthlyReportPanel.add(btnGeneraReport, gbc_btnGeneraReport);
-
 		// Tabella per visualizzare il report
 		String[] columnNames = { "Numero di Carta", "Entrata Massima", "Entrata Minima", "Entrata Media",
 				"Uscita Massima", "Uscita Minima", "Uscita Media", "Saldo Iniziale", "Saldo Finale" };
-		Object[][] data = {}; // TODO: popolare la tabella
+		Object[][] data = {};
 		JTable reportTable = new JTable(data, columnNames);
 
 		// ScrollPane per la tabella
@@ -814,6 +805,26 @@ public class DashboardFrame extends JFrame {
 		gbc_scrollPane.gridy = 3;
 		gbc_scrollPane.gridheight = 5;
 		viewMonthlyReportPanel.add(scrollPane, gbc_scrollPane);
+		
+		JButton btnGeneraReport = new JButton("Genera Report");
+		btnGeneraReport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					List<String> cardNumbers = mainController.findAllCardNumbersFromTaxCode(user.getTaxCode());
+					updateMonthlyReportTable(reportTable, cardNumbers);
+				} catch (SQLException eReport) {
+					eReport.printStackTrace();
+				}
+			}
+		});
+		btnGeneraReport.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		btnGeneraReport.setBackground(new Color(245, 245, 245));
+		GridBagConstraints gbc_btnGeneraReport = new GridBagConstraints();
+		gbc_btnGeneraReport.insets = new Insets(10, 0, 5, 5);
+		gbc_btnGeneraReport.gridx = 1;
+		gbc_btnGeneraReport.gridy = 2;
+		viewMonthlyReportPanel.add(btnGeneraReport, gbc_btnGeneraReport);
 
 		JButton btnDashboard = new JButton("Torna alla Dashboard");
 		btnDashboard.setFont(new Font("Noto Sans", Font.PLAIN, 14));
@@ -834,4 +845,34 @@ public class DashboardFrame extends JFrame {
 
 		return viewMonthlyReportPanel;
 	}
+
+	private void updateMonthlyReportTable(JTable reportTable, List<String> cardNumbers) {
+		String[] columnNames = { "Numero di Carta", "Entrata Massima", "Entrata Minima", "Entrata Media",
+				"Uscita Massima", "Uscita Minima", "Uscita Media", "Saldo Iniziale", "Saldo Finale" };
+
+		List<Object[]> rows = new ArrayList<>();
+
+		for (String cardNumber : cardNumbers) {
+			try {
+				Income maxIncome = mainController.findMaxIncome(cardNumber);
+				Income minIncome = mainController.findMinIncome(cardNumber);
+				Float avgIncome = mainController.findAvgIncome(cardNumber);
+				Expense maxExpense = mainController.findMaxExpense(cardNumber);
+				Expense minExpense = mainController.findMinExpense(cardNumber);
+				Float avgExpense = mainController.findAvgExpense(cardNumber);
+				Float initialBalance = mainController.calculateInitialBalanceFromCardNumber(cardNumber);
+				Float finalBalance = mainController.calculateFinalBalanceFromCardNumber(cardNumber);
+
+				rows.add(new Object[] { cardNumber, maxIncome.getAmount(), minIncome.getAmount(), avgIncome,
+						maxExpense.getAmount(), minExpense.getAmount(), avgExpense, initialBalance, finalBalance });
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		Object[][] data = rows.toArray(new Object[0][]);
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		reportTable.setModel(model);
+	}
+
 }

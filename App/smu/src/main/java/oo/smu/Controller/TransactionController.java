@@ -60,4 +60,12 @@ public class TransactionController {
 	public Float findAvgExpense(String cardNumber) throws SQLException {
 		return transactionDAO.findAvgExpense(cardNumber);
 	}
+	
+	public Float calculateInitialBalanceFromCardNumber(String cardNumber) throws SQLException {
+		return transactionDAO.calculateInitialBalanceFromCardNumber(cardNumber);
+	}
+	
+	public Float calculateFinalBalanceFromCardNumber(String cardNumber) throws SQLException {
+		return transactionDAO.calculateFinalBalanceFromCardNumber(cardNumber);
+	}
 }
