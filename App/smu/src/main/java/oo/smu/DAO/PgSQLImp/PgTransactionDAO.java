@@ -95,7 +95,9 @@ public class PgTransactionDAO implements TransactionDAO {
 	            Income income = new Income(amount, date, description, sender);
 	            transactions.add(income);
 			}
-		} catch (SQLException e) { e.printStackTrace(); }
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
 		return transactions;
 	}
 	
@@ -123,18 +125,19 @@ public class PgTransactionDAO implements TransactionDAO {
 	            Expense expense = new Expense(amount, date, description, receiver);
 	            transactions.add(expense);
 			}
-		} catch (SQLException e) { e.printStackTrace();}
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
 		return transactions;
 	}
 	
 	@Override
-	public List<Income> findMaxIncome(String cardNumber) throws SQLException {
+	public Income findMaxIncome(String cardNumber) throws SQLException {
 	
 		
 		String sql = "SELECT t.* FROM smu.Transaction t"
 				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
 				
-		List<Income> transactions = new ArrayList<Income>();
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -147,22 +150,20 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String sender = rs.getString("sender");
 	            
 	            Income income = new Income(amount, date, description, sender);
-	            transactions.add(income);
 			}
 		}
 		catch(SQLException e) {
-			e.printStackTree();
+			e.printStackTrace();
 		}
 		
-		return transactions;
+		return income;
 	}
 	
 	@Override
-	public List<Income> findMinIncome(String cardNumber) throws SQLException {
+	public Income findMinIncome(String cardNumber) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t"
 				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
 				
-		List<Income> transactions = new ArrayList<Income>();
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -175,14 +176,13 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String sender = rs.getString("sender");
 	            
 	            Income income = new Income(amount, date, description, sender);
-	            transactions.add(income);
 			}
 		}
 		catch(SQLException e) {
-			e.printStackTree();
+			e.printStackTrace();
 		}
 		
-		return transactions;
+		return income;
 	}
 	
 	@Override
@@ -211,11 +211,10 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public List<Expense> findMaxExpense(String cardNumber) throws SQLException {
+	public Expense findMaxExpense(String cardNumber) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t"
 				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
 				
-		List<Expense> transactions = new ArrayList<Expense>();
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -228,23 +227,20 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String receiver = rs.getString("receiver");
 	            
 	            Expense expense = new Expense(amount, date, description, receiver);
-	            transactions.add(expense);
 			}
 		}
 		catch(SQLException e) {
-			e.printStackTree();
+			e.printStackTrace();
 		}
 		
-		return transactions;
+		return expense;
 	}
 	
 	@Override
-	public List<Expense> findMinExpense(String cardNumber) throws SQLException {
+	public Expense findMinExpense(String cardNumber) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t"
 				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
 				
-		List<Expense> transactions = new ArrayList<Expense>();
-
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
@@ -256,14 +252,13 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String receiver = rs.getString("receiver");
 	            
 	            Expense expense = new Expense(amount, date, description, receiver);
-	            transactions.add(expense);
 			}
 		}
 		catch(SQLException e) {
-			e.printStackTree();
+			e.printStackTrace();
 		}
 		
-		return transactions;
+		return expense;
 	}
 	
 	@Override
