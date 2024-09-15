@@ -298,4 +298,65 @@ public class PgTransactionDAO implements TransactionDAO {
 		// 		 fatte tra l'inizio del mese e fine del mese
 		return null;
 	}
+	@Override
+	public Float calculateInitialBalanceFromCardNumber(String cardNumber, int year, int month) {
+		
+		String sql = "WITH initialBalance AS ( SELECT t,amount. t. typeTransaction, t. dateTime "
+				+ "FROM smu.Transaction t WHERE  t.cardNumber = ? "
+				+ "AND t.dateTime >= TO_DATE(CONCAT(?, '-', ?), 'YYYY-MM') "
+				+ "AND t.dateTime < (TO_DATE(CONCAT(?, '-', ?), 'YYYY-MM') + INTERVAL '1 month')) "
+				+ "SELECT SUM(CASE WHEN typeTransaction = 'income' THEN amount ELSE -amount END) AS initialAmount "
+				+ "FROM initialBalance WHERE dateTime = (SELECT MIN(dateTime) FROM initialBalance);";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			statement.setInt(2, year);
+			statement.setInt(3, month);
+			statement.setInt(4, year);
+			statement.setInt(5, month);
+			ResultSet rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				Float initialBalance = rs.getFloat("initialBalance");
+				return initialBalance;
+			}
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}		
+		
+		return null;
+	}
+	
+	@Override
+	public Float calculateFinalBalanceFromCardNumber(String cardNumber) {
+		
+		String sql = "WITH finalBalance AS ( SELECT t,amount. t. typeTransaction, t. dateTime "
+				+ "FROM smu.Transaction t WHERE  t.cardNumber = ? "
+				+ "AND t.dateTime >= TO_DATE(CONCAT(?, '-', ?), 'YYYY-MM') "
+				+ "AND t.dateTime < (TO_DATE(CONCAT(?, '-', ?), 'YYYY-MM') + INTERVAL '1 month')) "
+				+ "SELECT SUM(CASE WHEN typeTransaction = 'income' THEN amount ELSE -amount END) AS finalAmount "
+				+ "FROM finalBalance WHERE dateTime = (SELECT MAX(dateTime) FROM finalBalance);";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, cardNumber);
+			statement.setInt(2, year);
+			statement.setInt(3, month);
+			statement.setInt(4, year);
+			statement.setInt(5, month);
+			ResultSet rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				Float finalAmount = rs.getFloat("finalAmount");
+				return finalAmount;
+			}
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}		
+		
+		return null;
+	}
 }
