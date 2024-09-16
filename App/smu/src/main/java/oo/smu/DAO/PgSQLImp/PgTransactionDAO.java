@@ -135,11 +135,8 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Income findMaxIncome(String cardNumber) throws SQLException {
-	
-		
-		String sql = "SELECT t.* FROM smu.Transaction t"
+		String sql = "SELECT t.* FROM smu.Transaction t "
 				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
-				
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -164,7 +161,7 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Income findMinIncome(String cardNumber) throws SQLException {
-		String sql = "SELECT t.* FROM smu.Transaction t"
+		String sql = "SELECT t.* FROM smu.Transaction t "
 				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
 				
 
@@ -192,12 +189,12 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Float findAvgIncome(String cardNumber) throws SQLException {
-		String sql = "SELECT AVG(t.amount) AS averageIncome FROM smu.Transaction t"
-				+"JOIN smu.Card C ON t.cardNumber = c.cardNumber"
-				+"JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount"
-				+ "JOIN smu.User u ON b.taxCode = u.taxCode"
-				+ "WHERE t.typeTransaction = 'income' AND cardNumber = ?"
-				+ "GROUP BY u.taxCode;";
+		String sql = "SELECT AVG(t.amount) AS averageIncome FROM smu.Transaction t "
+	            + "JOIN smu.Card c ON t.cardNumber = c.cardNumber "
+	            + "JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount "
+	            + "JOIN smu.User u ON b.taxCode = u.taxCode "
+	            + "WHERE t.typeTransaction = 'income' AND t.cardNumber = ? "
+	            + "GROUP BY u.taxCode";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -216,7 +213,7 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Expense findMaxExpense(String cardNumber) throws SQLException {
-		String sql = "SELECT t.* FROM smu.Transaction t"
+		String sql = "SELECT t.* FROM smu.Transaction t "
 				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
 				
 
@@ -244,7 +241,7 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Expense findMinExpense(String cardNumber) throws SQLException {
-		String sql = "SELECT t.* FROM smu.Transaction t"
+		String sql = "SELECT t.* FROM smu.Transaction t "
 				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
 				
 		try {
@@ -271,12 +268,13 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Float findAvgExpense(String cardNumber) throws SQLException {
-		String sql = "SELECT AVG(t.amount) AS averageExpense FROM smu.Transaction t"
-				+"JOIN smu.Card C ON t.cardNumber = c.cardNumber"
-				+"JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount"
-				+ "JOIN smu.User u ON b.taxCode = u.taxCode"
-				+ "WHERE t.typeTransaction = 'expense' AND cardNumber = ?"
-				+ "GROUP BY u.taxCode;";
+		String sql = "SELECT AVG(t.amount) AS averageExpense FROM smu.Transaction t "
+	            + "JOIN smu.Card c ON t.cardNumber = c.cardNumber "
+	            + "JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount "
+	            + "JOIN smu.User u ON b.taxCode = u.taxCode "
+	            + "WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? "
+	            + "GROUP BY u.taxCode;";
+
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -295,43 +293,48 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public Float calculateInitialBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) {
-		
-		String sql = "WITH initialBalance AS ( SELECT t,amount. t. typeTransaction, t. dateTime "
-				+ "FROM smu.Transaction t WHERE  t.cardNumber = ? "
-				+ "AND t.dateTime >= ? "
-				+ "AND t.dateTime < ? "
-				+ "SELECT SUM(CASE WHEN typeTransaction = 'income' THEN amount ELSE -amount END) AS initialAmount "
-				+ "FROM initialBalance WHERE dateTime = (SELECT MIN(dateTime) FROM initialBalance);";
-		
-		try {
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, cardNumber);
-			statement.setObject(2, initialDate);
-			statement.setObject(3, finalDate);
-			ResultSet rs = statement.executeQuery();
-			
-			if (rs.next()) {
-				Float initialBalance = rs.getFloat("initialBalance");
-				return initialBalance;
-			}
-			
-		} catch (SQLException e) { 
-			e.printStackTrace();
-			return null;
-		}		
-		
-		return null;
+	    String sql = "WITH initialBalance AS ( "
+	            + "SELECT t.amount, t.typeTransaction, t.dateTime "
+	            + "FROM smu.Transaction t "
+	            + "WHERE t.cardNumber = ? "
+	            + "AND t.dateTime >= ? "
+	            + "AND t.dateTime < ? ) "
+	            + "SELECT SUM(CASE WHEN typeTransaction = 'income' THEN amount ELSE -amount END) AS initialAmount "
+	            + "FROM initialBalance "
+	            + "WHERE dateTime = (SELECT MIN(dateTime) FROM initialBalance);";
+
+	    try {
+	        PreparedStatement statement = connection.prepareStatement(sql);
+	        statement.setString(1, cardNumber);
+	        statement.setObject(2, initialDate);
+	        statement.setObject(3, finalDate);
+	        ResultSet rs = statement.executeQuery();
+
+	        if (rs.next()) {
+	            Float initialBalance = rs.getFloat("initialAmount");
+	            return initialBalance;
+	        }
+	    } catch (SQLException e) { 
+	        e.printStackTrace();
+	        return null;
+	    }        
+
+	    return null;
 	}
+
 	
 	@Override
 	public Float calculateFinalBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) {
 		
-		String sql = "WITH finalBalance AS ( SELECT t,amount. t. typeTransaction, t. dateTime "
-				+ "FROM smu.Transaction t WHERE  t.cardNumber = ? "
-				+ "AND t.dateTime >= ? "
-				+ "AND t.dateTime < ? "
-				+ "SELECT SUM(CASE WHEN typeTransaction = 'income' THEN amount ELSE -amount END) AS finalAmount "
-				+ "FROM finalBalance WHERE dateTime = (SELECT MAX(dateTime) FROM finalBalance);";
+		String sql = "WITH finalBalance AS ( "
+	            + "SELECT t.amount, t.typeTransaction, t.dateTime "
+	            + "FROM smu.Transaction t "
+	            + "WHERE t.cardNumber = ? "
+	            + "AND t.dateTime >= ? "
+	            + "AND t.dateTime < ? ) "
+	            + "SELECT SUM(CASE WHEN typeTransaction = 'income' THEN amount ELSE -amount END) AS finalAmount "
+	            + "FROM finalBalance "
+	            + "WHERE dateTime = (SELECT MAX(dateTime) FROM finalBalance);";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);

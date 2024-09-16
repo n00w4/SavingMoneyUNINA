@@ -865,17 +865,27 @@ public class DashboardFrame extends JFrame {
 
 		for (String cardNumber : cardNumbers) {
 			try {
-				Income maxIncome = mainController.findMaxIncome(cardNumber);
-				Income minIncome = mainController.findMinIncome(cardNumber);
-				Float avgIncome = mainController.findAvgIncome(cardNumber);
-				Expense maxExpense = mainController.findMaxExpense(cardNumber);
-				Expense minExpense = mainController.findMinExpense(cardNumber);
-				Float avgExpense = mainController.findAvgExpense(cardNumber);
+	            Income maxIncome = mainController.findMaxIncome(cardNumber);
+	            Income minIncome = mainController.findMinIncome(cardNumber);
+	            Float avgIncome = mainController.findAvgIncome(cardNumber);
+	            
+	            Float maxIncomeAmount = (maxIncome != null) ? maxIncome.getAmount() : 0.0f;
+	            Float minIncomeAmount = (minIncome != null) ? minIncome.getAmount() : 0.0f;
+	            Float avgIncomeAmount = (avgIncome != null) ? avgIncome : 0.0f;
+	            
+	            Expense maxExpense = mainController.findMaxExpense(cardNumber);
+	            Expense minExpense = mainController.findMinExpense(cardNumber);
+	            Float avgExpense = mainController.findAvgExpense(cardNumber);
+
+	            Float maxExpenseAmount = (maxExpense != null) ? maxExpense.getAmount() : 0.0f;
+	            Float minExpenseAmount = (minExpense != null) ? minExpense.getAmount() : 0.0f;
+	            Float avgExpenseAmount = (avgExpense != null) ? avgExpense : 0.0f;
+	            
 				Float initialBalance = mainController.calculateInitialBalanceFromCardNumber(cardNumber, initialDate, finalDate);
 				Float finalBalance = mainController.calculateFinalBalanceFromCardNumber(cardNumber, initialDate, finalDate);
-
-				rows.add(new Object[] { cardNumber, maxIncome.getAmount(), minIncome.getAmount(), avgIncome,
-						maxExpense.getAmount(), minExpense.getAmount(), avgExpense, initialBalance, finalBalance });
+				
+				rows.add(new Object[] { cardNumber, maxIncomeAmount, minIncomeAmount, avgIncomeAmount,
+						maxExpenseAmount, minExpenseAmount, avgExpenseAmount, initialBalance, finalBalance });
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
