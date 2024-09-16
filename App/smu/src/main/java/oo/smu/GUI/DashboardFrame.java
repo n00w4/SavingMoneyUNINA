@@ -37,6 +37,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class DashboardFrame extends JFrame {
 	private JTextField cardNumberTextField;
 	private JTextField chckbxTextField;
 	private JTextField endPeriodTextField;
+	private LocalDateTime[] initialDates;
+	private LocalDateTime[] finalDates;
 
 	public DashboardFrame(MainController mainController, User user) {
 		this.mainController = mainController;
@@ -810,9 +813,17 @@ public class DashboardFrame extends JFrame {
 		btnGeneraReport.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (initialDates == null || finalDates == null) {
+		            int currentYear = LocalDate.now().getYear();
+		            initializeDates(currentYear);
+		        }
+				
+				int selectedMonthIndex = monthComboBox.getSelectedIndex();
+				LocalDateTime initialDate = initialDates[selectedMonthIndex];
+				LocalDateTime finalDate = finalDates[selectedMonthIndex];
 				try {
 					List<String> cardNumbers = mainController.findAllCardNumbersFromTaxCode(user.getTaxCode());
-					updateMonthlyReportTable(reportTable, cardNumbers);
+					updateMonthlyReportTable(reportTable, cardNumbers, initialDate, finalDate);
 				} catch (SQLException eReport) {
 					eReport.printStackTrace();
 				}
@@ -846,7 +857,7 @@ public class DashboardFrame extends JFrame {
 		return viewMonthlyReportPanel;
 	}
 
-	private void updateMonthlyReportTable(JTable reportTable, List<String> cardNumbers) {
+	private void updateMonthlyReportTable(JTable reportTable, List<String> cardNumbers, LocalDateTime initialDate, LocalDateTime finalDate) {
 		String[] columnNames = { "Numero di Carta", "Entrata Massima", "Entrata Minima", "Entrata Media",
 				"Uscita Massima", "Uscita Minima", "Uscita Media", "Saldo Iniziale", "Saldo Finale" };
 
@@ -860,8 +871,8 @@ public class DashboardFrame extends JFrame {
 				Expense maxExpense = mainController.findMaxExpense(cardNumber);
 				Expense minExpense = mainController.findMinExpense(cardNumber);
 				Float avgExpense = mainController.findAvgExpense(cardNumber);
-				Float initialBalance = mainController.calculateInitialBalanceFromCardNumber(cardNumber);
-				Float finalBalance = mainController.calculateFinalBalanceFromCardNumber(cardNumber);
+				Float initialBalance = mainController.calculateInitialBalanceFromCardNumber(cardNumber, initialDate, finalDate);
+				Float finalBalance = mainController.calculateFinalBalanceFromCardNumber(cardNumber, initialDate, finalDate);
 
 				rows.add(new Object[] { cardNumber, maxIncome.getAmount(), minIncome.getAmount(), avgIncome,
 						maxExpense.getAmount(), minExpense.getAmount(), avgExpense, initialBalance, finalBalance });
@@ -873,6 +884,17 @@ public class DashboardFrame extends JFrame {
 		Object[][] data = rows.toArray(new Object[0][]);
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		reportTable.setModel(model);
+	}
+	
+	private void initializeDates(int year) {
+	    initialDates = new LocalDateTime[12];
+	    finalDates = new LocalDateTime[12];
+
+	    for (int i = 0; i < 12; i++) {
+	        YearMonth yearMonth = YearMonth.of(year, i + 1);
+	        initialDates[i] = yearMonth.atDay(1).atStartOfDay();
+	        finalDates[i] = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+	    }
 	}
 
 }

@@ -100,7 +100,6 @@ public class PgTransactionDAO implements TransactionDAO {
 			e.printStackTrace();
 			return null;
 		}
-		return null;
 	}
 	
 	@Override
@@ -132,8 +131,6 @@ public class PgTransactionDAO implements TransactionDAO {
 			e.printStackTrace();
 			return null;
 		}
-		return null;
-		
 	}
 	
 	@Override
@@ -155,8 +152,8 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String sender = rs.getString("sender");
 	            
 	            Income income = new Income(amount, date, description, sender);
+	            return income;
 			}
-			return income;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -182,8 +179,8 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String sender = rs.getString("sender");
 	            
 	            Income income = new Income(amount, date, description, sender);
+	            return income;
 			}
-			return income;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -234,8 +231,8 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String receiver = rs.getString("receiver");
 	            
 	            Expense expense = new Expense(amount, date, description, receiver);
+	            return expense;
 			}
-			return expense;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -261,8 +258,8 @@ public class PgTransactionDAO implements TransactionDAO {
 	            String receiver = rs.getString("receiver");
 	            
 	            Expense expense = new Expense(amount, date, description, receiver);
+	            return expense;
 			}
-			return expense;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -294,7 +291,6 @@ public class PgTransactionDAO implements TransactionDAO {
 			e.printStackTrace();
 			return null;
 		}
-		return null;
 	}
 	
 	@Override
@@ -341,7 +337,7 @@ public class PgTransactionDAO implements TransactionDAO {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
 			statement.setObject(2, initialDate);
-			statement.setInt(3, finalDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			
 			if (rs.next()) {

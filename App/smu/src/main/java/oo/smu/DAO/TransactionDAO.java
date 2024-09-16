@@ -105,10 +105,10 @@ public interface TransactionDAO {
 	/*
 	 * Calcola il saldo finale di una carta attraverso le transazioni
 	 */
-	Float calculateInitialBalanceFromCardNumber(String cardNumber);
+	Float calculateInitialBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate);
 	
 	/*
 	 * Calcola il saldo finale di una carta attraverso le transazioni
 	 */
-	Float calculateFinalBalanceFromCardNumber(String cardNumber);
+	Float calculateFinalBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate);
 }

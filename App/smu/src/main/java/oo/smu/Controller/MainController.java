@@ -117,12 +117,12 @@ public class MainController {
     	return transactionController.findAvgExpense(cardNumber);
     }
     
-    public Float calculateInitialBalanceFromCardNumber(String cardNumber) throws SQLException {
-    	return transactionController.calculateInitialBalanceFromCardNumber(cardNumber);
+    public Float calculateInitialBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.calculateInitialBalanceFromCardNumber(cardNumber, initialDate, finalDate);
     }
     
-    public Float calculateFinalBalanceFromCardNumber(String cardNumber) throws SQLException {
-    	return transactionController.calculateFinalBalanceFromCardNumber(cardNumber);
+    public Float calculateFinalBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.calculateFinalBalanceFromCardNumber(cardNumber, initialDate, finalDate);
     }
     
     public void start() {

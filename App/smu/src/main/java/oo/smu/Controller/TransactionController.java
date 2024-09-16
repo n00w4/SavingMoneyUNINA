@@ -61,11 +61,11 @@ public class TransactionController {
 		return transactionDAO.findAvgExpense(cardNumber);
 	}
 	
-	public Float calculateInitialBalanceFromCardNumber(String cardNumber) throws SQLException {
-		return transactionDAO.calculateInitialBalanceFromCardNumber(cardNumber);
+	public Float calculateInitialBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.calculateInitialBalanceFromCardNumber(cardNumber, initialDate, finalDate);
 	}
 	
-	public Float calculateFinalBalanceFromCardNumber(String cardNumber) throws SQLException {
-		return transactionDAO.calculateFinalBalanceFromCardNumber(cardNumber);
+	public Float calculateFinalBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.calculateFinalBalanceFromCardNumber(cardNumber, initialDate, finalDate);
 	}
 }
