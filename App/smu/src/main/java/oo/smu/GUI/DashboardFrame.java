@@ -490,7 +490,7 @@ public class DashboardFrame extends JFrame {
 
 					if (amountString.isEmpty() || description.isEmpty() || dateText.isEmpty() || timeText.isEmpty()
 							|| portfolioName.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Compila tutti i campi prima di salvare.", "Errore",
+						JOptionPane.showMessageDialog(DashboardFrame.this, "Compila tutti i campi prima di salvare oppure controlla ", "Errore",
 								JOptionPane.ERROR_MESSAGE);
 					}
 
@@ -514,7 +514,7 @@ public class DashboardFrame extends JFrame {
 								description, chckbxText);
 						mainController.saveExpense(expense, card, portfolio);
 					}
-					JOptionPane.showMessageDialog(null, "Transazione salvata con successo!", "Successo",
+					JOptionPane.showMessageDialog(DashboardFrame.this, "Transazione salvata con successo!", "Successo",
 							JOptionPane.INFORMATION_MESSAGE);
 
 					// Reset dei campi dopo il salvataggio
@@ -530,7 +530,7 @@ public class DashboardFrame extends JFrame {
 
 				} catch (Exception exception) {
 					exception.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Transazione non salvata, riprova più tardi", "Errore",
+					JOptionPane.showMessageDialog(DashboardFrame.this, "Controlla i campi per eventuali errori.", "Errore",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -701,8 +701,8 @@ public class DashboardFrame extends JFrame {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				} catch (DateTimeParseException ex) {
-					JOptionPane.showMessageDialog(null,
-							"Formato data non valido. Inserire la data nel formato dd-MM-yyyy o dd-MM-yyyy HH:mm:ss.");
+					JOptionPane.showMessageDialog(DashboardFrame.this, "Formato data non valido. Inserire la data nel formato dd-MM-yyyy o dd-MM-yyyy HH:mm:ss.", "Errore",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -826,6 +826,8 @@ public class DashboardFrame extends JFrame {
 					updateMonthlyReportTable(reportTable, cardNumbers, initialDate, finalDate);
 				} catch (SQLException eReport) {
 					eReport.printStackTrace();
+					JOptionPane.showMessageDialog(DashboardFrame.this, "Controlla la tua connessione oppure riprova più tardi.", "Errore",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

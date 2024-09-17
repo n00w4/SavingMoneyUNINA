@@ -8,7 +8,6 @@ import oo.smu.Entity.User;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class LoginFrame extends JFrame {
     private static final long serialVersionUID = 1L;
