@@ -31,10 +31,11 @@ public class LoginFrame extends JFrame {
             if (user != null) {
                 dispose();
                 mainController.showDashboardFrame(user);
-            } else {
-                JOptionPane.showMessageDialog(LoginFrame.this, "Login fallito!");
             }
-        } catch (SQLException e1) { e1.printStackTrace(); }
+        } catch (Exception e1) {
+        	e1.printStackTrace();
+        	JOptionPane.showMessageDialog(LoginFrame.this, "Login fallito! Controlla le tue credenziali oppure riprova più tardi.");
+        }
     }
 
     private void initComponents() {
