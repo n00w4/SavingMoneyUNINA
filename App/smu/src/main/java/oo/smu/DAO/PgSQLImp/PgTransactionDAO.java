@@ -134,13 +134,17 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Income findMaxIncome(String cardNumber) throws SQLException {
+	public Income findMaxIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t "
-				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
+				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? "
+		   		+ "AND t.dateTime >= ? AND t.dateTime < ? "
+				+"ORDER BY amount DESC LIMIT 1";
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
+			statement.setObject(2, initialDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				float amount = rs.getFloat("amount");
@@ -160,14 +164,18 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Income findMinIncome(String cardNumber) throws SQLException {
+	public Income findMinIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t "
-				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
+				+"WHERE t.typeTransaction = 'income' AND t.cardNumber = ? "
+				+ "AND t.dateTime >= ? AND t.dateTime < ? "
+				+"ORDER BY amount ASC LIMIT 1";
 				
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
+			statement.setObject(2, initialDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				float amount = rs.getFloat("amount");
@@ -188,17 +196,20 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Float findAvgIncome(String cardNumber) throws SQLException {
+	public Float findAvgIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
 		String sql = "SELECT AVG(t.amount) AS averageIncome FROM smu.Transaction t "
 	            + "JOIN smu.Card c ON t.cardNumber = c.cardNumber "
 	            + "JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount "
 	            + "JOIN smu.User u ON b.taxCode = u.taxCode "
 	            + "WHERE t.typeTransaction = 'income' AND t.cardNumber = ? "
+		    + "AND t.dateTime >= ? AND t.dateTime < ? "
 	            + "GROUP BY u.taxCode";
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
+			statement.setObject(2, initialDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
 				Float averageIncome = rs.getFloat("averageIncome");
@@ -212,14 +223,18 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Expense findMaxExpense(String cardNumber) throws SQLException {
+	public Expense findMaxExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t "
-				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount DESC LIMIT 1";
+				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? "
+				+ "AND t.dateTime >= ? AND t.dateTime < ? "	
+				+"ORDER BY amount DESC LIMIT 1";
 				
 
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
+			statement.setObject(2, initialDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				float amount = rs.getFloat("amount");
@@ -240,13 +255,17 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Expense findMinExpense(String cardNumber) throws SQLException {
+	public Expense findMinExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
 		String sql = "SELECT t.* FROM smu.Transaction t "
-				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? ORDER BY amount ASC LIMIT 1";
+				+"WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? "
+			    	+ "AND t.dateTime >= ? AND t.dateTime < ? "
+				+" ORDER BY amount ASC LIMIT 1";
 				
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, cardNumber);
+			statement.setObject(2, initialDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				float amount = rs.getFloat("amount");
@@ -267,18 +286,21 @@ public class PgTransactionDAO implements TransactionDAO {
 	}
 	
 	@Override
-	public Float findAvgExpense(String cardNumber) throws SQLException {
+	public Float findAvgExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
 		String sql = "SELECT AVG(t.amount) AS averageExpense FROM smu.Transaction t "
 	            + "JOIN smu.Card c ON t.cardNumber = c.cardNumber "
 	            + "JOIN smu.BankAccount b ON c.ibanBankAccount = b.ibanBankAccount "
 	            + "JOIN smu.User u ON b.taxCode = u.taxCode "
 	            + "WHERE t.typeTransaction = 'expense' AND t.cardNumber = ? "
+		    + "AND t.dateTime >= ? AND t.dateTime < ? "
 	            + "GROUP BY u.taxCode;";
 
 		
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, cardNumber);
+			statement.setString(1, cardNumber);	
+			statement.setObject(2, initialDate);
+			statement.setObject(3, finalDate);
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
 				Float averageExpense = rs.getFloat("averageExpense");
