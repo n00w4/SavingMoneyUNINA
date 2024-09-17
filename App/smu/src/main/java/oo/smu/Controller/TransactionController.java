@@ -37,28 +37,28 @@ public class TransactionController {
 		return transactionDAO.findExpenseByDateCardCategory(dateA, dateB, cardNumber, keyword, taxCode);
 	}
 	
-	public Income findMaxIncome(String cardNumber) throws SQLException {
-		return transactionDAO.findMaxIncome(cardNumber);
+	public Income findMaxIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.findMaxIncome(cardNumber, initialDate, finalDate);
 	}
 	
-	public Income findMinIncome(String cardNumber) throws SQLException {
-		return transactionDAO.findMinIncome(cardNumber);
+	public Income findMinIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.findMinIncome(cardNumber, initialDate, finalDate);
 	}
 	
-	public Float findAvgIncome(String cardNumber) throws SQLException {
-		return transactionDAO.findAvgIncome(cardNumber);
+	public Float findAvgIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.findAvgIncome(cardNumber, initialDate, finalDate);
 	}
 	
-	public Expense findMaxExpense(String cardNumber) throws SQLException {
-		return transactionDAO.findMaxExpense(cardNumber);
+	public Expense findMaxExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.findMaxExpense(cardNumber, initialDate, finalDate);
 	}
 	
-	public Expense findMinExpense(String cardNumber) throws SQLException {
-		return transactionDAO.findMinExpense(cardNumber);
+	public Expense findMinExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.findMinExpense(cardNumber, initialDate, finalDate);
 	}
 	
-	public Float findAvgExpense(String cardNumber) throws SQLException {
-		return transactionDAO.findAvgExpense(cardNumber);
+	public Float findAvgExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+		return transactionDAO.findAvgExpense(cardNumber, initialDate, finalDate);
 	}
 	
 	public Float calculateInitialBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {

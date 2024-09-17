@@ -865,17 +865,17 @@ public class DashboardFrame extends JFrame {
 
 		for (String cardNumber : cardNumbers) {
 			try {
-	            Income maxIncome = mainController.findMaxIncome(cardNumber);
-	            Income minIncome = mainController.findMinIncome(cardNumber);
-	            Float avgIncome = mainController.findAvgIncome(cardNumber);
+	            Income maxIncome = mainController.findMaxIncome(cardNumber, initialDate, finalDate);
+	            Income minIncome = mainController.findMinIncome(cardNumber, initialDate, finalDate);
+	            Float avgIncome = mainController.findAvgIncome(cardNumber, initialDate, finalDate);
 	            
 	            Float maxIncomeAmount = (maxIncome != null) ? maxIncome.getAmount() : 0.0f;
 	            Float minIncomeAmount = (minIncome != null) ? minIncome.getAmount() : 0.0f;
 	            Float avgIncomeAmount = (avgIncome != null) ? avgIncome : 0.0f;
 	            
-	            Expense maxExpense = mainController.findMaxExpense(cardNumber);
-	            Expense minExpense = mainController.findMinExpense(cardNumber);
-	            Float avgExpense = mainController.findAvgExpense(cardNumber);
+	            Expense maxExpense = mainController.findMaxExpense(cardNumber, initialDate, finalDate);
+	            Expense minExpense = mainController.findMinExpense(cardNumber, initialDate, finalDate);
+	            Float avgExpense = mainController.findAvgExpense(cardNumber, initialDate, finalDate);
 
 	            Float maxExpenseAmount = (maxExpense != null) ? maxExpense.getAmount() : 0.0f;
 	            Float minExpenseAmount = (minExpense != null) ? minExpense.getAmount() : 0.0f;

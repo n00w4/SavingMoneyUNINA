@@ -93,28 +93,28 @@ public class MainController {
     	return categoryController.findCategoryKeywordByName(keyword);
     }
     
-    public Income findMaxIncome(String cardNumber) throws SQLException {
-    	return transactionController.findMaxIncome(cardNumber);
+    public Income findMaxIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.findMaxIncome(cardNumber, initialDate, finalDate);
     }
     
-    public Income findMinIncome(String cardNumber) throws SQLException {
-    	return transactionController.findMinIncome(cardNumber);
+    public Income findMinIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.findMinIncome(cardNumber, initialDate, finalDate);
     }
     
-    public Float findAvgIncome(String cardNumber) throws SQLException {
-    	return transactionController.findAvgIncome(cardNumber);
+    public Float findAvgIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.findAvgIncome(cardNumber, initialDate, finalDate);
     }
     
-    public Expense findMaxExpense(String cardNumber) throws SQLException {
-    	return transactionController.findMaxExpense(cardNumber);
+    public Expense findMaxExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.findMaxExpense(cardNumber, initialDate, finalDate);
     }
     
-    public Expense findMinExpense(String cardNumber) throws SQLException {
-    	return transactionController.findMinExpense(cardNumber);
+    public Expense findMinExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.findMinExpense(cardNumber, initialDate, finalDate);
     }
     
-    public Float findAvgExpense(String cardNumber) throws SQLException {
-    	return transactionController.findAvgExpense(cardNumber);
+    public Float findAvgExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {
+    	return transactionController.findAvgExpense(cardNumber, initialDate, finalDate);
     }
     
     public Float calculateInitialBalanceFromCardNumber(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException {

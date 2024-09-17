@@ -60,7 +60,7 @@ public interface TransactionDAO {
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
-	Income findMaxIncome(String cardNumber) throws SQLException;
+	Income findMaxIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException;
 	
 	/*
 	 * Trova l'entrata minima di una carta (e quindi di un utente) attraverso le transazioni
@@ -68,7 +68,7 @@ public interface TransactionDAO {
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
-	Income findMinIncome(String cardNumber) throws SQLException;
+	Income findMinIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException;
 	
 	/*
 	 * Trova l'entrata media di una carta (e quindi di un utente) attraverso le transazioni
@@ -76,7 +76,7 @@ public interface TransactionDAO {
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
-	Float findAvgIncome(String cardNumber) throws SQLException;
+	Float findAvgIncome(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException;
 	
 	/*
 	 * Trova la spesa massima di una carta (e quindi di un utente) attraverso le transazioni
@@ -84,7 +84,7 @@ public interface TransactionDAO {
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
-	Expense findMaxExpense(String cardNumber) throws SQLException;
+	Expense findMaxExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException;
 	
 	/*
 	 * Trova la spesa minima di una carta (e quindi di un utente) attraverso le transazioni
@@ -92,7 +92,7 @@ public interface TransactionDAO {
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
-	Expense findMinExpense(String cardNumber) throws SQLException;
+	Expense findMinExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException;
 	
 	/*
 	 * Trova la spesa media di una carta (e quindi di un utente) attraverso le transazioni
@@ -100,7 +100,7 @@ public interface TransactionDAO {
 	 * @return Ritorna l'entrata corrispondente
 	 * @throws SQLException
 	 */
-	Float findAvgExpense(String cardNumber) throws SQLException;
+	Float findAvgExpense(String cardNumber, LocalDateTime initialDate, LocalDateTime finalDate) throws SQLException;
 	
 	/*
 	 * Calcola il saldo finale di una carta attraverso le transazioni
