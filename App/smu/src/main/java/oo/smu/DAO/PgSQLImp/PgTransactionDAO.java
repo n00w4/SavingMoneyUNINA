@@ -23,12 +23,12 @@ public class PgTransactionDAO implements TransactionDAO {
 
 	@Override
 	public boolean insertIncome(Income income, Card card, Portfolio portfolio) throws SQLException {
-		String sql = "INSERT INTO smu.Transaction VALUES (?, ?, ?, NULL, ?, income, ?, ?)";
+		String sql = "INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) VALUES (?, ?, ?, NULL, ?, 'income', ?, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setFloat(1, income.getAmount());
-			statement.setObject(2, income.getDateTime());
-			statement.setString(3, income.getDescription());
+			statement.setString(2, income.getDescription());
+			statement.setObject(3, income.getDateTime());
 			statement.setString(4, income.getSender());
 			statement.setString(5, card.getCardNumber());
 			statement.setInt(6, portfolio.getId());
@@ -41,12 +41,12 @@ public class PgTransactionDAO implements TransactionDAO {
 	
 	@Override
 	public boolean insertExpense(Expense expense, Card card, Portfolio portfolio) {
-		String sql = "INSERT INTO smu.Transaction VALUES (?, ?, ?, ?, NULL, expense, ?, ?)";
+		String sql = "INSERT INTO smu.Transaction(amount, description, dateTime, receiver, sender, typeTransaction, cardNumber, idPortfolio) VALUES (?, ?, ?, ?, NULL, 'expense', ?, ?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setFloat(1, expense.getAmount());
-			statement.setObject(2, expense.getDateTime());
-			statement.setString(3, expense.getDescription());
+			statement.setString(2, expense.getDescription());
+			statement.setObject(3, expense.getDateTime());
 			statement.setString(4, expense.getReceiver());
 			statement.setString(5, card.getCardNumber());
 			statement.setInt(6, portfolio.getId());
