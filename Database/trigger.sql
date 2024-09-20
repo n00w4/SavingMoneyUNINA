@@ -102,7 +102,7 @@ BEGIN
     IF NEW.plafond IS NULL THEN
         SELECT balance INTO bankAccountBalance
         FROM smu.BankAccount
-        WHERE iban = NEW.ibanBankAccount;
+        WHERE NEW.iban = NEW.ibanBankAccount;
 
 	NEW.balanceCard = bankAccountBalance;
     END IF;
