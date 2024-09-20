@@ -91,7 +91,7 @@ CREATE OR REPLACE TRIGGER checkTransactionAmount
 BEFORE INSERT ON smu.Transaction 
 FOR EACH ROW EXECUTE FUNCTION smu.checkValidAmount();
 
---6)checkPlafondDebitCard: Se l'attributo plafond di Card è NULL, la transazione sarà automaticamnete uguale a balance del BankAccount associato.
+--6)checkPlafondDebitCard: Se l'attributo plafond di Card è NULL, il balanceCard sarà automaticamente uguale a balance del BankAccount associato.
 
 
 CREATE OR REPLACE FUNCTION smu.checkPlafondDebitCard() RETURNS TRIGGER AS
@@ -104,7 +104,7 @@ BEGIN
         FROM smu.BankAccount
         WHERE iban = NEW.ibanBankAccount;
 
-	NEW.amount = bankAccountBalance;
+	NEW.balanceCard = bankAccountBalance;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
