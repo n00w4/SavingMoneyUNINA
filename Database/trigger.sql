@@ -150,7 +150,7 @@ BEGIN
     FROM smu.Portfolio p
     WHERE p.idPortfolio = NEW.idPortfolio;
 
-    SELECT idFamily INTO portfolioFamilyId
+    SELECT idFamily INTO cardFamilyId
     From smu.Card c
     JOIN smu.BankAccount b ON b.ibanBankAccount = c.ibanBankAccount
     JOIN smu.User u ON u.taxCode = b.taxCode
