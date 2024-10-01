@@ -54,7 +54,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER checkPortfolioNameTrigger
+CREATE OR REPLACE TRIGGER checkPortfolioNameTrigger
 BEFORE INSERT OR UPDATE
 ON smu.Portfolio
 FOR EACH ROW
@@ -80,10 +80,14 @@ FOR EACH ROW EXECUTE FUNCTION smu.checkBalanceCard();
 
 CREATE OR REPLACE FUNCTION smu.checkValidAmount() RETURNS TRIGGER AS
 $$
+DECLARE
+    cardBalance NUMERIC;
 BEGIN
-    IF NEW.amount > NEW.balance THEN
+    SELECT balanceCard INTO cardBalance FROM smu.Card WHERE NEW.cardNumber = smu.Card.cardNumber;
+    IF NEW.amount > cardBalance AND NEW.typeTransaction = 'expense' THEN
         RAISE EXCEPTION 'ERROR: Transaction amount cannot be greater than the card balance';
     END IF;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -99,7 +103,7 @@ $$
 DECLARE
 	bankAccountBalance NUMERIC;
 BEGIN
-    IF NEW.plafond IS NULL THEN
+    IF NEW.typeCard = 'debitCard' THEN
         SELECT balance INTO bankAccountBalance
         FROM smu.BankAccount
         WHERE NEW.iban = NEW.ibanBankAccount;
@@ -110,7 +114,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER checkAndSetTransactionAmount
-BEFORE INSERT ON smu.Transaction 
+BEFORE INSERT ON smu.Card
 FOR EACH ROW EXECUTE FUNCTION smu.checkPlafondDebitCard();
 
 --7)expireDateWhenTransaction: Quando viene inserita una Transaction, se effettuata con Card, deve essere valida al momento della transazione.
@@ -122,13 +126,14 @@ DECLARE
 	currentDate DATE = CURRENT_DATE;
 BEGIN
 
-    SELECT expitationDate INTO cardExpiration
+    SELECT expirationDate INTO cardExpiration
     From smu.Card
     WHERE cardNumber = NEW.cardNumber;
 
     IF cardExpiration < currentDate THEN
         RAISE EXCEPTION 'ERROR: The card used for the transaction is expired';
     END IF;
+    RETURN NEW;
 
 END;
 $$ LANGUAGE plpgsql;
